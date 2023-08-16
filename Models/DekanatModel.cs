@@ -14,7 +14,7 @@ namespace UniBase.Models
 
         public DekanatModel()
         {
-
+            
         }
 
         public DekanatModel(DbContextOptions<DekanatModel> options) : base(options)
@@ -44,7 +44,7 @@ namespace UniBase.Models
         }
         public virtual DbSet<ДекВсеДанныеСтудента> ДекВсеДанныеСтудента { get; set; }
         public virtual DbSet<ДекСпециальности> ДекСпециальности { get; set; }
-
+        
   
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
