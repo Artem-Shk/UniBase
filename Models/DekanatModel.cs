@@ -22,7 +22,7 @@ namespace UniBase.Models
             Database.EnsureCreated();
         }
         /// <summary>
-        /// set what model parameters you need to return
+        /// set what model parameters you need to return  //TODO: this shit thats not right
         /// example:
         /// ReturnFields<ДекВсеДанныеСтудента>()
         /// </summary>
@@ -38,6 +38,8 @@ namespace UniBase.Models
             }
             return null;
         }
+        // Это кажеться мне не правильным
+
         public List<string> ReturnДекВсеДанныеСтудентаFields()
         {
             return ДекВсеДанныеСтудента.First().ModelField();
@@ -45,7 +47,7 @@ namespace UniBase.Models
         public virtual DbSet<ДекВсеДанныеСтудента> ДекВсеДанныеСтудента { get; set; }
         public virtual DbSet<ДекСпециальности> ДекСпециальности { get; set; }
         
-  
+        //TODO: this shit thats not right
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=sql;Database=Деканат;Trusted_Connection=True; TrustServerCertificate=True;");
