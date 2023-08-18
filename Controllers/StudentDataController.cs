@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using UniBase.CORE.DataBaseManagers;
 using UniBase.Models;
 
@@ -24,8 +26,8 @@ namespace UniBase.Controllers
         {
             return "huy";
         }
-        [HttpGet("GetJsonByName/{name=Иван}")]
-        public async Task<object> GetJsonByName(string name)
+        [HttpGet("GetHTMLByName/{name=Иван}")]
+        public async Task<object> GetHTMLByName(string name)
         {
 
             List<ДекВсеДанныеСтудента> result = await DBManager.FindStudentByNameAsynch(name);
@@ -50,8 +52,24 @@ namespace UniBase.Controllers
             Console.WriteLine("success");
             return writer.ToString();
         }
+        [HttpGet("GetJsonTableRowData/{name=Иван}")]
+        public async Task<object> GetJsonTableRowData(string name, bool jsontype)
+        {
+
+            List<ДекВсеДанныеСтудента> result = await DBManager.FindStudentByNameAsynch(name);
+            if (result.Count > 0)
+            {
+                var options = new JsonSerializerOptions { WriteIndented = true,
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                };
+                
+                string jsonString = JsonSerializer.Serialize(result,options);
+                return jsonString;
+            }
+            else return null;
+        }
 
         // GET: StudentData/Details/5
-    
+
     }
 }

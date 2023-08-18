@@ -27,13 +27,16 @@ function VerticalMenu() {
 	  </div>
 	);
   }
-   function StudentTable() {
-	const response =  fetch('forecasthuev1/GetJsonByName/иван');
-  return(
-	response
-  )
+
+ async  function  StudentTable() {
+	const response = await  fetch('forecasthuev1/GetJsonByName/иван').then((response) => {
+		return {response};
+	  });
 }
-  
+function  ComponentDidmount() {
+	StudentTable();
+}
+
   export class TableManager extends Component {
 	render() {
 	  return (
