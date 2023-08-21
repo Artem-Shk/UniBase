@@ -29,8 +29,14 @@ function VerticalMenu() {
   }
 
  async  function  StudentTable() {
-	const response = await  fetch('forecasthuev1/GetJsonByName/иван').then((response) => {
-		return {response};
+	const response = await  fetch('studentdata/GetJsonTableRowData/Иван').then((response) => {
+		return (
+			<div className="col">
+			  <h1>Mi Casa</h1>
+			  <p>This is my house y&apos;all!</p>
+			  {response.map(home => <div>{home.name}</div>)}
+			</div>
+		  );
 	  });
 }
 function  ComponentDidmount() {

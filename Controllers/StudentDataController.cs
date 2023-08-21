@@ -11,11 +11,11 @@ namespace UniBase.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ForecastHuev1Controller : ControllerBase
+    public class StudentDataController : ControllerBase
     {
         private DBManager DBManager = DBManager.GetInstance();
 
-        public ForecastHuev1Controller()
+        public StudentDataController()
         {
 
         }
