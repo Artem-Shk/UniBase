@@ -1,7 +1,7 @@
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
-import { TableManager } from "./components/TableManager";
+import { TableManager } from "./components/TableManagment/TableManager";
 const AppRoutes = [
   {
     index: true,
