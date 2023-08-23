@@ -15,7 +15,7 @@ namespace UniBase.Controllers
     {
         private DBManager DBManager = DBManager.GetInstance();
 
-        public StudentDataController()
+        public StudentDaController()
         {
 
         }
