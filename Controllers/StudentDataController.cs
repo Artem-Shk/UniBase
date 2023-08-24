@@ -15,7 +15,7 @@ namespace UniBase.Controllers
     {
         private DBManager DBManager = DBManager.GetInstance();
 
-        public StudentDaController()
+        public StudentDataController()
         {
 
         }
@@ -69,7 +69,7 @@ namespace UniBase.Controllers
             else return null;
         }
 
-        // GET: StudentData/Details/5
+        public AsyncLoca        
 
     }
 }

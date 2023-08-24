@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux';
-import tableReducer from './tableReducer';
+import toTable from './tableReducer';
+
+
+
+
 // rootReducer save table
 const rootReducer = combineReducers({
-  table: tableReducer,
+  table: toTable,
 });
 //it keywords needed for easer import
 export default rootReducer;

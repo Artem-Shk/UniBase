@@ -1,15 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import fetchTableData from '../../actions';
 
-// const SearchBar = ({ searchQuery, setSearchQuery }) => {
-//   const handleSearchChange = (event) => {
-//     setSearchQuery(event.target.value);
-//   };
-
-//   return (
-//     <input type="text" value={searchQuery} onChange={handleSearchChange} />
-//   );
-// };
 function SearchBar() {
      const handleKeyDown = (event) => {
        if (event.keyCode === 13) {
