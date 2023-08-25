@@ -55,7 +55,7 @@ namespace UniBase.Controllers
         [HttpGet("GetJsonTableRowData/{name=Иван}")]
         public async Task<object> GetJsonTableRowData(string name, bool jsontype)
         {
-
+            Console.WriteLine("get data by " + name);
             List<ДекВсеДанныеСтудента> result = await DBManager.FindStudentByNameAsynch(name);
             if (result.Count > 0)
             {
@@ -69,7 +69,7 @@ namespace UniBase.Controllers
             else return null;
         }
 
-        public AsyncLoca        
+
 
     }
 }

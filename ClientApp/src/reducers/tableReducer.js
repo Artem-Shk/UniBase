@@ -8,11 +8,12 @@ const initialState = {
 function toTable(state = initialState, action) {
   switch (action.type) {
     case GET_JSON_BY_NAME:
-      return   { ...state, data: action.payload.data, name: action.payload.searchTerm };
+      console.log('success');
+      return { ...state, data: action.payload};
     default:
+      console.log('default');
       return state;
   }
-  return state
 }
 
 

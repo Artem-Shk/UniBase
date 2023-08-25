@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import fetchTableData from '../../actions';
+import {fetchStudentsData} from '../../actions';
+import store from '../../store';
 
 function SearchBar() {
-     const handleKeyDown = (event) => {
+     const handleKeyDown = (event,name) => {
        if (event.keyCode === 13) {
-        
+         const searchValue = event.target.value;
+         store.dispatch(fetchStudentsData(searchValue))
        }
      }
      return (

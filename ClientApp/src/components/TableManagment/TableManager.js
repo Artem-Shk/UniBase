@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Row, Table } from 'reactstrap';
-import axios from 'axios';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
 import SearchBar from './SearchBar';
+import store from '../../store';
 
 
 function VerticalMenu() {
@@ -25,25 +26,15 @@ function VerticalMenu() {
   );
 }
 
-function StudentTable({ name = 'Name' }) {
-  const [persons, setPersons] = useState([]);
-  const [fields, setFields] = useState([]);
-  useEffect(() => {
-    axios.get('studentdata/GetJsonTableRowData/Иван')
-      .then(res => {
-        const persons = res.data;
-        setPersons(persons);
-        const fields = Object.keys(persons[0]);
-        setFields(fields);
-
-      })
-  }, []);
+function StudentTable() {
+  const persons = useSelector(state => state.table.data || []);
+  const fields = Object.keys(persons[0] || {});
   return (
     <Table dark>
       <thead>
-        <tr >
+        <tr>
           {fields.map((element) => (
-            <th>{element}</th>
+            <th key={element}>{element}</th>
           ))}
         </tr>
       </thead>
@@ -51,14 +42,35 @@ function StudentTable({ name = 'Name' }) {
         {persons.map((person, index) => (
           <tr key={index}>
             {fields.map((field) => (
-              <td>{person[field]}</td>)
-            )
-            }
-          </tr>))}
+              <td key={field}>{person[field]}</td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </Table>
   );
 }
+
+  // useEffect(() => {
+  //   const unsubscribe = store.subscribe(() => {
+  //     const res = store.getState().table.data;
+  //     if (res === null) {
+  //       console.log('Ошибка: данные не получены');
+  //     } else {
+  //       const persons = res.data;
+  //       setPersons(persons);
+  //       const fields = Object.keys(persons[0]);
+  //       setFields(fields);
+  //     }
+  //   });
+
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
+
+ 
+
 //TODO: make elements static
 export function TableManager() {
   return (
