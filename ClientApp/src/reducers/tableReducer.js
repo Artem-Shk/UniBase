@@ -1,4 +1,4 @@
-import { fetchStudentsData, GET_JSON_BY_NAME } from "../actions";
+import { ERROR, fetchStudentsData, GET_JSON_BY_NAME } from "../actions";
 
 //table reducer save state of table
 const initialState = {
@@ -8,10 +8,17 @@ const initialState = {
 function toTable(state = initialState, action) {
   switch (action.type) {
     case GET_JSON_BY_NAME:
-      console.log('success');
+     
       return { ...state, data: action.payload};
+    case ERROR:
+      
+      if(action.Error_code === 204)
+      {
+        console.log('Гтsuccess');
+        return {...state,status: action.Error_code};
+      }
     default:
-      console.log('default');
+      console.log();
       return state;
   }
 }

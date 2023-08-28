@@ -6,6 +6,4 @@ import { fetchStudentsData } from './actions';
 
 
 let store = createStore(rootReducer,applyMiddleware(thunk))
-console.log(store.getState())
-
 export default store;

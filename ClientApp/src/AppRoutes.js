@@ -2,6 +2,7 @@ import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
 import { TableManager } from "./components/TableManagment/TableManager";
+import ExperementForm  from './components/ReactExperementPage/ReactExperemetComponent';
 const AppRoutes = [
   {
     index: true,
@@ -18,6 +19,10 @@ const AppRoutes = [
   {
     path: '/table-manager',
     element: <TableManager />
+  },
+  {
+    path: '/Experemets',
+    element: <ExperementForm />
   }
   
 ];

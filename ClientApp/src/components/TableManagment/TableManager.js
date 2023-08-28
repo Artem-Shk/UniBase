@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux/es/hooks/useSelector';
 import SearchBar from './SearchBar';
 import store from '../../store';
 
-
+//burgermenu
 function VerticalMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -27,7 +27,10 @@ function VerticalMenu() {
 }
 
 function StudentTable() {
-  const persons = useSelector(state => state.table.data || []);
+
+  // redux hook for watch to store changes
+  const persons = useSelector(state => state.table.data || state);
+  console.log(persons)
   const fields = Object.keys(persons[0] || {});
   return (
     <Table dark>
@@ -50,27 +53,6 @@ function StudentTable() {
     </Table>
   );
 }
-
-  // useEffect(() => {
-  //   const unsubscribe = store.subscribe(() => {
-  //     const res = store.getState().table.data;
-  //     if (res === null) {
-  //       console.log('Ошибка: данные не получены');
-  //     } else {
-  //       const persons = res.data;
-  //       setPersons(persons);
-  //       const fields = Object.keys(persons[0]);
-  //       setFields(fields);
-  //     }
-  //   });
-
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
-
- 
-
 //TODO: make elements static
 export function TableManager() {
   return (

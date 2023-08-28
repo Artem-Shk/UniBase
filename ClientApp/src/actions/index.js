@@ -1,21 +1,27 @@
-export const GET_JSON_BY_NAME = 'GET_JSON_BY_NAME'
 
+
+export const GET_JSON_BY_NAME = 'GET_JSON_BY_NAME'
+export const ERROR='ERROR'
 
 export function fetchStudentsData(name) {
   return async (dispatch) => {
+    
     try {
       const response = await fetch(`studentdata/GetJsonTableRowData/${name}`);
-      const data = await response.json();
+      
+
       if (response.status === 200) {
+        const data = await response.json();
         console.log('Успех в экшене');
         dispatch({ type: GET_JSON_BY_NAME, payload: data });
-      } else {
-        console.log('Ошибка');
-        throw new Error('Ошибка получения данных');
+      }
+      else{
+        console.log(response.status)
+        dispatch({type: ERROR, Error_code: response.status})
       }
     } catch (error) {
       console.error(error);
-      return {};
+      return -1;
     }
   };
 }
