@@ -68,6 +68,24 @@ namespace UniBase.Controllers
             }
             else return null;
         }
+        // переиминовать переменные серьёзно чувак это кринж 
+        [HttpGet("getGroup/{name = ЭФ}")]
+        public async Task<object>  GetGroup(string fuckkultname)
+        {
+            List<ДекСписокГруппФакультета> result = await DBManager.GetGroupByFuckCult(fuckkultname);
+            if (result.Count > 0)
+            {
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                };
+
+                string jsonString = JsonSerializer.Serialize(result, options);
+                return jsonString;
+            }
+            else return null;
+        }
 
 
 

@@ -38,7 +38,14 @@ namespace UniBase.CORE.DataBaseManagers
             }
             return _instance;
         }
+        public async Task<List<ДекСписокГруппФакультета>> GetGroupByFuckCult(string GroupName)
+        {
+            return await context.ДекСписокГруппФакультета
+                .AsNoTracking()
+                .Where(entity=>
+                entity.Сокращение.ToLower() == GroupName.ToLower()).ToListAsync();
 
+        }
         public async Task<List<ДекВсеДанныеСтудента>> FindStudentByNameAsynch(string name)
         {
             return await context.ДекВсеДанныеСтудента
