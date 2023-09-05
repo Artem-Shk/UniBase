@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import toTable from './tableReducer';
+import { faculiesToMenu } from './menuReducer'
 
 
 
@@ -7,6 +8,7 @@ import toTable from './tableReducer';
 // rootReducer save table
 const rootReducer = combineReducers({
   table: toTable,
+  menu: faculiesToMenu,
 });
 console.log("Поставил редусер")
 //it keywords needed for easer import

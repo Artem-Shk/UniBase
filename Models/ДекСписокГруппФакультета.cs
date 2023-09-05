@@ -1,6 +1,6 @@
 ﻿namespace UniBase.Models
 {
-    public class ДекСписокГруппФакультета : IBaseWebModel<ДекВсеДанныеСтудента>
+    public class ДекСписокГруппФакультета : IBaseWebModel<ДекВсеДанныеСтудента>, IBaseModel
     {
 
        public int Код { get; set; }

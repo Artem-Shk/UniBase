@@ -7,7 +7,7 @@ namespace UniBase.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    public partial class ДекВсеДанныеСтудента : IBaseWebModel<ДекВсеДанныеСтудента>
+    public partial class ДекВсеДанныеСтудента : IBaseWebModel<ДекВсеДанныеСтудента>, IBaseModel
     {
         [Column(Order = 6)]
 

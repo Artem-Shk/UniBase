@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace UniBase.Models
 {
-    public class IBaseWebModel<T>
+    public class IBaseWebModel<T>: Object
     {
         private PropertyInfo[] GetPropertiesInfo()
         {

@@ -38,7 +38,7 @@ namespace UniBase.CORE.DataBaseManagers
             }
             return _instance;
         }
-        public async Task<List<ДекСписокГруппФакультета>> GetGroupByFuckCult(string GroupName)
+        public async Task<List<ДекСписокГруппФакультета>> GetGroupByFaculty(string GroupName)
         {
             return await context.ДекСписокГруппФакультета
                 .AsNoTracking()
@@ -46,6 +46,7 @@ namespace UniBase.CORE.DataBaseManagers
                 entity.Сокращение.ToLower() == GroupName.ToLower()).ToListAsync();
 
         }
+
         public async Task<List<ДекВсеДанныеСтудента>> FindStudentByNameAsynch(string name)
         {
             return await context.ДекВсеДанныеСтудента
@@ -67,22 +68,13 @@ namespace UniBase.CORE.DataBaseManagers
                 || entity.Название.ToLower().Contains(name.ToLower()))
                 .ToList();
         }
-        public async Task<string?[]> AllFacults()
+        public async Task<List<string?>> AllFacultiesAsynch()
         {
-            return await context.ДекСпециальности
+            return await context.Факультеты
                   .AsNoTracking()
-                  .Select(f => f.Факультет)
-                  .ToArrayAsync();
-
+                  .Select(f => f.Сокращение)
+                  .ToListAsync();
         }
-        public async Task<string?[]> AllGroupsByFaccults()
-        {
-            return await context.ДекСпециальности
-                .AsNoTracking()
-                .Select(f => f.Название_Спец)
-                .ToArrayAsync();
-        }
-
 
     }
 }

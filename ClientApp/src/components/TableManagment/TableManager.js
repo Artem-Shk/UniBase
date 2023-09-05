@@ -3,72 +3,45 @@ import { Col, Row, Table } from 'reactstrap';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import SearchBar from './SearchBar';
 import Menu from './LeftMenu';
-//burgermenu
-function VerticalMenu() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const handleMenuClick = () => {
-    setIsMenuOpen(prevState => !prevState);
-  };
-
-  const handleClick = (event) => {
-    console.log(event.target.innerText);
-  }
-
-  const SubMenu = ({ items }) => {
-    return (
-      <ul>
-        {items.map(item => (
-          <li key={item.id} onClick={handleClick}>{item.title}
-            {item.subItems && <SubMenu items={item.subItems} />}
-          </li>
-        ))}
-      </ul>
-    );
-  };
-
-  const menuItems = [
-    {
-      id: 1,
-      title: 'ЭФ',
-      subItems: [
-        { id: 11, title: 'Подразделение 1' },
-        { id: 12, title: 'Подразделение 2' },
-      ],
-    },
-    {
-      id: 2,
-      title: 'ЮФ',
-      subItems: [
-        { id: 21, title: 'Подразделение 1' },
-        { id: 22, title: 'Подразделение 2' },
-      ],
-    },
-    {
-      id: 3,
-      title: 'ИФФ',
-      subItems: [
-        { id: 31, title: 'Подразделение 1' },
-        { id: 32, title: 'Подразделение 2' },
-      ],
-    },
-    { id: 4, title: 'ДБВиЭН' },
-    { id: 5, title: 'ОСПО' },
-    { id: 6, title: 'ДИЯ' },
-  ];
-
-  return (
-    <div>
-      <button onClick={handleMenuClick}>Меню</button>
-      {isMenuOpen && <SubMenu items={menuItems} />}
-    </div>
-  );
-}
+import store from '../../store';
+import { fetchFaculiesNames } from '../../actions';
+const fagots = [
+  {
+    id: 1,
+    label: 'ss',
+    link: '#',
+    submenu: [
+      { id: 11, label: 'Subitem 1', link: '#' },
+      { id: 12, label: 'Subitem 2', link: '#' },
+      { id: 13, label: 'Subitem 3', link: '#' },
+    ],
+  },
+  {
+    id: 2,
+    label: 'dasd',
+    link: '#',
+    submenu: [
+      { id: 21, label: 'Subitem 1', link: '#' },
+      { id: 22, label: 'Subitem 2', link: '#' },
+    ],
+  },
+  {
+    id: 3,
+    label: 'asdasdasd',
+    link: '#',
+    submenu: [
+      { id: 31, label: 'Subitem 1', link: '#' },
+      { id: 32, label: 'Subitem 2', link: '#' },
+      { id: 33, label: 'Subitem 3', link: '#' },
+      { id: 34, label: 'Subitem 4', link: '#' },
+    ],
+  },
+];
 
 function StudentTable() {
-
   // redux hook for watch to store changes
   const persons = useSelector(state => state.table.data || state);
+
   console.log(persons)
   const fields = Object.keys(persons[0] || {});
   return (
@@ -92,7 +65,6 @@ function StudentTable() {
     </Table>
   );
 }
-//TODO: make elements static
 export function TableManager() {
 
   return (
@@ -100,7 +72,7 @@ export function TableManager() {
       <Row className="align-items-left justify-content-start">
         <Col sm={2}>
           <SearchBar />
-          <Menu />
+          <Menu items = {fagots}/>
         </Col>
         <Col sm={2}>
           <StudentTable />

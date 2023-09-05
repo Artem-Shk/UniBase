@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using UniBase.CORE.DataBaseManagers;
 using UniBase.Models;
@@ -14,22 +15,33 @@ namespace UniBase.Controllers
     public class StudentDataController : ControllerBase
     {
         private DBManager DBManager = DBManager.GetInstance();
-
         public StudentDataController()
         {
-
         }
-
         // GET: StudentDataController
         [HttpGet]
         public string Get()
         {
             return "huy";
         }
+        private string JsonSerialize<T>(List<T> result)
+        {
+            if (result.Count > 0)
+            {
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                };
+
+                string jsonString = JsonSerializer.Serialize(result, options);
+                return jsonString;
+            }
+            else return null;
+        }
         [HttpGet("GetHTMLByName/{name=Иван}")]
         public async Task<object> GetHTMLByName(string name)
         {
-
             List<ДекВсеДанныеСтудента> result = await DBManager.FindStudentByNameAsynch(name);
             HtmlContentBuilder builder = new HtmlContentBuilder();
             if (result != null)
@@ -55,39 +67,20 @@ namespace UniBase.Controllers
         [HttpGet("GetJsonTableRowData/{name=Иван}")]
         public async Task<object> GetJsonTableRowData(string name, bool jsontype)
         {
-            Console.WriteLine("get data by " + name);
             List<ДекВсеДанныеСтудента> result = await DBManager.FindStudentByNameAsynch(name);
-            if (result.Count > 0)
-            {
-                var options = new JsonSerializerOptions { WriteIndented = true,
-                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-                };
-                
-                string jsonString = JsonSerializer.Serialize(result,options);
-                return jsonString;
-            }
-            else return null;
+            return JsonSerialize(result);
         }
-        // переиминовать переменные серьёзно чувак это кринж 
-        [HttpGet("getGroup/{name = ЭФ}")]
-        public async Task<object>  GetGroup(string fuckkultname)
+        [HttpGet("GetGroup/{faculities=ЭФ}")]
+        public async Task<object> GetGroup(string fuckkultname)
         {
-            List<ДекСписокГруппФакультета> result = await DBManager.GetGroupByFuckCult(fuckkultname);
-            if (result.Count > 0)
-            {
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-                };
-
-                string jsonString = JsonSerializer.Serialize(result, options);
-                return jsonString;
-            }
-            else return null;
+            List<ДекСписокГруппФакультета> result = await DBManager.GetGroupByFaculty(fuckkultname);
+            return JsonSerialize( result);
         }
-
-
-
-    }
+        [HttpGet("GetAllFacult")]
+        public async Task<object> GetAllFacult()
+        {
+            List<string> result = await DBManager.AllFacultiesAsynch();
+            return JsonSerialize(result);
+        }
+    } 
 }
