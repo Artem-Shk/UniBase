@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
-import { Label, List } from 'reactstrap';
+
 
 
 // Сделай запрос к сервверу чтобы получить все пункты
-const MenuItem = ({ item }) => {
-    const hasSubMenu = item.GroupName && item.GroupName.length > 0;
+const MenuItem = ( {MenuitemObj} ) => {
+    const hasSubMenu = MenuitemObj.GroupName && MenuitemObj.GroupName.length > 0;
+    console.log(MenuitemObj)
   return (
-      <li>
-          <a >{item.FaculityName}</a>
-      {hasSubMenu && <Menu items={item.GroupName} />}
+      <li> 
+          <a >{MenuitemObj.ItemName}</a>
+      {hasSubMenu && <Menu items={MenuitemObj.GroupName} />}
     </li>
   ); 
 };
 
-const Menu = ({ items }) => {
-  return (
+const Menu = ( {items} ) => {
+
+  return ( 
     <ul>
-      {items.map((item) => (
-        <MenuItem key={item.FaculityName} item={item} />
+      { 
+      items.map((item) => (
+        <MenuItem key={item.ItemName} MenuitemObj={item} />
       ))}
     </ul>
   );

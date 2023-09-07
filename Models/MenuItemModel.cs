@@ -2,11 +2,11 @@
 {
     public class MenuItemModel
     {
-        public string FaculityName { get; set; }
-        public List<string> GroupName { get; set; }
+        public string ItemName { get; set; }
+        public List<MenuItemModel> GroupName { get; set; }
       
-        public MenuItemModel(string faculityName, List<string> groupName) {
-            FaculityName = faculityName;
+        public MenuItemModel(string faculityName, List<MenuItemModel> ?groupName) {
+            ItemName = faculityName;
             GroupName = groupName;
 
 

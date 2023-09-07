@@ -72,10 +72,9 @@ function StudentTable() {
 }
  
 export function TableManager() {
-  const menuitem = useSelector(state =>  state.menu.data || state.menu.status);
-  console.log(menuitem)
+  const menuitem = useSelector(state =>  state.menu.data || null);
+
   return (
-    
     <div>
       <Row className="align-items-left justify-content-start">
         <Col sm={2}>

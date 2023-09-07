@@ -92,7 +92,7 @@ namespace UniBase.Controllers
             foreach(string faculity in resultFaculity)
             {
                 List<ДекСписокГруппФакультета> resultGroup = await DBManager.GetGroupByFaculty(faculity);
-                List<string> groups = resultGroup.Select(s => s.Название).ToList();
+                List<MenuItemModel> groups = resultGroup.Select(s => new MenuItemModel(s.Название, null)).ToList();
                 result.Add(new MenuItemModel(faculity, groups));
             }
             return JsonSerialize(result);
