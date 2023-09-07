@@ -5,11 +5,8 @@ export const ERROR='ERROR'
 
 export function fetchStudentsData(name) {
   return async (dispatch) => {
-    
     try {
       const response = await fetch(`studentdata/GetJsonTableRowData/${name}`);
-      
-
       if (response.status === 200) {
         const data = await response.json();
         console.log('Успех в экшене');
@@ -29,7 +26,7 @@ export function fetchFaculiesNames() {
   return async (dispatch) => {
     
     try {
-      const response = await fetch(`studentdata/GetAllFacult/`);
+      const response = await fetch(`studentdata/GetMenuData/`);
       
 
       if (response.status === 200) {

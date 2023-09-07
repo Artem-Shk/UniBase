@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import store from '../store';
 export class Home extends Component {
   static displayName = Home.name;
-
+ 
   render() {
     return (
       <div>

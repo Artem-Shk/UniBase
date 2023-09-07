@@ -3,11 +3,14 @@ import { Route, Routes } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 import { Layout } from './components/Layout';
 import './custom.css';
+import store from './store';
+import { fetchFaculiesNames } from './actions';
 
 export default class App extends Component {
   static displayName = App.name;
-
+  
   render() {
+    store.dispatch(fetchFaculiesNames())
     return (
       <Layout>
         <Routes>

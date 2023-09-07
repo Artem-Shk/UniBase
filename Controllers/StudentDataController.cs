@@ -24,9 +24,9 @@ namespace UniBase.Controllers
         {
             return "huy";
         }
-        private string JsonSerialize<T>(List<T> result)
+        private string JsonSerialize<T>(T result)
         {
-            if (result.Count > 0)
+            if (result!=null)
             {
                 var options = new JsonSerializerOptions
                 {
@@ -39,6 +39,7 @@ namespace UniBase.Controllers
             }
             else return null;
         }
+
         [HttpGet("GetHTMLByName/{name=Иван}")]
         public async Task<object> GetHTMLByName(string name)
         {
@@ -71,16 +72,32 @@ namespace UniBase.Controllers
             return JsonSerialize(result);
         }
         [HttpGet("GetGroup/{faculities=ЭФ}")]
-        public async Task<object> GetGroup(string fuckkultname)
+        public async Task<object> GetGroupJson(string fuckkultname)
         {
             List<ДекСписокГруппФакультета> result = await DBManager.GetGroupByFaculty(fuckkultname);
             return JsonSerialize( result);
         }
         [HttpGet("GetAllFacult")]
-        public async Task<object> GetAllFacult()
+        public async Task<object> GetAllFacultJson()
         {
             List<string> result = await DBManager.AllFacultiesAsynch();
             return JsonSerialize(result);
         }
+        [HttpGet("GetMenuData")]
+        public async Task<object> GetMenuParameters()
+        {
+            List<MenuItemModel> result =  new List<MenuItemModel>();
+
+            List<string> resultFaculity = await DBManager.AllFacultiesAsynch();
+            foreach(string faculity in resultFaculity)
+            {
+                List<ДекСписокГруппФакультета> resultGroup = await DBManager.GetGroupByFaculty(faculity);
+                List<string> groups = resultGroup.Select(s => s.Название).ToList();
+                result.Add(new MenuItemModel(faculity, groups));
+            }
+            return JsonSerialize(result);
+
+        }
+        
     } 
 }

@@ -1,5 +1,6 @@
 import { ERROR, fetchStudentsData, GET_JSON_BY_NAME } from "../actions";
 const initialState = {
+  data: [],
   faculies: [],
   group: [],
   faculiesName: '',
