@@ -26,7 +26,7 @@ namespace UniBase.Controllers
         }
         private string JsonSerialize<T>(T result)
         {
-            if (result!=null)
+            if (result != null)
             {
                 var options = new JsonSerializerOptions
                 {
@@ -39,6 +39,14 @@ namespace UniBase.Controllers
             }
             else return null;
         }
+        private List<ДекСписокГруппФакультета> SortGroupByYear(List<ДекСписокГруппФакультета> result)
+        {
+            result = result.OrderBy(элемент => элемент.Название.Substring(элемент.Название.Length - 2)).ToList();
+            return result;
+        }
+
+
+
 
         [HttpGet("GetHTMLByName/{name=Иван}")]
         public async Task<object> GetHTMLByName(string name)
@@ -92,12 +100,18 @@ namespace UniBase.Controllers
             foreach(string faculity in resultFaculity)
             {
                 List<ДекСписокГруппФакультета> resultGroup = await DBManager.GetGroupByFaculty(faculity);
+                resultGroup = SortGroupByYear(resultGroup);
                 List<MenuItemModel> groups = resultGroup.Select(s => new MenuItemModel(s.Название, null)).ToList();
                 result.Add(new MenuItemModel(faculity, groups));
             }
             return JsonSerialize(result);
 
         }
-        
+        [HttpGet("GetStudentsByGroup/{group_name}")]
+        public async Task<object> GetStudentsByGroup(int groupId)
+        {
+            List<ДекВсеДанныеСтудента> result = await DBManager.GetStudentsByGroup(groupId);
+            return JsonSerialize(result);
+        }
     } 
 }

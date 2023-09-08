@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UniBase.CORE.DataBaseManagers
 {
+    //узнать что быстрее запросы или сервер ;\
     public class DBManager
     {
         private static DBManager _instance;
@@ -59,15 +60,15 @@ namespace UniBase.CORE.DataBaseManagers
             || entity.Название.ToLower() == name.ToLower())
             .ToListAsync();
         }
-        public List<ДекВсеДанныеСтудента> FindStudentByName(string name)
-        {
-            return context.ДекВсеДанныеСтудента
-                .AsNoTracking()
-                .Where(entity => entity.ФИО.Contains(name.ToLower())
-                || entity.Зачетка == name
-                || entity.Название.ToLower().Contains(name.ToLower()))
-                .ToList();
-        }
+        //public List<ДекВсеДанныеСтудента> FindStudentByName(string name)
+        //{
+        //    return context.ДекВсеДанныеСтудента
+        //        .AsNoTracking()
+        //        .Where(entity => entity.ФИО.Contains(name.ToLower())
+        //        || entity.Зачетка == name
+        //        || entity.Название.ToLower().Contains(name.ToLower()))
+        //        .ToList();
+        //}
         public async Task<List<string?>> AllFacultiesAsynch()
         {
             return await context.Факультеты
@@ -75,6 +76,13 @@ namespace UniBase.CORE.DataBaseManagers
                   .Select(f => f.Сокращение)
                   .ToListAsync();
         }
-
+        public async Task<List<ДекВсеДанныеСтудента>> GetStudentsByGroup(int groupCode)
+        {
+            return await context.ДекВсеДанныеСтудента
+            .AsNoTracking()
+            .Where(entity =>
+            entity.Код_Группы == groupCode)
+            .ToListAsync();
+        }
     }
 }
