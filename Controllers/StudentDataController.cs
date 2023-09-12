@@ -121,7 +121,18 @@ namespace UniBase.Controllers
                 List<ДекСписокГруппФакультета> resultGroup = await DBManager.GetGroupByFaculty(faculity);
                 resultGroup = SortGroupByYear(resultGroup);
                 resultGroup = GetGroupsOfCurentAcademicYear(resultGroup);
+                List<MenuItemModel> courses = new List<MenuItemModel>();
+                int courseNum = 1;
+                foreach(ДекСписокГруппФакультета i in resultGroup)
+                {
+                    if(int.Parse(i.Курс) == courseNum)
+                    {
+
+                    }
+                }
+                courseNum = 0;
                 List<MenuItemModel> groups = resultGroup.Select(s => new MenuItemModel(s.Название, null)).ToList();
+
                 result.Add(new MenuItemModel(faculity, groups));
             }
             return JsonSerialize(result);

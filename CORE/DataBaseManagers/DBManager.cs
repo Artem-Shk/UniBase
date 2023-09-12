@@ -47,7 +47,7 @@ namespace UniBase.CORE.DataBaseManagers
                 entity.Сокращение.ToLower() == GroupName.ToLower()).ToListAsync();
 
         }
-
+      
 
         public async Task<List<ДекВсеДанныеСтудента>> FindStudentByNameAsynch(string name)
         {
