@@ -3,13 +3,12 @@
     public class MenuItemModel
     {
         public string ItemName { get; set; }
-        public List<MenuItemModel> GroupName { get; set; }
+        public List<MenuItemModel> child { get; set; }
+        public List<MenuItemModel> CourseNumber { get; set; }
       
-        public MenuItemModel(string faculityName, List<MenuItemModel> ?groupName) {
+        public MenuItemModel(string ?faculityName, List<MenuItemModel> ?groupName) {
             ItemName = faculityName;
-            GroupName = groupName;
-
-
+            child = groupName;
         }
     }
 }

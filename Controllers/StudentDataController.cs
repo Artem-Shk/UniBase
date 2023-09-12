@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using UniBase.CORE.DataBaseManagers;
 using UniBase.Models;
+
 
 namespace UniBase.Controllers
 {
@@ -41,11 +40,31 @@ namespace UniBase.Controllers
         }
         private List<ДекСписокГруппФакультета> SortGroupByYear(List<ДекСписокГруппФакультета> result)
         {
-            result = result.OrderBy(элемент => элемент.Название.Substring(элемент.Название.Length - 2)).ToList();
+
+            result = result.OrderBy(elem => elem.Название.Substring(elem.Название.Length - 2)).ToList();
             return result;
         }
+        // must be beatiful
+        private List<ДекСписокГруппФакультета> GetGroupsOfCurentAcademicYear(List<ДекСписокГруппФакультета> result)
+        {
+            string currentyear = DateTime.Now.Year.ToString();
+            string CompareSymbol = currentyear.Substring(currentyear.Length - 2);
 
+            result = result.FindAll(groups =>
+            {
+                string groupsLastTwoSymbol = groups.Название.Substring(groups.Название.Length - 2);
+                if (groups.Название.Length == 11 && int.TryParse(groupsLastTwoSymbol, out int lastTwoDigits))
+                {
+                    return lastTwoDigits >= 19 && lastTwoDigits <= 23;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+            return result;
 
+        } 
 
 
         [HttpGet("GetHTMLByName/{name=Иван}")]
@@ -101,11 +120,11 @@ namespace UniBase.Controllers
             {
                 List<ДекСписокГруппФакультета> resultGroup = await DBManager.GetGroupByFaculty(faculity);
                 resultGroup = SortGroupByYear(resultGroup);
+                resultGroup = GetGroupsOfCurentAcademicYear(resultGroup);
                 List<MenuItemModel> groups = resultGroup.Select(s => new MenuItemModel(s.Название, null)).ToList();
                 result.Add(new MenuItemModel(faculity, groups));
             }
             return JsonSerialize(result);
-
         }
         [HttpGet("GetStudentsByGroup/{group_name}")]
         public async Task<object> GetStudentsByGroup(int groupId)

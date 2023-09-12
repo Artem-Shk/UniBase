@@ -48,6 +48,7 @@ namespace UniBase.CORE.DataBaseManagers
 
         }
 
+
         public async Task<List<ДекВсеДанныеСтудента>> FindStudentByNameAsynch(string name)
         {
             return await context.ДекВсеДанныеСтудента

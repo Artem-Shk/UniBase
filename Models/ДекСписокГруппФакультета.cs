@@ -10,6 +10,7 @@
        public string? Название_Спец { get; set; }
        public int? Код_Специальности { get; set; }
        public string? Сокращение { get; set; }
+       public string? Курс { get; set; }
   
     }
 }
