@@ -2,7 +2,7 @@
 
 export const GET_JSON_BY_NAME = 'GET_JSON_BY_NAME'
 export const ERROR='ERROR'
-
+export const GET_JSON_FACULIES_BY_NAME = "GET_JSON_FACULIES_BY_NAME"
 export function fetchStudentsData(name) {
   return async (dispatch) => {
     try {
@@ -32,7 +32,7 @@ export function fetchFaculiesNames() {
       if (response.status === 200) {
         const data = await response.json();
         console.log('Успех в экшене факультетов');
-        dispatch({ type: GET_JSON_BY_NAME, payload: data });
+        dispatch({ type: GET_JSON_FACULIES_BY_NAME, payload: data });
       }
       else{
         console.log(response.status)

@@ -1,14 +1,13 @@
-import { ERROR, fetchStudentsData, GET_JSON_BY_NAME } from "../actions";
+import { ERROR, fetchStudentsData, GET_JSON_FACULIES_BY_NAME } from "../actions";
 const initialState = {
   data: [],
   faculies: [],
   group: [],
   faculiesName: '',
-
 };
 export function faculiesToMenu(state = initialState, action) {
     switch (action.type) {
-      case GET_JSON_BY_NAME:
+      case GET_JSON_FACULIES_BY_NAME:
         return { ...state, data: action.payload};
       case ERROR:
         if(action.Error_code === 204)
