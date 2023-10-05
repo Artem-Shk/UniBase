@@ -5,7 +5,7 @@ const initialState = {
   data: [],
   name: '',
 };
-function toTable(state = initialState, action) {
+function  toTable(state = initialState, action) {
   switch (action.type) {
     case GET_JSON_BY_NAME:
       return { ...state, data: action.payload,status:"zaebis"};

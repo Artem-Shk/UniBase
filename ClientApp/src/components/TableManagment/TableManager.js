@@ -5,40 +5,6 @@ import SearchBar from './SearchBar';
 import Menu from './LeftMenu';
 import store from '../../store';
 import { fetchFaculiesNames } from '../../actions';
-
-
-const fagots = [
-  {
-    id: 1,
-    label: 'ss',
-    link: '#',
-    submenu: [
-      { id: 11, label: 'Subitem 1', link: '#' },
-      { id: 12, label: 'Subitem 2', link: '#' },
-      { id: 13, label: 'Subitem 3', link: '#' },
-    ],
-  },
-  {
-    id: 2,
-    label: 'dasd',
-    link: '#',
-    submenu: [
-      { id: 21, label: 'Subitem 1', link: '#' },
-      { id: 22, label: 'Subitem 2', link: '#' },
-    ],
-  },
-  {
-    id: 3,
-    label: 'asdasdasd',
-    link: '#',
-    submenu: [
-      { id: 31, label: 'Subitem 1', link: '#' },
-      { id: 32, label: 'Subitem 2', link: '#' },
-      { id: 33, label: 'Subitem 3', link: '#' },
-      { id: 34, label: 'Subitem 4', link: '#' },
-    ],
-  },
-];
 function StudentTable() {
    // redux hook for watch to store changes
    const persons = useSelector(state =>  state.table.data || state.table.status);
@@ -73,7 +39,6 @@ function StudentTable() {
  
 export function TableManager() {
   const menuitem = useSelector(state =>  state.menu.data || null);
-
   return (
     <div>
       <Row className="align-items-left justify-content-start">
