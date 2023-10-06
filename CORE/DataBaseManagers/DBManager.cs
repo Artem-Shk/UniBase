@@ -50,7 +50,7 @@ namespace UniBase.CORE.DataBaseManagers
 
         public async Task<List<ДекВсеДанныеСтудента>> FindStudentByNameAsynch(string name)
         {
-            return await context.ДекВсеДанныеСтудента
+            return await context.ДекВсеДанныеСтудента 
             .AsNoTracking()
             .Where(entity =>
             entity.Фамилия.ToLower() == name.ToLower()
