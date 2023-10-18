@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniBase", "UniBase.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DecanatLiteWeb", "..\DecanatLiteWeb\DecanatLiteWeb.csproj", "{FB918779-B2AA-4BD4-BADF-D3E91A062F5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject2", "..\TestProject2\TestProject2.csproj", "{969B9EC8-B97F-4A18-A56D-033F74C53451}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FB918779-B2AA-4BD4-BADF-D3E91A062F5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB918779-B2AA-4BD4-BADF-D3E91A062F5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB918779-B2AA-4BD4-BADF-D3E91A062F5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{969B9EC8-B97F-4A18-A56D-033F74C53451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{969B9EC8-B97F-4A18-A56D-033F74C53451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{969B9EC8-B97F-4A18-A56D-033F74C53451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{969B9EC8-B97F-4A18-A56D-033F74C53451}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

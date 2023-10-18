@@ -4,6 +4,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
+using System;
 
 namespace UniBase.CORE.requests
 {
@@ -32,6 +33,19 @@ namespace UniBase.CORE.requests
             {
                 return "";
             } 
+        }
+        //Делать обработку данных на сервере?
+        public async void MMIS_Attendance_percentage()
+        {
+            string url = "https://mmis-web.rudn-sochi.ru/WebApp/#/Journals/Stat/Attendance";
+            var authToken = RequestResults.authToken;
+            var data = new { Autoken = authToken};
+
+
+        }
+        private string OBJToJsonConverter(string data)
+        {
+
         }
     }
 }
