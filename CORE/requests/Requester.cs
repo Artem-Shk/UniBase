@@ -16,9 +16,7 @@ namespace UniBase.CORE.requests
         {
             string url = "https://mmis-web.rudn-sochi.ru/api/tokenauth";
             var data = new {userName = "shakrislanov.a",password="Dstayte8",isParent=false,fingerprint="d6005043edad6d17dc0ae27b80fbd2a5"};
-            string json = JsonConvert.SerializeObject(data);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var content = OBJToContentConverter(data);
             HttpResponseMessage response = await client.PostAsync(url, content);
             string resp = await response.Content.ReadAsStringAsync();
             //starts with access "accessToken\": end with "
@@ -43,9 +41,12 @@ namespace UniBase.CORE.requests
 
 
         }
-        private string OBJToJsonConverter(string data)
+        private StringContent OBJToContentConverter(object data)
         {
-
+            string json = JsonConvert.SerializeObject(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return content;
         }
     }
 }
