@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System;
+using System.Web;
 
 namespace UniBase.CORE.requests
 {
@@ -33,11 +34,18 @@ namespace UniBase.CORE.requests
             } 
         }
         //Делать обработку данных на сервере?
-        public async void MMIS_Attendance_percentage()
+        public async Task<string>  MMIS_Attendance_percentage(string Year,string sem,string Form)
         {
-            string url = "https://mmis-web.rudn-sochi.ru/WebApp/#/Journals/Stat/Attendance";
-            var authToken = RequestResults.authToken;
-            var data = new { Autoken = authToken};
+            string url = "https://mmis-web.rudn-sochi.ru/api/Journals/Stat/Attendance?year=" + Year + "&sem=" + sem + "&formID=Form";
+            var authToken = await MMISAuthKey();
+            HttpClient client = new HttpClient();
+            // Устанавливаем заголовок Authorization
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+            HttpResponseMessage response = await client.GetAsync(url);
+            string resp = await response.Content.ReadAsStringAsync();
+            return resp;
+
+
 
 
         }

@@ -47,6 +47,7 @@ namespace UniBase.Models
         public virtual DbSet<ДекСпециальности> ДекСпециальности { get; set; }
         public virtual DbSet<ДекСписокГруппФакультета> ДекСписокГруппФакультета {get; set; }
         public virtual DbSet<Факультеты> Факультеты { get; set; }
+        public virtual DbSet<ufuОценкиТекущаяУспеваемость> ufuОценкиТекущаяУспеваемость { get; set; }
         //TODO: this shit thats not right
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -63,6 +64,8 @@ namespace UniBase.Models
                  .HasKey(m => new { m.Код });
             modelBuilder.Entity<Факультеты>()
                .HasKey(m => new { m.Код });
+            modelBuilder.Entity<ufuОценкиТекущаяУспеваемость>()
+               .HasKey(m => new { m.КодЖурнала });
         }
     }
 }
