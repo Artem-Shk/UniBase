@@ -76,14 +76,21 @@ namespace UniBase.CORE.DataBaseManagers
                   .Select(f => f.Сокращение)
                   .ToListAsync();
         }
-        public async Task<List<ufuОценкиТекущаяУспеваемость>> GetStudentsByGroup(int groupCode)
+        public async Task<List<ДекВсеДанныеСтудента>> GetStudentsByGroup(int groupCode)
         {
-            return await context.ufuОценкиТекущаяУспеваемость
+            return await context.ДекВсеДанныеСтудента
             .AsNoTracking()
             .Where(entity =>
             entity.Код_Группы == groupCode)
             .ToListAsync();
         }
-        public async Task<List<Дек>>
+        public async Task<List<ufuОценкиТекущаяУспеваемость>> GetJournalsByPrepodId(int prepodID)
+        {
+            return await context.ufuОценкиТекущаяУспеваемость
+            .AsNoTracking()
+            .Where(entity =>
+            entity.КодПреподавателя == '169')
+            .ToListAsync();
+        }
     }
 }
