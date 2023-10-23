@@ -20,11 +20,13 @@ namespace UniBase.Controllers
         }
         // GET: StudentDataController
         [HttpGet]
-        public string Get()
+        public  string Get()
         {
+            //УДАЛИТЬ НАХУЙ
+            var result1 =  DBManager.GetJournalsByPrepodId(189);
             return "huy";
         }
-        private string JsonSerialize<T>(T result)
+        private string? JsonSerialize<T>(T result)
         {
             if (result != null)
             {
@@ -104,13 +106,15 @@ namespace UniBase.Controllers
                 List<MenuItemModel> groups = resultGroup.Select(s => new MenuItemModel(s.Название, null)).ToList();
                 result.Add(new MenuItemModel(faculity, groups));
             }
+           
             return JsonSerialize(result);
 
         }
         [HttpGet("GetStudentsByGroup/{group_name}")]
         public async Task<object> GetStudentsByGroup(int groupId)
         {
-            List<ДекВсеДанныеСтудента> result = await DBManager.GetStudentsByGroup(groupId);
+            List<ДекВсеДанныеСтудента> result = await DBManager.GetStudentsByGroupCode(groupId);
+            
             return JsonSerialize(result);
         }
     } 

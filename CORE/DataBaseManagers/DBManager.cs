@@ -76,7 +76,7 @@ namespace UniBase.CORE.DataBaseManagers
                   .Select(f => f.Сокращение)
                   .ToListAsync();
         }
-        public async Task<List<ДекВсеДанныеСтудента>> GetStudentsByGroup(int groupCode)
+        public async Task<List<ДекВсеДанныеСтудента>> GetStudentsByGroupCode(int groupCode)
         {
             return await context.ДекВсеДанныеСтудента
             .AsNoTracking()
@@ -86,11 +86,12 @@ namespace UniBase.CORE.DataBaseManagers
         }
         public async Task<List<ufuОценкиТекущаяУспеваемость>> GetJournalsByPrepodId(int prepodID)
         {
-            return await context.ufuОценкиТекущаяУспеваемость
+            var query = context.ufuОценкиТекущаяУспеваемость
             .AsNoTracking()
             .Where(entity =>
-            entity.КодПреподавателя == '169')
-            .ToListAsync();
+            entity.КодПреподавателя == prepodID);
+            return await query.ToListAsync();
+
         }
     }
 }
