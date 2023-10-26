@@ -24,7 +24,7 @@ namespace UniBase.Controllers
         {
             //УДАЛИТЬ НАХУЙ
             var result1 =  DBManager.GetJournalsByPrepodId(189);
-            return "huy";
+            return "hoy";
         }
         private string? JsonSerialize<T>(T result)
         {

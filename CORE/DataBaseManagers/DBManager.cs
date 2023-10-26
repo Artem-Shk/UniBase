@@ -91,7 +91,7 @@ namespace UniBase.CORE.DataBaseManagers
             .Where(entity =>
             entity.КодПреподавателя == prepodID);
             return await query.ToListAsync();
-
         }
+
     }
 }
