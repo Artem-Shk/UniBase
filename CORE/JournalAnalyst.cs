@@ -4,11 +4,11 @@ namespace UniBase.CORE
 {
     public class JournalAnalyst
     {
-        private Journal Journal { get; set; }
+        private Journal GroupJournal { get; set; }
 
-        public void AttadanceProcent(object Journal)
+        public void AttadanceProcent()
         {
-            Journal.
+           
         }
     }
 }

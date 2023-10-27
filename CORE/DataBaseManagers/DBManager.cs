@@ -30,6 +30,13 @@ namespace UniBase.CORE.DataBaseManagers
         {
             context = new DekanatModel();
         }
+        private void  FromPrepJournalResultToJournal(List<ufuОценкиТекущаяУспеваемость> result)
+        {
+            foreach(ufuОценкиТекущаяУспеваемость res in result)
+            {
+                
+            }
+        }
         
         public static DBManager GetInstance()
         {
@@ -90,6 +97,16 @@ namespace UniBase.CORE.DataBaseManagers
             .AsNoTracking()
             .Where(entity =>
             entity.КодПреподавателя == prepodID);
+
+            return await query.ToListAsync();
+        }
+        public async Task<List<string>> GetDisciplinesByPrepodID(int prepodID)
+        {
+            var query = context.ufuОценкиТекущаяУспеваемость
+            .AsNoTracking().Where(entity =>
+            entity.КодПреподавателя == prepodID)
+            .Select(ent => ent.Дисциплина)
+            .Distinct();
             return await query.ToListAsync();
         }
 

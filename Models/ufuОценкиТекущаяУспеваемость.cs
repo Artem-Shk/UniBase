@@ -5,5 +5,7 @@
        public int КодЖурнала { get; set; }
        public int КодПреподавателя { get; set; }
        public string Дисциплина { get; set; }
+       
+      
     }
 }
