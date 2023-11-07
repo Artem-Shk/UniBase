@@ -2,17 +2,17 @@
 {
     public class prepJournalData : IBaseWebModel<ДекСпециальности>, IBaseModel
     {
-        public string key { get; set; }
-        string discipline { get; set; }
-        string teacherName { get; set; }
-        string GroupName { get; set; }
-        string lectionType { get; set; }
-        int semester { get; set; }
-        string academicYear { get; set; }
-        int studentCount { get; set; }
-        int lectionHours { get; set; }
-        int N_count { get; set; }
-        float truancy { get; set; }
-        int teacherCode { get; set; }
+        public int key { get; set; }
+        public string discipline { get; set; }
+        public string teacherName { get; set; }
+        public string GroupName { get; set; }
+        public string lectionType { get; set; }
+        public int semester { get; set; }
+        public string academicYear { get; set; }
+        public int studentCount { get; set; }
+        public int? lectionHours { get; set; }
+
+        public int? teacherCode { get; set; }
     }
 }
+

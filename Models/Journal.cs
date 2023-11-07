@@ -15,14 +15,13 @@
         }
 
         public string JournalName { get; set; }
-        string PrepodName { get; set; }
-        string GroupName { get; set; }
-        int StudentCount { get; set; }
-        int semesterHours { get; set; }
-        int semesterToday { get; set; }
-        int MidleAttendance { get; set; }
+        public string PrepodName { get; set; }
+        public string GroupName { get; set; }
+        public int StudentCount { get; set; }
+        public int semesterHours { get; set; }
+        public int semesterToday { get; set; }
+        public int MidleAttendance { get; set; }
         List<AttendanceRecord> recordList;
-
     }
 }
 

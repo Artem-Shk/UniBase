@@ -22,8 +22,6 @@ namespace UniBase.Controllers
         [HttpGet]
         public  string Get()
         {
-            //УДАЛИТЬ НАХУЙ
-            var result1 =  DBManager.GetJournalsByPrepodId(189);
             return "hoy";
         }
         private string? JsonSerialize<T>(T result)

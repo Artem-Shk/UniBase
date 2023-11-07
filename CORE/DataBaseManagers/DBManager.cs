@@ -31,15 +31,7 @@ namespace UniBase.CORE.DataBaseManagers
         {
             context = new DekanatModel();
         }
-        private void  ToJournalType(List<ufuОценкиТекущаяУспеваемость> result)
-        {
-           
-            foreach(ufuОценкиТекущаяУспеваемость res in result)
-            {
 
-            }
-
-        }
        
         
         public static DBManager GetInstance()
@@ -117,12 +109,35 @@ namespace UniBase.CORE.DataBaseManagers
         }
         public async Task<List<prepJournalData>> GetGetJournalByPrepodIDAndAcademicYear(int prepodID, string AcademicYear)
         {
-            SqlParameter prepod_id = new SqlParameter("prepod_id", prepodID);
-            SqlParameter academic_year = new SqlParameter("academic_year", AcademicYear);
-            var query = context.prepJournalData.FromSqlRaw($"SELECT DISTINCT PrepJournal.[Код] as [key]\r\n\t  ,PrepJournal.[Дисциплина] as [discipline]\r\n\t  ,p.ФИО as teacherName\r\n      ,Groups.Название as GroupName\r\n      ,PrepJournal.[ВидЗанятий] as lectionType\r\n      ,PrepJournal.[Семестр] as semester\r\n      ,PrepJournal.[УчебныйГод] as academicYear\r\n\t  ,Nagr.Студентов as studentCount\r\n\t  ,Nagr.Часов as lectionHours\r\n\t  ,(\r\n\t\t\tSELECT  COUNT(*) \r\n\t\t\tFROM [Деканат].[dbo].ЖурналДанные\r\n\t\t\tWHERE КодЗначения = 7 and КодЖурнала = PrepJournal.Код\r\n\t\t\tGROUP BY КодЗначения\r\n\t\t) AS N_count\r\n\t   ,(\r\n\t\t\tSELECT  COUNT(*) / (Nagr.Студентов * Nagr.Часов)*100 as пропуски\r\n\t\t\tFROM [Деканат].[dbo].ЖурналДанные\r\n\t\t\tWHERE КодЗначения = 7 and КодЖурнала = PrepJournal.Код\r\n\t\t\tGROUP BY КодЗначения\r\n\t\t) AS truancy\r\n\t\t,p.Код as teacherCode\r\nFROM [Деканат].[dbo].[ЖурналПреподавателя] PrepJournal\r\nINNER JOIN [Деканат].[dbo].[Преподаватели] p ON PrepJournal.[КодПреподавателя] = p.[Код]\r\nINNER JOIN [Деканат].[dbo].[Все_Группы] Groups ON PrepJournal.[КодГруппы] = Groups.Код\r\nINNER JOIN [Деканат].[dbo].Нагрузка Nagr ON PrepJournal.Дисциплина = Nagr.Дисциплина and Nagr.КодПреподавателя =p.[Код] and\r\n Nagr.КодГруппы = Groups.Код \r\n and Nagr.ВидЗанятий = PrepJournal.ВидЗанятий \r\n and (Nagr.Семестр /  Groups.Курс) =  PrepJournal.[Семестр]\r\nINNER JOIN [Деканат].[dbo].ЖурналДанные JournalData ON PrepJournal.Код = JournalData.КодЖурнала\r\nINNER JOIN [Деканат].[dbo].ЖурналЗначения JournalValue ON JournalData.КодЗначения = JournalValue.Код\r\n\r\n WHERE p.[Код] = {prepod_id} and PrepJournal.[УчебныйГод] = '{academic_year}'", prepod_id, academic_year);
+            // потом как нибудь поправить
+            var query = context.prepJournalData.FromSqlRaw(
+                $"SELECT DISTINCT PrepJournal.[Код] as [key] " +
+                $",PrepJournal.[Дисциплина] as [discipline]" +
+                $",p.ФИО as teacherName" +
+                $",Groups.Название as GroupName" +
+                $",PrepJournal.[ВидЗанятий] as lectionType" +
+                $",PrepJournal.[Семестр] as semester" +
+                $",PrepJournal.[УчебныйГод] as academicYear" +
+                $",Nagr.Студентов as studentCount " +
+                $",CAST(Nagr.Часов as int) as [lectionHours]" +
+                $",p.Код as teacherCode" +
+                $" FROM [Деканат].[dbo].[ЖурналПреподавателя] PrepJournal" +
+                $" INNER JOIN [Деканат].[dbo].[Преподаватели] p ON PrepJournal.[КодПреподавателя] = p.[Код]" +
+                $" INNER JOIN [Деканат].[dbo].[Все_Группы] Groups ON PrepJournal.[КодГруппы] = Groups.Код" +
+                $" INNER JOIN [Деканат].[dbo].Нагрузка Nagr ON PrepJournal.Дисциплина = Nagr.Дисциплина and Nagr.КодПреподавателя =p.[Код] and" +
+                $" Nagr.КодГруппы = Groups.Код " +
+                $" and Nagr.ВидЗанятий = PrepJournal.ВидЗанятий" +
+                $" and (Nagr.Семестр /  Groups.Курс) =  PrepJournal.[Семестр]" +
+                $" INNER JOIN [Деканат].[dbo].ЖурналДанные JournalData ON PrepJournal.Код = JournalData.КодЖурнала" +
+                $" INNER JOIN [Деканат].[dbo].ЖурналЗначения JournalValue ON JournalData.КодЗначения = JournalValue.Код" +
+                $" WHERE p.[Код] = {prepodID} and PrepJournal.[УчебныйГод] = '{AcademicYear}'", prepodID, AcademicYear);
+            var res = query.GetType();
 
             return await query.ToListAsync();
         }
-
+        public async Task<List<string>> GetPrepodsByFaculityID(int FaculityID)
+        {
+            
+        }
     }
 }

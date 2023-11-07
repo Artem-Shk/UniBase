@@ -48,8 +48,9 @@ namespace UniBase.Models
         public virtual DbSet<ДекСписокГруппФакультета> ДекСписокГруппФакультета {get; set; }
         public virtual DbSet<Факультеты> Факультеты { get; set; }
         public virtual DbSet<ufuОценкиТекущаяУспеваемость> ufuОценкиТекущаяУспеваемость { get; set; }
+        public virtual DbSet<prepJournalData> prepJournalData {get; set;}
 
-        public virtual DbSet<prepJournalData> prepJournalData { get; set; }
+        public virtual DbSet<>
         //TODO: this shit thats not right
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
