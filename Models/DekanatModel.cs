@@ -49,9 +49,10 @@ namespace UniBase.Models
         public virtual DbSet<Факультеты> Факультеты { get; set; }
         public virtual DbSet<ufuОценкиТекущаяУспеваемость> ufuОценкиТекущаяУспеваемость { get; set; }
         public virtual DbSet<prepJournalData> prepJournalData {get; set;}
-
-        public virtual DbSet<>
-        //TODO: this shit thats not right
+        public virtual DbSet<ПреподавателиКафедры> ПреподавателиКафедры { get; set; }
+        public virtual DbSet<Кафедры> Кафедры { get; set; }
+        public virtual DbSet<Преподаватели> Преподаватели { get; set; }
+        //TODO: this shit thats not right 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=sql;Database=Деканат;Trusted_Connection=True; TrustServerCertificate=True;");
@@ -70,6 +71,9 @@ namespace UniBase.Models
             modelBuilder.Entity<ufuОценкиТекущаяУспеваемость>()
                .HasKey(m => new { m.КодЖурнала });
             modelBuilder.Entity<prepJournalData>().HasKey(m => new { m.key });
+            modelBuilder.Entity<ПреподавателиКафедры>().HasKey(m => new { m.КодКафедры });
+            modelBuilder.Entity<Кафедры>().HasKey(m => new { m.Код });
+            modelBuilder.Entity<Преподаватели>().HasKey(m => new { m.Код });
         }
     }
 }

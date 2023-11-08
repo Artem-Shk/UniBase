@@ -137,7 +137,12 @@ namespace UniBase.CORE.DataBaseManagers
         }
         public async Task<List<string>> GetPrepodsByFaculityID(int FaculityID)
         {
-            
+            var query =from kafId in context.Кафедры where kafId.Код_Факультета == FaculityID
+                                  from PrepID in context.ПреподавателиКафедры where PrepID.КодКафедры == kafId.Код
+                                  from name in context.Преподаватели where name.Код == PrepID.КодПреподавателя
+                                  select  name.Фамилия;
+
+            return await query.AsNoTracking().Distinct().ToListAsync();
         }
     }
 }
