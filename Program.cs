@@ -22,8 +22,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
-
 app.MapDefaultControllerRoute();
 app.UseEndpoints(endpoints =>
 {
