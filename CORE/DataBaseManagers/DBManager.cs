@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
+using System.Net.Mail;
 
 namespace UniBase.CORE.DataBaseManagers
 {
@@ -135,14 +136,43 @@ namespace UniBase.CORE.DataBaseManagers
 
             return await query.ToListAsync();
         }
-        public async Task<List<string>> GetPrepodsByFaculityID(int FaculityID)
+        public async Task<List<Преподаватели>> GetPrepodsByFaculityIDAsynch(int FaculityID)
         {
-            var query =from kafId in context.Кафедры where kafId.Код_Факультета == FaculityID
-                                  from PrepID in context.ПреподавателиКафедры where PrepID.КодКафедры == kafId.Код
-                                  from name in context.Преподаватели where name.Код == PrepID.КодПреподавателя
-                                  select  name.Фамилия;
+            var query = from kafId in context.Кафедры  where kafId.Код_Факультета == FaculityID
+                        from PrepID in context.ПреподавателиКафедры where PrepID.КодКафедры == kafId.Код
+                        from name in context.Преподаватели where name.Код == PrepID.КодПреподавателя
+                        select new Преподаватели()
+                        {
+                            кодКафедры = kafId.Код,
+                            ФИО = name.ФИО,
+                            кодФакультета = kafId.Код_Факультета
+                            
+                        };
 
             return await query.AsNoTracking().Distinct().ToListAsync();
+        }
+        public async Task<List<AttendanceRecord>> GetAttandanceRecord(int journalID)
+        {
+            var query =
+                        from ЖурналДанные record in context.ЖурналДанные
+                        where record.КодЖурнала == journalID
+                        from ДекВсеДанныеСтудента student in context.ДекВсеДанныеСтудента
+                        where student.Код == record.КодСтудента
+                        from ЖурналЗначения value in context.ЖурналЗначения
+                        where value.Код == record.КодЗначения
+                        from ЖурналДаты date in context.ЖурналДаты
+                        where date.Код == record.КодЗначения
+                        select new AttendanceRecord()
+                        {
+                            Id = record.Код,
+                            StudentId = record.КодСтудента,
+        
+                            StudentName = student.ФИО,
+                            Date = date.Дата,
+                            SubjectId = record.КодЗначения,
+                            subjectValue = value.Значение
+                        };
+            return await query.AsNoTracking().ToListAsync();
         }
     }
 }

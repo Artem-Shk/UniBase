@@ -52,6 +52,11 @@ namespace UniBase.Models
         public virtual DbSet<ПреподавателиКафедры> ПреподавателиКафедры { get; set; }
         public virtual DbSet<Кафедры> Кафедры { get; set; }
         public virtual DbSet<Преподаватели> Преподаватели { get; set; }
+        public virtual DbSet<ЖурналДанные> ЖурналДанные { get; set; }
+        public virtual DbSet<ЖурналЗначения> ЖурналЗначения { get; set; }
+        public virtual DbSet<ЖурналДаты> ЖурналДаты { get; set; }
+
+
         //TODO: this shit thats not right 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -65,7 +70,7 @@ namespace UniBase.Models
             modelBuilder.Entity<ДекСпециальности>()
                   .HasKey(m => new { m.Код });
             modelBuilder.Entity<ДекСписокГруппФакультета>()
-                 .HasKey(m => new { m.Код });
+.HasKey(m => new { m.Код });
             modelBuilder.Entity<Факультеты>()
                .HasKey(m => new { m.Код });
             modelBuilder.Entity<ufuОценкиТекущаяУспеваемость>()
@@ -74,6 +79,10 @@ namespace UniBase.Models
             modelBuilder.Entity<ПреподавателиКафедры>().HasKey(m => new { m.КодКафедры });
             modelBuilder.Entity<Кафедры>().HasKey(m => new { m.Код });
             modelBuilder.Entity<Преподаватели>().HasKey(m => new { m.Код });
+            modelBuilder.Entity<ЖурналДанные>().HasKey(m => new { m.Код });
+            modelBuilder.Entity<ЖурналЗначения>().HasKey(m => new { m.Код });
+            modelBuilder.Entity<ЖурналДаты>().HasKey(m => new { m.Код });
+
         }
     }
 }
