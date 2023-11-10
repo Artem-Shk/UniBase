@@ -22,22 +22,31 @@ namespace UniBase.CORE
             DBManager data_base_manager = DBManager.GetInstance();
             List<Journal> FacilitiJournals = new List<Journal>();
             var prepods = await data_base_manager.GetPrepodsByFaculityIDAsynch(28);
+            //взять преподов
             foreach (var prepod in  prepods)
             {
+                //взять журналы препода
                 Task<List<prepJournalData>> journals =  data_base_manager.GetGetJournalByPrepodIDAndAcademicYear(prepod.Код, AcademicYear);
-                foreach(var journal in journals.Result) 
+                //взять записи журнала
+                foreach(prepJournalData journal in journals.Result) 
                 {
-                    
+                    var journal_return = new Journal()
+                    {
+                        GroupName = journal.GroupName,
+                        JournalName = journal.discipline,
 
-                } 
-                var journal_return = new Journal()
-                {
-                    GroupName = journal.Result.
-                };
-                foreach (var journalEntry in journal.Result) {
+
+
+                    };
+                    foreach (var journalEntry in journal.Result)
+                    {
+                        
+                    }
                     FacilitiJournals.Add
+
                 }
-                
+
+
             }
         }
         public void AttadanceProcent()

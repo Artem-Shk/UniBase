@@ -148,13 +148,11 @@ namespace UniBase.CORE.DataBaseManagers
                             кодФакультета = kafId.Код_Факультета
                             
                         };
-
             return await query.AsNoTracking().Distinct().ToListAsync();
         }
         public async Task<List<AttendanceRecord>> GetAttandanceRecord(int journalID)
         {
-            var query =
-                        from ЖурналДанные record in context.ЖурналДанные
+            var query = from ЖурналДанные record in context.ЖурналДанные
                         where record.КодЖурнала == journalID
                         from ДекВсеДанныеСтудента student in context.ДекВсеДанныеСтудента
                         where student.Код == record.КодСтудента
@@ -166,7 +164,6 @@ namespace UniBase.CORE.DataBaseManagers
                         {
                             Id = record.Код,
                             StudentId = record.КодСтудента,
-        
                             StudentName = student.ФИО,
                             Date = date.Дата,
                             SubjectId = record.КодЗначения,
@@ -174,5 +171,6 @@ namespace UniBase.CORE.DataBaseManagers
                         };
             return await query.AsNoTracking().ToListAsync();
         }
+
     }
 }
