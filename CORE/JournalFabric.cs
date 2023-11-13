@@ -20,11 +20,12 @@ namespace UniBase.CORE
         private async void collectData(int faculityID = 28, string AcademicYear = "2023-2024")
         {
             DBManager data_base_manager = DBManager.GetInstance();
-            List<Journal> FacilitiJournals = new List<Journal>();
+            List<Journal> TeacherJournals = new List<Journal>();
             var prepods = await data_base_manager.GetPrepodsByFaculityIDAsynch(28);
             //взять преподов
             foreach (var prepod in  prepods)
             {
+                
                 //взять журналы препода
                 Task<List<prepJournalData>> journals =  data_base_manager.GetGetJournalByPrepodIDAndAcademicYear(prepod.Код, AcademicYear);
                 //взять записи журнала
@@ -34,15 +35,10 @@ namespace UniBase.CORE
                     {
                         GroupName = journal.GroupName,
                         JournalName = journal.discipline,
-
-
-
+                        PrepodName = prepod.ФИО,
                     };
-                    foreach (var journalEntry in journal.Result)
-                    {
-                        
-                    }
-                    FacilitiJournals.Add
+                    
+                    TeacherJournals.Add(journal_return);
 
                 }
 
