@@ -24,6 +24,7 @@ const AppRoutes = [
     path: '/Experemets',
     element: <ExperementForm />
   }
+
   
 ];
 
