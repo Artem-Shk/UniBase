@@ -33,7 +33,10 @@ function AnaliticCard() {
     return(
         <div className = {styles.AnaliticCard}>
             <div className={styles.AndliticCard_header}>
-                <h5>23213</h5>
+                <a>Чипфд-01-20<a/>
+                <a>Иванов.И.И</a>
+                <a>Решение решалок</a>
+
                 
             </div>
             <div className={styles.AnaliticCard_body}>
