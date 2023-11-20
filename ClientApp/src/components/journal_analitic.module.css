@@ -1,21 +1,48 @@
 
-.container {
-    padding: 12px;
-    background: red;
-    width: 200px;
-    height:300px;
-}
 
 .AnaliticCard {
     background: #0079CD;
-    width: 20rem;
-    height: 20rem;
+    width: 30%;
+    height: 30%;
+    position: relative;
+    display: block;
+    margin: 2em;
 }
 .AndliticCard_header{
     background: #D9D9D9;
-
 }
 .AnaliticCard_body{
     background: #0079CD;
+}
+.AnaliticCard_Fields{
+    padding-top: 5px;
+    color: white;
+}
+.AnaliticCard_Fields_card{
+    position: relative;
+    width: 20%;
+}
+.AnaliticCard_holder{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
 
+}
+@media only screen and (min-width: 450px) {
+	.AnaliticCard {
+		width: 50%;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	.AnaliticCard {
+		width: 33.333%;
+	}
+}
+
+@media only screen and (min-width: 1000px) {
+	.AnaliticCard {
+		width: 25%;
+	}
 }

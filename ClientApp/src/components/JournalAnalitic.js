@@ -6,9 +6,9 @@
 
 export default function JournalAnalitic() {
     return (
-        <div>
+        <div >
             <Body/>
-            <AnaliticCard/>
+            
         </div>
     )
 
@@ -16,9 +16,20 @@ export default function JournalAnalitic() {
 
 function Body() {
     return (
-        <>
-           
-        </>
+        <div class = {styles.AnaliticCard_holder}>
+            <AnaliticCard/>
+            <AnaliticCard/>
+            <AnaliticCard/>
+            <AnaliticCard/> 
+            <AnaliticCard/>
+            <AnaliticCard/>
+            <AnaliticCard/>
+            <AnaliticCard/> 
+            <AnaliticCard/>
+            <AnaliticCard/>
+            <AnaliticCard/>
+            <AnaliticCard/> 
+        </div>
     )
 }
 function LeftMenu() {
@@ -28,21 +39,29 @@ function LeftMenu() {
         </div>
 
     )
-}
+} 
 function AnaliticCard() {
     return(
         <div className = {styles.AnaliticCard}>
             <div className={styles.AndliticCard_header}>
-                <a>Чипфд-01-20<a/>
+                <a></a>
+                <a>Чипфд-01-20</a>
                 <a>Иванов.И.И</a>
                 <a>Решение решалок</a>
+            </div>
 
+            <div className={styles.AnaliticCard_body}>
+                <div class = {styles.AnaliticCard_Fields_card}>
+                    <p class = {styles.AnaliticCard_Fields} >Студентов</p>
+                    <p class = {styles.AnaliticCard_Fields} >Часов</p>
+                    <p class = {styles.AnaliticCard_Fields} >Прошедших часов</p>
+                    <p class = {styles.AnaliticCard_Fields} >Кол-во пропусков</p>
+                </div>
+                   
+            </div>
+            <div>
                 
             </div>
-            <div className={styles.AnaliticCard_body}>
-                    <h5>2321322</h5>
-                    <h1></h1>
-                 </div>
         </div>
     )
    
