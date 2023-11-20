@@ -7,7 +7,7 @@ export class Home extends Component {
  
     render() {
     return (
-      <div>
+      <div style={{width:'100%',}}>
         <h1>Приложение по аналитики журналов</h1>
         <p>Это встречающая страница</p>
          <JournalAnalitic />

@@ -6,7 +6,7 @@
 
 export default function JournalAnalitic() {
     return (
-        <div >
+        <div className={styles.main_container}>
             <Body/>
             
         </div>
@@ -56,8 +56,7 @@ function AnaliticCard() {
                     <p class = {styles.AnaliticCard_Fields} >Часов</p>
                     <p class = {styles.AnaliticCard_Fields} >Прошедших часов</p>
                     <p class = {styles.AnaliticCard_Fields} >Кол-во пропусков</p>
-                </div>
-                   
+            </div> 
             </div>
             <div>
                 

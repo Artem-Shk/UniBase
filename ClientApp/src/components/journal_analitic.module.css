@@ -1,10 +1,12 @@
 
-
+.main_container{
+    width: 100%;
+}
 .AnaliticCard {
     background: #0079CD;
-    width: 30%;
-    height: 30%;
-    position: relative;
+    width: 60%;
+    height: 20rem;
+    position: static;
     display: block;
     margin: 2em;
 }
@@ -15,15 +17,17 @@
     background: #0079CD;
 }
 .AnaliticCard_Fields{
-    padding-top: 5px;
+
     color: white;
+    margin: 0px;
 }
 .AnaliticCard_Fields_card{
-    position: relative;
-    width: 20%;
+    margin: 0px;
+    float: left;
+    width: auto;
 }
 .AnaliticCard_holder{
-    width: 100%;
+    width:120%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -32,17 +36,20 @@
 @media only screen and (min-width: 450px) {
 	.AnaliticCard {
 		width: 50%;
+        
 	}
 }
 
 @media only screen and (min-width: 768px) {
 	.AnaliticCard {
 		width: 33.333%;
+ 
 	}
 }
 
 @media only screen and (min-width: 1000px) {
 	.AnaliticCard {
 		width: 25%;
+
 	}
 }
