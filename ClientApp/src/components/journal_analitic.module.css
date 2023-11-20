@@ -1,9 +1,10 @@
 
 .main_container{
-    width: 100%;
+    width: 100rem;
+    background: #0077CC;
 }
 .AnaliticCard {
-    background: #0079CD;
+    background: #1F2B33;
     width: 60%;
     height: 20rem;
     position: static;
@@ -11,10 +12,10 @@
     margin: 2em;
 }
 .AndliticCard_header{
-    background: #D9D9D9;
+    background: #294D66;
 }
 .AnaliticCard_body{
-    background: #0079CD;
+    background: #1F2B33;
 }
 .AnaliticCard_Fields{
 
