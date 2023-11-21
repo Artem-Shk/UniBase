@@ -1,26 +1,49 @@
+.AnaliticCard_Fields_row{
+    
+    display: flex;
 
+    flex-direction: row;
+
+    justify-content: flex-start;
+    position: relative;
+    height: 20%;
+
+}
 .main_container{
-    width: 100rem;
+    position:absolute;
+        margin: 0%;
+		width: 100%;
+		height: 100%;
     background: #0077CC;
 }
 .AnaliticCard {
+    position:relative;
     background: #1F2B33;
     width: 60%;
     height: 20rem;
-    position: static;
+
     display: block;
     margin: 2em;
+    border-radius: 20px 20px 20px 20px;
+    max-width: 400px;
+    max-height: 320px;
+   
 }
 .AndliticCard_header{
+
     background: #294D66;
+    border-radius: 20px 20px 0px 0px;
 }
 .AnaliticCard_body{
+
     background: #1F2B33;
+    
 }
 .AnaliticCard_Fields{
+    position: relative;
 
     color: white;
-    margin: 0px;
+    margin: 2px;
 }
 .AnaliticCard_Fields_card{
     margin: 0px;
