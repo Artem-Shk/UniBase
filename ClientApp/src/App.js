@@ -10,7 +10,7 @@ export default class App extends Component {
   static displayName = App.name;
   render() {
     //Shit ebuchiy
-    store.dispatch(fetchFaculiesNames())
+
     return (
       <Layout>
         <Routes>
