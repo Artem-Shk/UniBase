@@ -104,7 +104,6 @@ namespace UniBase.CORE.DataBaseManagers
             entity.КодПреподавателя == prepodID)
             .Select(ent => ent.Дисциплина)
             .Distinct();
-
             return await query.ToListAsync();
 
         }
@@ -170,6 +169,36 @@ namespace UniBase.CORE.DataBaseManagers
                             subjectValue = value.Значение
                         };
             return await query.AsNoTracking().ToListAsync();
+        }
+        public async Task<List<prepJournalData>> GetJournalsByFaculity(int FaculityID,string AcademicYear = "2023-2024")
+        {
+            var query = context.prepJournalData.FromSqlRaw(
+              $"SELECT distinct  PrepJournal.[Код] as [key]\r\n\t" +
+              $"  ,PrepJournal.[Дисциплина] as [discipline]\r\n\t" +
+              $"  ,p.ФИО as teacherName\r\n" +
+              $"      ,Groups.Название as GroupName\r\n\t" +
+              $"   , Groups.Код_Факультета\r\n" +
+              $"      ,PrepJournal.[ВидЗанятий] as lectionType\r\n" +
+              $"      ,PrepJournal.[Семестр] as semester\r\n" +
+              $"      ,PrepJournal.[УчебныйГод] as academicYear\r\n\t" +
+              $"  ,Nagr.Студентов as studentCount \r\n\t" +
+              $"  ,CAST(Nagr.Часов as int) as [lectionHours]\r\n\t\t" +
+              $",p.Код as teacherCode\r\n\t\t" +
+              $",kafs.Код\r\n\r\n" +
+              $"FROM [Деканат].[dbo].[ЖурналПреподавателя] PrepJournal\r\n" +
+              $"INNER JOIN [Деканат].[dbo].[Преподаватели] p ON PrepJournal.[КодПреподавателя] = p.[Код]\r\n" +
+              $"INNER JOIN [Деканат].[dbo].[ПреподавателиКафедры] KafValue ON p.[Код] = KafValue.КодПреподавателя \r\n" +
+              $"INNER JOIN [Деканат].[dbo].[Все_Группы] Groups ON  Groups.Код = PrepJournal.[КодГруппы] and  Groups.Код_Факультета = '{FaculityID}'\r\n\r\n" +
+              $"INNER JOIN [Деканат].[dbo].Нагрузка Nagr ON PrepJournal.Дисциплина = Nagr.Дисциплина and \r\n" +
+              $"Nagr.КодГруппы = PrepJournal.КодГруппы \r\n" +
+              $"and Nagr.ВидЗанятий = PrepJournal.ВидЗанятий \r\n" +
+              $"and (Nagr.Семестр /  Groups.Курс) =  PrepJournal.[Семестр]\r\n" +
+              $"INNER JOIN [Деканат].[dbo].[Кафедры] Kafs on kafs.Код_Факультета = '{FaculityID}' and KafValue.КодКафедры = kafs.Код and Nagr.КодКафедры = kafs.Код\r\n" +
+              $"WHERE ( PrepJournal.[УчебныйГод] = '{AcademicYear}'  )\r\n" +
+              $"ORDER By teacherCode" 
+            );
+            var res = query.GetType();
+            return await query.ToListAsync();
         }
 
     }

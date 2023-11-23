@@ -45,6 +45,11 @@ namespace UniBase.CORE
 
             }
         }
+        private void collectData(int faculityID)
+        {
+
+            DBManager data_base_manager = DBManager.GetInstance();
+        }
         public void AttadanceProcent()
         {
            

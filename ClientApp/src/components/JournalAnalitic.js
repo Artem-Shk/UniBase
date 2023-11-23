@@ -17,7 +17,6 @@ export default function JournalAnalitic() {
 function Body() {
     return (
         <div class = {styles.AnaliticCard_holder}>
-
             <AnaliticCard/>
             <AnaliticCard/>
             <AnaliticCard/>
@@ -38,7 +37,6 @@ function LeftMenu() {
         <div>
             
         </div>
-
     )
 } 
 function AnaliticCard() {
@@ -59,9 +57,7 @@ function AnaliticCard() {
                         <p class = {styles.AnaliticCard_Fields}>Кол-во пропусков:20</p>
                     </div>
                     <p class = {styles.AnaliticCard_Fields}>Прошедших часов/Количество часов в семестре:20/120</p>
-                    
                     <div>
-                        
                         <p class = {styles.AnaliticCard_Fields}>процента посещаемости и заполнения:20 из 100</p>
                         <p class = {styles.AnaliticCard_Fields}>количество выставленных оценок:5 </p></div>
                     </div>
