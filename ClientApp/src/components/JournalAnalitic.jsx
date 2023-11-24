@@ -15,7 +15,7 @@ function Body() {
     return (
         <div  className = {styles.main_container}>
             <ListOfJournals/>
-        </div> 
+        </div>
     )
 }
 function LeftMenu() {
@@ -29,21 +29,43 @@ function LeftMenu() {
 function ListOfJournals() {
     return (
         <div className={styles.ListOfJournals} >
-        <PartOfList/>
+
+        <FindLine></FindLine>
+        <div style={{display:"flex", width:'100%', flexDirection:'column'}}>
+            <PartOfList/>
+            <super_analitic_card/>
+        </div>    
+       
         <PartOfList/>
         <PartOfList/>
     </div>
     )
     
 }
-function PartOfList(){
+
+function FindLine(){
     return (
+        <div className={styles.FindLine}>
+            <div className={styles.search_container} >
+                <p className={styles.search_container_text}>
+                    Преподователь, группа или дисциплина
+                </p>
+            </div>
+        </div>
+    )
+
+}
+
+function PartOfList({prepodName,GroupName,usercount,disciplineName,attendance,stat}){
+    
+    return (
+
         <div className = {styles.part_ofList}>
             <p className= {styles.font} >Чайкина М. Л.</p>
             <p className= {styles.font} >ЧИПфд-01-20</p>
             <div style={{display: 'flex', margin:0, alignItems:'center'}} >
                 <p className={styles.font}>28</p>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
                     <mask style = {{id:"mask0_378_8656", style:"mask-type:alpha", maskUnits:"userSpaceOnUse"}} >
                         <rect style={{y:"0.5",  fill:"#D9D9D9"}}/>
                     </mask>
@@ -53,44 +75,62 @@ function PartOfList(){
                 </svg>
             </div>
             <p className= {styles.font} >Интернет Вещей</p>
-            <div style={{display: 'flex', margin:0}} >
-            <DoughnutChart></DoughnutChart>
-         </div>
-           
-    </div>
+                <div style={{display: 'flex', margin:0}} >
+                <div style={{width: '45px', height: '45px'}}>
+                    <DoughnutChart style = {{display: 'flex', margin:0}} value ={100} ></DoughnutChart>
+                </div >            
+            </div>
+            
+        </div>
+       
     )
     
-}
-   
+} 
 
-function DoughnutChart(){
+function DoughnutChart({value}){
+    
+    const containerStyle = {
+        width: '50px',
+        height: '50px',
+      };
     const data = {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+       
         datasets: [
           {
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            data: [value,100 - value ],
             backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
+              'black',
+              'white',
+              
             ],
             borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
+              'white'
+              
+             
             ],
             borderWidth: 1,
           },
         ],
       };
+      const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        width: 45,
+        height: 55,
+      
+      };
   
-  
-    return <Doughnut data={data}/>;
+    return ( <Doughnut data={data} options={options}/>)
   };
+function super_analitic_card({}){
+    return (
+        <div className={styles.super_analictic_data}>
+            <div className={styles.super_analictic_calendar}>
+                <div>
+                    class
+                </div>
+            </div>
+        </div>
+    )
+}
