@@ -15,7 +15,7 @@ function Body() {
     return (
         <div  className = {styles.main_container}>
             <ListOfJournals/>
-        </div>
+        </div> 
     )
 }
 function LeftMenu() {
