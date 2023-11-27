@@ -44,10 +44,6 @@ namespace UniBase.Controllers
             result = result.OrderBy(элемент => элемент.Название.Substring(элемент.Название.Length - 2)).ToList();
             return result;
         }
-
-
-
-
         [HttpGet("GetHTMLByName/{name=Иван}")]
         public async Task<object> GetHTMLByName(string name)
         {
@@ -95,7 +91,6 @@ namespace UniBase.Controllers
         public async Task<object> GetMenuParameters()
         {
             List<MenuItemModel> result =  new List<MenuItemModel>();
-
             List<string> resultFaculity = await DBManager.AllFacultiesAsynch();
             foreach(string faculity in resultFaculity)
             {
@@ -104,9 +99,7 @@ namespace UniBase.Controllers
                 List<MenuItemModel> groups = resultGroup.Select(s => new MenuItemModel(s.Название, null)).ToList();
                 result.Add(new MenuItemModel(faculity, groups));
             }
-           
             return JsonSerialize(result);
-
         }
         [HttpGet("GetStudentsByGroup/{group_name}")]
         public async Task<object> GetStudentsByGroup(int groupId)
