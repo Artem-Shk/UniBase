@@ -7,8 +7,8 @@ using UniBase.Models;
 
 namespace UniBase.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class StudentDataController : ControllerBase
     {
         private DBManager DBManager = DBManager.GetInstance();
@@ -24,9 +24,7 @@ namespace UniBase.Controllers
         }
         private List<ДекСписокГруппФакультета> SortGroupByYear(List<ДекСписокГруппФакультета> result)
         {
-#pragma warning disable CS8602 // Разыменование вероятной пустой ссылки.
             result = result.OrderBy(элемент => элемент.Название.Substring(элемент.Название.Length - 2)).ToList();
-#pragma warning restore CS8602 // Разыменование вероятной пустой ссылки.
             return result;
         }
         [HttpGet("GetHTMLByName/{name=Иван}")]

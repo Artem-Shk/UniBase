@@ -3,7 +3,7 @@
 namespace UniBase.Controllers
 {
     [ApiController]
-    [Route("api/WeatherForecast")]
+    [Route("api/weatherforecast")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
