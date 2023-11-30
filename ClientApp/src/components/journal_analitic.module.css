@@ -56,12 +56,14 @@
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-
 }
 .ListOfJournals{
+    min-width: 700px; 
+    min-height: auto;
     background: white;
     display: flex;
     padding: 16px 32px;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     gap: 0;
@@ -92,23 +94,24 @@
     line-height: normal;
 }
 .search_container_text{
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid #000;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 2px;
     color: #828282;
-
     font-family: Inter;
     font-size: 20px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    display: flex;
+    align-items: center;
+    gap: 8px
 }
 .search_container{
     display: flex;
     align-items: left;
     gap: 8px;
-    
 }
 .FindLine{
     display: flex;
@@ -127,6 +130,8 @@
     align-items: center;
 }
 .super_analictic{
+    min-width: 700px; 
+    min-height: auto;
     display: flex;
     padding: 0px 0px 32px 0px;
     flex-direction: column;
@@ -135,6 +140,7 @@
     border-radius: 12px;
     background: #FFF;
     box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.50);
+    align-self: stretch;
 
 }
 .super_analictic_calendar_Button{
@@ -143,8 +149,6 @@
     align-items: center;
     border-radius: 50px;
     background: #FFF;
-    
-    
 /* Shadpw */
 box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
 }
@@ -153,14 +157,12 @@ box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
     padding: 8px 10px;
     justify-content: center;
     align-items: center;
-
     opacity: 0.8;
     margin: 0;
-
-
-    
+    font-size: 24px;
 }
 .super_analictic_calendar_Button_text_choose{
+    font-size: 24px;
     display: flex;
     padding: 8px 10px;
     justify-content: center;
@@ -184,14 +186,14 @@ box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
 .super_analictic_data{
     display: flex;
     padding: 0px 32px;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     align-self: stretch;
     gap: 24px;
 }
 .super_analictic_Card{
     display: flex;
-    width: 253px;
+    width: 30%;
     justify-content: center;
     align-items: center;
     gap: 16px;
@@ -199,8 +201,9 @@ box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
     flex-wrap: wrap;
 }
 .super_analictic_dataCard{
-    height: 100px;
-    width: 118.5px;
+
+    min-height: 100px;
+    min-width: 118.5px;
     margin: 0;
     display: flex;
     padding: 8px;
@@ -214,9 +217,16 @@ box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
     background: #FFF;
     box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
 }
+.super_analictic_dataCard_graph_container{
+    display: flex;
+    padding: 0px 32px;
+ 
+    align-items: center;
+    align-self: stretch;
+}
 .super_analictic_dataCard_graph{
-    width: 150px;
-    height: 204px;
+    min-width: 150px;
+    min-height: 204px ;
     display: flex;
     padding: 8px 16px;
     flex-direction: column;
@@ -225,7 +235,10 @@ box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
     border-radius: 12px;
     background: #FFF;
     box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
+    align-self: stretch;
+    margin: 0 0 0  10px;
 }
+
 .super_analictic_dataCard_text{
     color: #000;
     margin: 0;
@@ -257,13 +270,11 @@ box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
 @media only screen and (min-width: 768px) {
 	.AnaliticCard {
 		width: 33.333%;
- 
 	}
 }
 
 @media only screen and (min-width: 1000px) {
 	.AnaliticCard {
 		width: 25%;
-
 	}
 }
