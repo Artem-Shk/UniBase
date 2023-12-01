@@ -105,7 +105,6 @@ namespace UniBase.Controllers
         public async Task<object> GetStudentsByGroup(int groupId)
         {
             List<ДекВсеДанныеСтудента> result = await DBManager.GetStudentsByGroupCode(groupId);
-            
             return JsonSerialize(result);
         }
     } 

@@ -60,10 +60,18 @@ function FindLine() {
     )
 }
 function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat }) {
-    const [visible, setVisible] = useState('visible');
+    const [AnaliticCardVisible, setVisible] = useState(true);
+
     return (
         <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
-            <div className={styles.part_ofList}>
+            <GoodRowWithData onClick={AnaliticCardVisible => setVisible(!AnaliticCardVisible)} />
+            <SuperAnaliticCard/>
+        </div>
+    )
+}
+function GoodRowWithData(){
+    return (
+        <div className={styles.part_ofList}>
                 <p className={styles.font} >Чайкина М. Л.</p>
                 <p className={styles.font} >ЧИПфд-01-20</p>
                 <div style={{ display: 'flex', margin: 0, alignItems: 'center' }} >
@@ -84,10 +92,6 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
                     </div >
                 </div>
             </div>
-            <SuperAnaliticCard />
-        </div>
-
-
     )
 }
 function DoughnutChart({ value }) {
@@ -149,7 +153,6 @@ function SuperAnaliticCard() {
                     </div>
                 </div>
                 <div>
-
                 </div>
                 <div className={styles.super_analictic_dataCard_graph_container}>
                     <div className={styles.super_analictic_dataCard_graph} >

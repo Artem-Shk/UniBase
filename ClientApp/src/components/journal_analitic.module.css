@@ -1,9 +1,7 @@
 .AnaliticCard_Fields_row{
-    
+
     display: flex;
-
     flex-direction: row;
-
     justify-content: flex-start;
     position: relative;
     height: 20%;
