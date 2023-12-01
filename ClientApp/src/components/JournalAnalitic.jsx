@@ -25,30 +25,22 @@ function LeftMenu() {
     )
 }
 function ListOfJournals() {
-   
         return (
             <div className={styles.ListOfJournals} >
                 <FindLine></FindLine>
                 <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
                     <PartOfList />
                 </div>
-
-                <PartOfList />
-
                 <PartOfList />
                 <PartOfList />
                 <PartOfList />
-
+                <PartOfList />
                 <PartOfList />
                 <PartOfList />
                 <PartOfList />
                 <PartOfList />
             </div>
         )
-    
-   
-
-
 }
 function FindLine() {
     return (
@@ -66,7 +58,6 @@ function FindLine() {
             </div>
         </div>
     )
-
 }
 function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat }) {
     const [visible, setVisible] = useState('visible');

@@ -93,11 +93,10 @@
     font-weight: 500;
     line-height: normal;
 }
-.search_container_text{
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
-    border-bottom: 2px;
+.search_container_text {
+    border: none;
+    border-bottom: 2px solid #828282;
+
     color: #828282;
     font-family: Inter;
     font-size: 20px;
@@ -107,6 +106,9 @@
     display: flex;
     align-items: center;
     gap: 8px
+}
+.search_container_text input:focus{
+   outline: none;
 }
 .search_container{
     display: flex;
