@@ -2,7 +2,7 @@
 {
     public class RequestResults
     {
-        private Requester _requester = new Requester();
+        private readonly Requester _requester = new Requester();
 
         public static string authToken;
 

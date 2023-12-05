@@ -1,6 +1,4 @@
-﻿using UniBase.Models;
-
-namespace UniBase.Models
+﻿namespace UniBase.Models
 {
     public class ДекСпециальности : IBaseWebModel<ДекСпециальности>, IBaseModel
     {

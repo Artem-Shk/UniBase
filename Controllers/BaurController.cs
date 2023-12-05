@@ -1,33 +1,28 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using UniBase.CORE;
-using UniBase.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace UniBase.Controllers
 {
-    public class JournalAnaliticController : Controller
+    public class BaurController : Controller
     {
-        private JournalFabric journal = new JournalFabric();
-        
-        // GET: JournalAnaliticController
+        // GET: BaurController
         public ActionResult Index()
         {
-            return View();
+            return View("sd");
         }
 
-        // GET: JournalAnaliticController/Details/5
+        // GET: BaurController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: JournalAnaliticController/Create
+        // GET: BaurController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: JournalAnaliticController/Create
+        // POST: BaurController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -42,13 +37,13 @@ namespace UniBase.Controllers
             }
         }
 
-        // GET: JournalAnaliticController/Edit/5
+        // GET: BaurController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: JournalAnaliticController/Edit/5
+        // POST: BaurController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -62,12 +57,14 @@ namespace UniBase.Controllers
                 return View();
             }
         }
-        // GET: JournalAnaliticController/Delete/5
+
+        // GET: BaurController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
-        // POST: JournalAnaliticController/Delete/5
+
+        // POST: BaurController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
@@ -81,6 +78,5 @@ namespace UniBase.Controllers
                 return View();
             }
         }
-        //
     }
 }

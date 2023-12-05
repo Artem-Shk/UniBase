@@ -1,22 +1,18 @@
-﻿using Azure;
-using System.Net.Http;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.RegularExpressions;
-using System;
-using System.Web;
 
 namespace UniBase.CORE.requests
 {
     public class Requester
     {
-        HttpClient client = new HttpClient();
-        
-        public async Task<string>  MMISAuthKey()
+        readonly HttpClient client = new HttpClient();
+
+        public async Task<string> MMISAuthKey()
         {
             string url = "https://mmis-web.rudn-sochi.ru/api/tokenauth";
-            var data = new {userName = "shakrislanov.a",password="Dstayte8",isParent=false,fingerprint="d6005043edad6d17dc0ae27b80fbd2a5"};
+            var data = new { userName = "shakrislanov.a", password = "Dstayte8", isParent = false, fingerprint = "d6005043edad6d17dc0ae27b80fbd2a5" };
             var content = OBJToContentConverter(data);
             HttpResponseMessage response = await client.PostAsync(url, content);
             string resp = await response.Content.ReadAsStringAsync();
@@ -31,10 +27,10 @@ namespace UniBase.CORE.requests
             else
             {
                 return "";
-            } 
+            }
         }
         //Делать обработку данных на сервере?
-        public async Task<string>  MMIS_Attendance_percentage(string Year,string sem,string Form)
+        public async Task<string> MMIS_Attendance_percentage(string Year, string sem, string Form)
         {
             string url = "https://mmis-web.rudn-sochi.ru/api/Journals/Stat/Attendance?year=" + Year + "&sem=" + sem + "&formID=Form";
             var authToken = await MMISAuthKey();
@@ -44,10 +40,6 @@ namespace UniBase.CORE.requests
             HttpResponseMessage response = await client.GetAsync(url);
             string resp = await response.Content.ReadAsStringAsync();
             return resp;
-
-
-
-
         }
         private StringContent OBJToContentConverter(object data)
         {

@@ -1,11 +1,4 @@
-﻿using DecanatLiteWeb.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using UniBase.Models;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace UniBase.Models
 {
@@ -14,7 +7,7 @@ namespace UniBase.Models
 
         public DekanatModel()
         {
-            
+
         }
 
         public DekanatModel(DbContextOptions<DekanatModel> options) : base(options)
@@ -36,7 +29,9 @@ namespace UniBase.Models
                 List<string> propertyNames = entityType.GetProperties().Select(p => p.Name).ToList();
                 return propertyNames;
             }
+#pragma warning disable CS8603 // Возможно, возврат ссылки, допускающей значение NULL.
             return null;
+#pragma warning restore CS8603 // Возможно, возврат ссылки, допускающей значение NULL.
         }
         // Это кажеться мне не правильным
         public List<string> ReturnДекВсеДанныеСтудентаFields()
@@ -45,10 +40,10 @@ namespace UniBase.Models
         }
         public virtual DbSet<ДекВсеДанныеСтудента> ДекВсеДанныеСтудента { get; set; }
         public virtual DbSet<ДекСпециальности> ДекСпециальности { get; set; }
-        public virtual DbSet<ДекСписокГруппФакультета> ДекСписокГруппФакультета {get; set; }
+        public virtual DbSet<ДекСписокГруппФакультета> ДекСписокГруппФакультета { get; set; }
         public virtual DbSet<Факультеты> Факультеты { get; set; }
         public virtual DbSet<ufuОценкиТекущаяУспеваемость> ufuОценкиТекущаяУспеваемость { get; set; }
-        public virtual DbSet<prepJournalData> prepJournalData {get; set;}
+        public virtual DbSet<prepJournalData> prepJournalData { get; set; }
         public virtual DbSet<ПреподавателиКафедры> ПреподавателиКафедры { get; set; }
         public virtual DbSet<Кафедры> Кафедры { get; set; }
         public virtual DbSet<Преподаватели> Преподаватели { get; set; }

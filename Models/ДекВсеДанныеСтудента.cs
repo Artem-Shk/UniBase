@@ -1,11 +1,6 @@
 namespace UniBase.Models
 {
-    using DecanatLiteWeb.Models;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     public partial class ДекВсеДанныеСтудента : IBaseWebModel<ДекВсеДанныеСтудента>, IBaseModel
     {

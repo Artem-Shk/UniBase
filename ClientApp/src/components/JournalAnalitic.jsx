@@ -10,6 +10,7 @@ export default function JournalAnalitic() {
         <ListOfJournals />
     )
 }
+
 function Body() {
     return (
         <div className={styles.main_container}>
@@ -61,17 +62,25 @@ function FindLine() {
 }
 function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat }) {
     const [AnaliticCardVisible, setVisible] = useState(true);
+  
 
+    const handleHideCard = () => {
+      setVisible(!AnaliticCardVisible);
+    };
+  
     return (
-        <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
-            <GoodRowWithData onClick={AnaliticCardVisible => setVisible(!AnaliticCardVisible)} />
-            <SuperAnaliticCard/>
-        </div>
-    )
-}
-function GoodRowWithData(){
+      <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
+        <GoodRowWithData onClick={handleHideCard} />
+        {!AnaliticCardVisible && <SuperAnaliticCard></SuperAnaliticCard>}
+      </div>
+    );
+  }
+function GoodRowWithData({onClick}){
+    const handleClick = () => {
+        onClick();
+      };
     return (
-        <div className={styles.part_ofList}>
+        <div onClick={handleClick} className={styles.part_ofList} >
                 <p className={styles.font} >Чайкина М. Л.</p>
                 <p className={styles.font} >ЧИПфд-01-20</p>
                 <div style={{ display: 'flex', margin: 0, alignItems: 'center' }} >
@@ -124,6 +133,7 @@ function DoughnutChart({ value }) {
     return (<Doughnut data={data} options={options} />)
 };
 function SuperAnaliticCard() {
+ 
     return (
         <div className={styles.super_analictic}>
             <div className={styles.super_analictic_calendar}>

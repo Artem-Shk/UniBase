@@ -23,7 +23,12 @@ const AppRoutes = [
   {
     path: '/Experemets',
     element: <ExperementForm />
+  },
+  {
+    path: '/Fetch',
+    element: <FetchData />
   }
+
 
   
 ];

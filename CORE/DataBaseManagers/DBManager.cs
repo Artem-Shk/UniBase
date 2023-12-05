@@ -1,8 +1,5 @@
-﻿using UniBase.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Data.Common;
-using Microsoft.Data.SqlClient;
-using System.Net.Mail;
+﻿using Microsoft.EntityFrameworkCore;
+using UniBase.Models;
 
 namespace UniBase.CORE.DataBaseManagers
 {
@@ -33,11 +30,11 @@ namespace UniBase.CORE.DataBaseManagers
             context = new DekanatModel();
         }
 
-       
-        
+
+
         public static DBManager GetInstance()
         {
-            if(_instance is null)
+            if (_instance is null)
             {
                 _instance = new DBManager();
             }
@@ -47,14 +44,14 @@ namespace UniBase.CORE.DataBaseManagers
         {
             return await context.ДекСписокГруппФакультета
                 .AsNoTracking()
-                .Where(entity=>
+                .Where(entity =>
                 entity.Сокращение.ToLower() == GroupName.ToLower()).ToListAsync();
 
         }
 
         public async Task<List<ДекВсеДанныеСтудента>> FindStudentByNameAsynch(string name)
         {
-            return await context.ДекВсеДанныеСтудента 
+            return await context.ДекВсеДанныеСтудента
             .AsNoTracking()
             .Where(entity =>
             entity.Фамилия.ToLower() == name.ToLower()
@@ -94,7 +91,7 @@ namespace UniBase.CORE.DataBaseManagers
             .AsNoTracking()
             .Where(entity =>
             entity.КодПреподавателя == prepodID).OrderBy(entity => entity.КодЖурнала);
-            
+
             return await query.ToListAsync();
         }
         public async Task<List<string>> GetDisciplinesByPrepodID(int prepodID)
@@ -137,15 +134,18 @@ namespace UniBase.CORE.DataBaseManagers
         }
         public async Task<List<Преподаватели>> GetPrepodsByFaculityIDAsynch(int FaculityID)
         {
-            var query = from kafId in context.Кафедры  where kafId.Код_Факультета == FaculityID
-                        from PrepID in context.ПреподавателиКафедры where PrepID.КодКафедры == kafId.Код
-                        from name in context.Преподаватели where name.Код == PrepID.КодПреподавателя
+            var query = from kafId in context.Кафедры
+                        where kafId.Код_Факультета == FaculityID
+                        from PrepID in context.ПреподавателиКафедры
+                        where PrepID.КодКафедры == kafId.Код
+                        from name in context.Преподаватели
+                        where name.Код == PrepID.КодПреподавателя
                         select new Преподаватели()
                         {
                             кодКафедры = kafId.Код,
                             ФИО = name.ФИО,
                             кодФакультета = kafId.Код_Факультета
-                            
+
                         };
             return await query.AsNoTracking().Distinct().ToListAsync();
         }
@@ -170,7 +170,7 @@ namespace UniBase.CORE.DataBaseManagers
                         };
             return await query.AsNoTracking().ToListAsync();
         }
-        public async Task<List<prepJournalData>> GetJournalsByFaculity(int FaculityID,string AcademicYear = "2023-2024")
+        public async Task<List<prepJournalData>> GetJournalsByFaculity(int FaculityID, string AcademicYear = "2023-2024")
         {
             var query = context.prepJournalData.FromSqlRaw(
               $"SELECT distinct  PrepJournal.[Код] as [key]\r\n\t" +
@@ -195,7 +195,7 @@ namespace UniBase.CORE.DataBaseManagers
               $"and (Nagr.Семестр /  Groups.Курс) =  PrepJournal.[Семестр]\r\n" +
               $"INNER JOIN [Деканат].[dbo].[Кафедры] Kafs on kafs.Код_Факультета = '{FaculityID}' and KafValue.КодКафедры = kafs.Код and Nagr.КодКафедры = kafs.Код\r\n" +
               $"WHERE ( PrepJournal.[УчебныйГод] = '{AcademicYear}'  )\r\n" +
-              $"ORDER By teacherCode" 
+              $"ORDER By teacherCode"
             );
             var res = query.GetType();
             return await query.ToListAsync();
