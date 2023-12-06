@@ -8,7 +8,7 @@ using UniBase.Models;
 namespace UniBase.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class StudentDataController : ControllerBase
     {
         private DBManager DBManager = DBManager.GetInstance();

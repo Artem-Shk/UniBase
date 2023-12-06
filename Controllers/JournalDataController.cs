@@ -5,20 +5,20 @@ using UniBase.Models;
 
 namespace UniBase.Controllers
 {
-    [Route("/api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class JournalDataController : ControllerBase
+    public class SJournalDataController : ControllerBase
     {
         private DBManager DBManager = DBManager.GetInstance();
         private JsonSerializerHelper JsonHelper = new JsonSerializerHelper();
-        public JournalDataController()
+        public SJournalDataController()
         {
         }
         // GET: journaldata
-        [HttpGet]
+        [HttpGet("get")]
         public string Get()
         {
-            return "hzy";
+            return "Ok";
         }
         [HttpGet("GetJornals/{faculityId=8}")]
         public async Task<IActionResult> GetJornals(int faculityId)
