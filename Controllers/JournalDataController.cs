@@ -5,13 +5,14 @@ using UniBase.Models;
 
 namespace UniBase.Controllers
 {
-    [Route("[controller]")]
+
     [ApiController]
-    public class SJournalDataController : ControllerBase
+    [Route("api/[controller]")]
+    public class JournalDataController : ControllerBase
     {
         private DBManager DBManager = DBManager.GetInstance();
         private JsonSerializerHelper JsonHelper = new JsonSerializerHelper();
-        public SJournalDataController()
+        public JournalDataController()
         {
         }
         // GET: journaldata

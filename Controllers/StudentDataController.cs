@@ -8,14 +8,12 @@ using UniBase.Models;
 namespace UniBase.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class StudentDataController : ControllerBase
     {
         private DBManager DBManager = DBManager.GetInstance();
         private JsonSerializerHelper JsonHelper = new JsonSerializerHelper();
-        public StudentDataController()
-        {
-        }
+
         // GET: studentdata
         [HttpGet]
         public string Get()
