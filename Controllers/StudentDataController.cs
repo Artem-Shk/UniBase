@@ -11,8 +11,8 @@ namespace UniBase.Controllers
     [Route("api/[controller]")]
     public class StudentDataController : ControllerBase
     {
-        private DBManager DBManager = DBManager.GetInstance();
-        private JsonSerializerHelper JsonHelper = new JsonSerializerHelper();
+        private readonly DBManager DBManager = DBManager.GetInstance();
+        private readonly JsonSerializerHelper JsonHelper = new();
 
         // GET: studentdata
         [HttpGet]
@@ -84,7 +84,7 @@ namespace UniBase.Controllers
         [HttpGet("GetAllFacult")]
         public async Task<object> GetAllFacultJson()
         {
-            List<string?> result = await DBManager.AllFacultiesAsynch();
+            List<string> result = await DBManager.AllFacultiesAsynch();
             string? JsonedResult = JsonHelper.JsonSerialize(result);
             if (JsonedResult != null)
             {
@@ -100,7 +100,7 @@ namespace UniBase.Controllers
         public async Task<object> GetMenuParameters()
         {
             List<MenuItemModel> result = new List<MenuItemModel>();
-            List<string?> list = await DBManager.AllFacultiesAsynch();
+            List<string>? list = await DBManager.AllFacultiesAsynch();
 
             if (list == null)
             {

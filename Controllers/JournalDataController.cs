@@ -10,8 +10,8 @@ namespace UniBase.Controllers
     [Route("api/[controller]")]
     public class JournalDataController : ControllerBase
     {
-        private DBManager DBManager = DBManager.GetInstance();
-        private JsonSerializerHelper JsonHelper = new JsonSerializerHelper();
+        private readonly DBManager DBManager = DBManager.GetInstance();
+        private readonly JsonSerializerHelper JsonHelper = new();
         public JournalDataController()
         {
         }

@@ -16,9 +16,7 @@ namespace UniBase.Models
             List<object> result = new List<object>();
             foreach (PropertyInfo field in GetPropertiesInfo())
             {
-#pragma warning disable CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL.
                 result.Add(field.GetValue(this));
-#pragma warning restore CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL.
             }
             return result;
         }

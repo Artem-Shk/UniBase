@@ -4,7 +4,7 @@
     {
         private readonly Requester _requester = new Requester();
 
-        public static string authToken;
+        public static string? authToken;
 
         public RequestResults()
         {

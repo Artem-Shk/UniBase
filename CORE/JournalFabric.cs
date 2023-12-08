@@ -31,14 +31,12 @@ namespace UniBase.CORE
                 //взять записи журнала
                 foreach (prepJournalData journal in journals.Result)
                 {
-#pragma warning disable CS8601 // Возможно, назначение-ссылка, допускающее значение NULL.
                     var journal_return = new Journal()
                     {
                         GroupName = journal.GroupName,
                         JournalName = journal.discipline,
                         PrepodName = prepod.ФИО,
                     };
-#pragma warning restore CS8601 // Возможно, назначение-ссылка, допускающее значение NULL.
 
                     TeacherJournals.Add(journal_return);
 
