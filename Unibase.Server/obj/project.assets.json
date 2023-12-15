@@ -3113,11 +3113,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Artem-Shk\\Unibase1\\Unibase1.Server\\Unibase.Server.csproj",
+      "projectUniqueName": "D:\\Artem-Shk\\UniBase\\unibase.Server\\Unibase.Server.csproj",
       "projectName": "Unibase.Server",
-      "projectPath": "D:\\Artem-Shk\\Unibase1\\Unibase1.Server\\Unibase.Server.csproj",
+      "projectPath": "D:\\Artem-Shk\\UniBase\\unibase.Server\\Unibase.Server.csproj",
       "packagesPath": "D:\\Users\\shakrislanov.a\\.nuget\\packages\\",
-      "outputPath": "D:\\Artem-Shk\\Unibase1\\Unibase1.Server\\obj\\",
+      "outputPath": "D:\\Artem-Shk\\UniBase\\unibase.Server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "D:\\Users\\shakrislanov.a\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -46,9 +46,11 @@ namespace UniBase.CORE
 
             }
         }
-        private void createDataForFaculity()
+        private async Task createDataForFaculityAsync()
         {
-            
+            List<Journal> TeacherJournals = new List<Journal>();
+            var prepods = await data_base_manager.GetPrepodsByFaculityIDAsynch(28); 
+
         }
         private void collectData(int faculityID)
         {
@@ -60,6 +62,8 @@ namespace UniBase.CORE
         }
         private class FaculityPackage : JournalData 
         {
+            public string? Attandance { get; set; }
+            public string? page { get; set; }
             FaculityPackage()
             {
 

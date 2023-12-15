@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using UniBase.CORE;
 using UniBase.CORE.DataBaseManagers;
 using UniBase.Models;
@@ -24,15 +25,18 @@ namespace UniBase.Controllers
         [HttpGet("GetJornals/{faculityId=8}")]
         public async Task<IActionResult> GetJornals(int faculityId)
         {
-            List<JournalData> result = await DBManager.GetJournalsByFaculity(faculityId);
-            string? JsonedResult = JsonHelper.JsonSerialize(result);
-            if (JsonedResult == null)
+            const int list = 200;
+            int lastID = 0;
+            List<JournalData> result = await DBManager.GetJournalsByFaculity(faculityId, lastID);
+            
+            if (result == null)
             {
                 return NotFound();
             }
             else
             {
-                return Ok(JsonedResult);
+                return Ok(JsonHelper.JsonSerialize(result));
+                lastID = result.Last().key;
             }
 
         }

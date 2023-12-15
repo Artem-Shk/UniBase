@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LhWIL43SCJz+uzUGujle7YiJT0rDz8Rd6dhEdVRGoWz08cthut2Leg7klrZMfL++GTDa4+nNDBDWECi/LPqtPQ==",
+  "dgSpecHash": "1RoHsqn93vdBEQGU3vAMGwhIP5PvWmY3pTW/jSWFxC4vb15A6O9CZmdO1JTxZkAQPLRKz7nR1RPvXfDY2egsYQ==",
   "success": true,
-  "projectFilePath": "D:\\Artem-Shk\\Unibase1\\Unibase1.Server\\Unibase.Server.csproj",
+  "projectFilePath": "D:\\Artem-Shk\\UniBase\\unibase.Server\\Unibase.Server.csproj",
   "expectedPackageFiles": [
     "D:\\Users\\shakrislanov.a\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "D:\\Users\\shakrislanov.a\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

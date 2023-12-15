@@ -49,7 +49,6 @@ namespace UniBase.CORE.DataBaseManagers
                 entity.Сокращение.ToLower() == GroupName.ToLower()).ToListAsync();
 
         }
-
         public async Task<List<ДекВсеДанныеСтудента>> FindStudentByNameAsynch(string name)
         {
             return await context.ДекВсеДанныеСтудента
@@ -162,10 +161,10 @@ namespace UniBase.CORE.DataBaseManagers
                         };
             return await query.AsNoTracking().ToListAsync();
         }
-        public async Task<List<JournalData>> GetJournalsByFaculity(int FaculityID, string AcademicYear = "2023-2024")
+        public async Task<List<JournalData>> GetJournalsByFaculity(int LastId, int FaculityID, string AcademicYear = "2023-2024")
         {
             var query = context.prepJournalData.FromSqlRaw(
-              $"SELECT distinct  PrepJournal.[Код] as [key]\r\n\t" +
+              $"SELECT distinct  TOP 200  PrepJournal.[Код] as [key]\r\n\t" +
               $"  ,PrepJournal.[Дисциплина] as [discipline]\r\n\t" +
               $"  ,p.ФИО as teacherName\r\n" +
               $"      ,Groups.Название as GroupName\r\n\t" +
@@ -186,8 +185,7 @@ namespace UniBase.CORE.DataBaseManagers
               $"and Nagr.ВидЗанятий = PrepJournal.ВидЗанятий \r\n" +
               $"and (Nagr.Семестр /  Groups.Курс) =  PrepJournal.[Семестр]\r\n" +
               $"INNER JOIN [Деканат].[dbo].[Кафедры] Kafs on kafs.Код_Факультета = '{FaculityID}' and KafValue.КодКафедры = kafs.Код and Nagr.КодКафедры = kafs.Код\r\n" +
-              $"WHERE ( PrepJournal.[УчебныйГод] = '{AcademicYear}'  )\r\n" +
-              $"ORDER By teacherCode"
+              $"WHERE ( PrepJournal.[УчебныйГод] = '{AcademicYear}'  )\r\n  and PrepJournal.[Код] > {LastId}"
             );
             var res = query.GetType();
             return await query.ToListAsync();

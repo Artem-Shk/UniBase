@@ -93,7 +93,7 @@
 .search_container_text {
     border: none;
     border-bottom: 2px solid #828282;
-
+    background: white;
     color: #828282;
     font-family: Inter;
     font-size: 20px;
@@ -106,13 +106,17 @@
 }
 .search_container_text input:focus{
    outline: none;
+   border:none;
 }
-.search_container{
+.search_container {
+
+    color: white;
     display: flex;
     align-items: left;
     gap: 8px;
 }
 .FindLine{
+ 
     display: flex;
     height: 61px;
     padding: 16px;
@@ -159,6 +163,7 @@ box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
     opacity: 0.8;
     margin: 0;
     font-size: 24px;
+    color:black;
 }
 .super_analictic_calendar_Button_text_choose{
     font-size: 24px;

@@ -181,7 +181,7 @@ function SuperAnaliticCard() {
                         <div >
                             <DoughnutChart value={40}></DoughnutChart>
                         </div>
-                        <p>
+                        <p style={{ color: "black" }} >
                             Заполнение журнала
                         </p>
                     </div>
@@ -189,7 +189,7 @@ function SuperAnaliticCard() {
                         <div >
                             <DoughnutChart value={50}></DoughnutChart>
                         </div>
-                        <p>
+                        <p style={{ color: "black" }}>
                             Заполнение журнала
                         </p>
                     </div>
