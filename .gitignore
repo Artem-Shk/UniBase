@@ -1,0 +1,11 @@
+﻿################################################################################
+# Данный GITIGNORE-файл был автоматически создан Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/ProjectEvaluation/unibase.metadata.v7.bin
+/.vs/ProjectEvaluation/unibase.projects.v7.bin
+*.vsidx
+/.vs/UniBase/FileContentIndex/1b1fdfd7-d106-43fb-9fbe-149545272269.vsidx
+/.vs/UniBase/FileContentIndex/1dbc2fae-0995-479b-bc9f-dd4b5eee26d8.vsidx
+/.vs/UniBase/FileContentIndex/579e5581-b76a-4498-90b1-d28e1e8747d1.vsidx
+/.vs/UniBase/FileContentIndex/7b1c88d1-2252-446e-bf31-3d68d530b052.vsidx
