@@ -144,12 +144,12 @@ namespace UniBase.CORE.DataBaseManagers
         {
             var query = from ЖурналДанные record in context.ЖурналДанные
                         where record.КодЖурнала == journalID
-                        from ДекВсеДанныеСтудента student in context.ДекВсеДанныеСтудента
-                        where student.Код == record.КодСтудента
-                        from ЖурналЗначения value in context.ЖурналЗначения
-                        where value.Код == record.КодЗначения
-                        from ЖурналДаты date in context.ЖурналДаты
-                        where date.Код == record.КодЗначения
+                        join ДекВсеДанныеСтудента student in context.ДекВсеДанныеСтудента 
+                        on record.КодСтудента equals student.Код
+                        join ЖурналЗначения value in context.ЖурналЗначения
+                        on record.КодЗначения equals value.Код
+                        join ЖурналДаты date in context.ЖурналДаты 
+                        on record.КодДаты equals date.Код
                         select new AttendanceRecord()
                         {
                             Id = record.Код,

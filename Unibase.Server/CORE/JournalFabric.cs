@@ -18,55 +18,60 @@ namespace UniBase.CORE
 
         }
         //collected data from database
-        private async void collectData(int faculityID = 28, string AcademicYear = "2023-2024")
+
+        public async Task createDataForFaculityAsync()
         {
-           
-            List<Journal> TeacherJournals = new List<Journal>();
-            var prepods = await data_base_manager.GetPrepodsByFaculityIDAsynch(28);
-            //взять преподов
-            foreach (var prepod in prepods)
+            List<FaculityPackage> faculityJournal = new List<FaculityPackage>();
+            var journals = await data_base_manager.GetJournalsByFaculity(0,28);
+
+            if(journals is not null)
             {
-
-                //взять журналы препода
-                Task<List<JournalData>> journals = data_base_manager.GetGetJournalByPrepodIDAndAcademicYear(prepod.Код, AcademicYear);
-                //взять записи журнала
-                foreach (JournalData journal in journals.Result)
+                foreach(var journal in journals)
                 {
-                    var journal_return = new Journal()
+                    var journalRecords = data_base_manager.GetAttandanceRecord(journal.key);
+                    FaculityPackage barby = new FaculityPackage(journal);
+                    if (journalRecords.Result.Count > 0)
                     {
-                        GroupName = journal.GroupName,
-                        JournalName = journal.discipline,
-                        PrepodName = prepod.ФИО,
-                    };
+                        barby.Attandance = AttadanceProcent(journalRecords.Result,barby.studentCount,barby.lectionHours);
 
-                    TeacherJournals.Add(journal_return);
-
+                    }
+                    faculityJournal.Add(barby);
                 }
-
-
             }
-        }
-        private async Task createDataForFaculityAsync()
-        {
-            List<Journal> TeacherJournals = new List<Journal>();
-            var prepods = await data_base_manager.GetPrepodsByFaculityIDAsynch(28); 
-
         }
         private void collectData(int faculityID)
         {
             DBManager data_base_manager = DBManager.GetInstance();
         }
-        public void AttadanceProcent()
+        public float? AttadanceProcent(List<AttendanceRecord> records, int student_count, int? lec_hours)
         {
+            int absentCount = records.Count(r => r.subjectValue == "Н  "); 
 
-        }
-        private class FaculityPackage : JournalData 
-        {
-            public string? Attandance { get; set; }
-            public string? page { get; set; }
-            FaculityPackage()
+
+            if (absentCount == 0 || student_count == 0 || lec_hours == 0)
             {
+                return 100.0f;
+            }
 
+            float? result = 100 - (student_count * lec_hours) / (float)absentCount;
+            return result;
+        }
+        public class FaculityPackage : JournalData 
+        {
+            public float? Attandance { get; set; }
+            public string? page { get; set; }
+            public FaculityPackage(JournalData daddy)
+            {
+                this.key = daddy.key;
+                this.lectionType = daddy.lectionType;
+                this.academicYear = daddy.academicYear;
+                this.discipline = daddy.discipline;
+                this.lectionHours = daddy.lectionHours;
+                this.GroupName = daddy.GroupName;
+                this.semester = daddy.semester;
+                this.teacherName = daddy.teacherName;
+                this.teacherCode = daddy.teacherCode;
+                this.studentCount = daddy.studentCount;
             }
         }
     }

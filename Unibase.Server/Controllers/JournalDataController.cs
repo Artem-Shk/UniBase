@@ -27,8 +27,8 @@ namespace UniBase.Controllers
         {
             const int list = 200;
             int lastID = 0;
-            List<JournalData> result = await DBManager.GetJournalsByFaculity(faculityId, lastID);
-            
+            List<JournalData> result = await DBManager.GetJournalsByFaculity(lastID, faculityId );
+            var shit = new JournalFabric().createDataForFaculityAsync();
             if (result == null)
             {
                 return NotFound();

@@ -36,7 +36,7 @@ function ListOfJournals() {
         :<div className={styles.ListOfJournals} >
             <FindLine></FindLine>
             <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
-                <PartOfList />
+ 
             </div>
             {journals.map(journal =>
                 <PartOfList prepodName={journal.teacherName} GroupName={journal.GroupName} usercount={journal.studentCount} disciplineName={journal.discipline} attendance={journal.lectionHours} ></PartOfList>
