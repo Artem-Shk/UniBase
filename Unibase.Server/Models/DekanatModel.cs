@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Unibase.Server.Models;
 
 namespace UniBase.Models
 {
@@ -48,6 +49,8 @@ namespace UniBase.Models
         public virtual DbSet<ЖурналДанные> ЖурналДанные { get; set; }
         public virtual DbSet<ЖурналЗначения> ЖурналЗначения { get; set; }
         public virtual DbSet<ЖурналДаты> ЖурналДаты { get; set; }
+        public virtual DbSet<Все_Группы> Все_Группы { get;  set; }
+        public virtual DbSet<ЖурналПреподавателя> ЖурналПреподавателя { get; set; }
 
 
         //TODO: this shit thats not right 
@@ -75,6 +78,8 @@ namespace UniBase.Models
             modelBuilder.Entity<ЖурналДанные>().HasKey(m => new { m.Код });
             modelBuilder.Entity<ЖурналЗначения>().HasKey(m => new { m.Код });
             modelBuilder.Entity<ЖурналДаты>().HasKey(m => new { m.Код });
+            modelBuilder.Entity<ЖурналПреподавателя>().HasKey(m => new { m.КодГруппы });
+            modelBuilder.Entity<Все_Группы>().HasKey(m => new { m.Код });
 
         }
     }

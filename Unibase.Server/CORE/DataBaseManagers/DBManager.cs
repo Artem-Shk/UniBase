@@ -163,10 +163,11 @@ namespace UniBase.CORE.DataBaseManagers
                             };
             return await query.AsNoTracking().ToListAsync();
         }
+        //TODO: Оптимизировать
         public async Task<List<JournalData>> GetJournalsByFaculity(int LastId, int FaculityID, string AcademicYear = "2023-2024")
         {
-            var query = context.prepJournalData.FromSqlInterpolated($@"
-           SELECT distinct  TOP 20  PrepJournal.[Код] as [key]
+            var query = context.prepJournalData.FromSqlRaw($@"
+           SELECT   TOP 20  PrepJournal.[Код] as [key]
                 ,PrepJournal.[Дисциплина] as [discipline]
                 ,p.ФИО as teacherName
                 ,Groups.Название as GroupName
@@ -186,9 +187,9 @@ namespace UniBase.CORE.DataBaseManagers
             Nagr.ВидЗанятий = PrepJournal.ВидЗанятий 
             and (Nagr.Семестр / Groups.Курс) = PrepJournal.[Семестр]
             INNER JOIN [Деканат].[dbo].[Кафедры] Kafs ON kafs.Код_Факультета = {FaculityID} and KafValue.КодКафедры = kafs.Код and Nagr.КодКафедры = kafs.Код
-            WHERE (PrepJournal.[УчебныйГод] = {AcademicYear}) and PrepJournal.[Код] > {LastId}
+            WHERE (PrepJournal.[УчебныйГод] = '{AcademicYear}') and PrepJournal.[Код] > {LastId} 
+            ORDER BY PrepJournal.[Код] ASC;
         ");
-            
             return await query.ToListAsync();
         }
 
