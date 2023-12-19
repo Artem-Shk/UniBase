@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Unibase.Server.Models;
 using UniBase.CORE;
 using UniBase.CORE.DataBaseManagers;
 using UniBase.Models;
@@ -27,8 +28,7 @@ namespace UniBase.Controllers
         {
             const int list = 200;
             int lastID = 0;
-            List<JournalData> result = await DBManager.GetJournalsByFaculity(lastID, faculityId );
-            var shit = new JournalFabric().createDataForFaculityAsync();
+            List<FaculityPackage> result = await new JournalFabric().createDataForFaculityAsync();
             if (result == null)
             {
                 return NotFound();

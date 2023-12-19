@@ -19,33 +19,38 @@ namespace UniBase.CORE
         }
         //collected data from database
 
-        public async Task createDataForFaculityAsync()
+        public async Task<List<FaculityPackage>> createDataForFaculityAsync()
         {
             List<FaculityPackage> faculityJournal = new List<FaculityPackage>();
             var journals = await data_base_manager.GetJournalsByFaculity(0,28);
 
             if(journals is not null)
             {
+
                 foreach(var journal in journals)
                 {
-                    var journalRecords = data_base_manager.GetAttandanceRecord(journal.key);
-                    FaculityPackage barby = new FaculityPackage(journal);
-                    if (journalRecords.Result.Count > 0)
+                    var journalRecords = await data_base_manager.GetAttandanceRecord(journal.key);
+                    FaculityPackage pack = new FaculityPackage(journal);
+                    if (journalRecords.Count > 0)
                     {
-                        barby.Attandance = AttadanceProcent(journalRecords.Result,barby.studentCount,barby.lectionHours);
-
+                        pack.Attandance =  AttadanceProcent(journalRecords, pack.studentCount, pack.lectionHours);
+                        pack.midelEval = MidleValue(journalRecords);
                     }
-                    faculityJournal.Add(barby);
+                    faculityJournal.Add(pack);
                 }
             }
+            return faculityJournal;
         }
+ 
         private void collectData(int faculityID)
         {
             DBManager data_base_manager = DBManager.GetInstance();
         }
         public float? AttadanceProcent(List<AttendanceRecord> records, int student_count, int? lec_hours)
         {
-            int absentCount = records.Count(r => r.subjectValue == "Н  "); 
+            // 7 is Н
+            const int AbsentValue = 7;
+            int absentCount = records.Count(r => r.SubjectId == AbsentValue);
 
 
             if (absentCount == 0 || student_count == 0 || lec_hours == 0)
@@ -56,23 +61,18 @@ namespace UniBase.CORE
             float? result = 100 - (student_count * lec_hours) / (float)absentCount;
             return result;
         }
-        public class FaculityPackage : JournalData 
+        public  float MidleValue(List<AttendanceRecord> records)
         {
-            public float? Attandance { get; set; }
-            public string? page { get; set; }
-            public FaculityPackage(JournalData daddy)
+            const int maxEvalValue = 5;
+            var validRecords = records.Where(r => r.SubjectId <= maxEvalValue).ToList();
+            int length = validRecords.Count;
+            if (length > 0)
             {
-                this.key = daddy.key;
-                this.lectionType = daddy.lectionType;
-                this.academicYear = daddy.academicYear;
-                this.discipline = daddy.discipline;
-                this.lectionHours = daddy.lectionHours;
-                this.GroupName = daddy.GroupName;
-                this.semester = daddy.semester;
-                this.teacherName = daddy.teacherName;
-                this.teacherCode = daddy.teacherCode;
-                this.studentCount = daddy.studentCount;
+                float result = validRecords.Sum(r => r.SubjectId) / (float)length;
+                return result;
             }
+            return 0;
         }
+    
     }
 }

@@ -142,52 +142,53 @@ namespace UniBase.CORE.DataBaseManagers
         }
         public async Task<List<AttendanceRecord>> GetAttandanceRecord(int journalID)
         {
+            const int nullValue = 6;
             var query = from ЖурналДанные record in context.ЖурналДанные
-                        where record.КодЖурнала == journalID
-                        join ДекВсеДанныеСтудента student in context.ДекВсеДанныеСтудента 
+
+                        join ДекВсеДанныеСтудента student in context.ДекВсеДанныеСтудента
                         on record.КодСтудента equals student.Код
                         join ЖурналЗначения value in context.ЖурналЗначения
-                        on record.КодЗначения equals value.Код
+                        on record.КодЗначения equals value.Код 
                         join ЖурналДаты date in context.ЖурналДаты 
                         on record.КодДаты equals date.Код
+                        where  value.Код != nullValue && record.КодЖурнала == journalID
                         select new AttendanceRecord()
-                        {
-                            Id = record.Код,
-                            StudentId = record.КодСтудента,
-                            StudentName = student.ФИО,
-                            Date = date.Дата,
-                            SubjectId = record.КодЗначения,
-                            subjectValue = value.Значение
-                        };
+                            {
+                                Id = record.Код,
+                                StudentId = record.КодСтудента,
+                                StudentName = student.ФИО,
+                                Date = date.Дата,
+                                SubjectId = record.КодЗначения,
+                                subjectValue = value.Значение
+                            };
             return await query.AsNoTracking().ToListAsync();
         }
         public async Task<List<JournalData>> GetJournalsByFaculity(int LastId, int FaculityID, string AcademicYear = "2023-2024")
         {
-            var query = context.prepJournalData.FromSqlRaw(
-              $"SELECT distinct  TOP 200  PrepJournal.[Код] as [key]\r\n\t" +
-              $"  ,PrepJournal.[Дисциплина] as [discipline]\r\n\t" +
-              $"  ,p.ФИО as teacherName\r\n" +
-              $"      ,Groups.Название as GroupName\r\n\t" +
-              $"   , Groups.Код_Факультета\r\n" +
-              $"      ,PrepJournal.[ВидЗанятий] as lectionType" +
-              $"      ,PrepJournal.[Семестр] as semester\r\n" +
-              $"      ,PrepJournal.[УчебныйГод] as academicYear" +
-              $"  ,Nagr.Студентов as studentCount \r\n\t" +
-              $"  ,CAST(Nagr.Часов as int) as [lectionHours]\r\n\t\t" +
-              $",p.Код as teacherCode\r\n\t\t" +
-              $",kafs.Код\r\n\r\n" +
-              $"FROM [Деканат].[dbo].[ЖурналПреподавателя] PrepJournal\r\n" +
-              $"INNER JOIN [Деканат].[dbo].[Преподаватели] p ON PrepJournal.[КодПреподавателя] = p.[Код]\r\n" +
-              $"INNER JOIN [Деканат].[dbo].[ПреподавателиКафедры] KafValue ON p.[Код] = KafValue.КодПреподавателя \r\n" +
-              $"INNER JOIN [Деканат].[dbo].[Все_Группы] Groups ON  Groups.Код = PrepJournal.[КодГруппы] and  Groups.Код_Факультета = '{FaculityID}'\r\n\r\n" +
-              $"INNER JOIN [Деканат].[dbo].Нагрузка Nagr ON PrepJournal.Дисциплина = Nagr.Дисциплина and \r\n" +
-              $"Nagr.КодГруппы = PrepJournal.КодГруппы \r\n" +
-              $"and Nagr.ВидЗанятий = PrepJournal.ВидЗанятий \r\n" +
-              $"and (Nagr.Семестр /  Groups.Курс) =  PrepJournal.[Семестр]\r\n" +
-              $"INNER JOIN [Деканат].[dbo].[Кафедры] Kafs on kafs.Код_Факультета = '{FaculityID}' and KafValue.КодКафедры = kafs.Код and Nagr.КодКафедры = kafs.Код\r\n" +
-              $"WHERE ( PrepJournal.[УчебныйГод] = '{AcademicYear}'  )\r\n  and PrepJournal.[Код] > {LastId}"
-            );
-            var res = query.GetType();
+            var query = context.prepJournalData.FromSqlInterpolated($@"
+           SELECT distinct  TOP 20  PrepJournal.[Код] as [key]
+                ,PrepJournal.[Дисциплина] as [discipline]
+                ,p.ФИО as teacherName
+                ,Groups.Название as GroupName
+                ,Groups.Код_Факультета
+                ,PrepJournal.[ВидЗанятий] as lectionType
+                ,PrepJournal.[Семестр] as semester
+                ,PrepJournal.[УчебныйГод] as academicYear
+                ,Nagr.Студентов as studentCount
+                ,CAST(Nagr.Часов as int) as [lectionHours]
+                ,p.Код as teacherCode
+
+            FROM [Деканат].[dbo].[ЖурналПреподавателя] PrepJournal
+            INNER JOIN [Деканат].[dbo].[Преподаватели] p ON PrepJournal.[КодПреподавателя] = p.[Код]
+            INNER JOIN [Деканат].[dbo].[ПреподавателиКафедры] KafValue ON p.[Код] = KafValue.КодПреподавателя
+            INNER JOIN [Деканат].[dbo].[Все_Группы] Groups ON Groups.Код = PrepJournal.[КодГруппы] and Groups.Код_Факультета = {FaculityID}
+            INNER JOIN [Деканат].[dbo].Нагрузка Nagr ON PrepJournal.Дисциплина = Nagr.Дисциплина and Nagr.КодГруппы = PrepJournal.КодГруппы and 
+            Nagr.ВидЗанятий = PrepJournal.ВидЗанятий 
+            and (Nagr.Семестр / Groups.Курс) = PrepJournal.[Семестр]
+            INNER JOIN [Деканат].[dbo].[Кафедры] Kafs ON kafs.Код_Факультета = {FaculityID} and KafValue.КодКафедры = kafs.Код and Nagr.КодКафедры = kafs.Код
+            WHERE (PrepJournal.[УчебныйГод] = {AcademicYear}) and PrepJournal.[Код] > {LastId}
+        ");
+            
             return await query.ToListAsync();
         }
 
