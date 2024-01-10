@@ -178,7 +178,6 @@ namespace UniBase.CORE.DataBaseManagers
                 ,Nagr.Студентов as studentCount
                 ,CAST(Nagr.Часов as int) as [lectionHours]
                 ,p.Код as teacherCode
-
             FROM [Деканат].[dbo].[ЖурналПреподавателя] PrepJournal
             INNER JOIN [Деканат].[dbo].[Преподаватели] p ON PrepJournal.[КодПреподавателя] = p.[Код]
             INNER JOIN [Деканат].[dbo].[ПреподавателиКафедры] KafValue ON p.[Код] = KafValue.КодПреподавателя
@@ -192,6 +191,27 @@ namespace UniBase.CORE.DataBaseManagers
         ");
             return await query.ToListAsync();
         }
+        public async Task<List<JournalHeader>> GetJournalHeaderData(int LastId, int FaculityID, string AcademicYear = "2023-2024")
+        {
+            var query = context.JournalHeader.FromSqlRaw($@"
+                   SELECT TOP (120) PrepJournal.[Код] as code
+                      ,PrepJournal.[Дисциплина] as discipline
+                      ,PrepJournal.[ВидЗанятий] as lectionType
+                      ,PrepJournal.[Семестр] as semester
+                      ,PrepJournal.[КодСтрокиНагрузки] as nagrCode
+	                  ,nagr.Студентов as studentCount
+	                  ,Groups.Название as GroupName
+	                  ,Prepods.ФИО as teacherName
+                  FROM [Деканат].[dbo].[ЖурналПреподавателя] PrepJournal
+                  inner join [Деканат].dbo.Нагрузка nagr on PrepJournal.КодСтрокиНагрузки =nagr.Код
+                  inner join [Деканат].dbo.Все_Группы Groups on PrepJournal.КодГруппы = Groups.Код
+                  inner join [Деканат].dbo.Преподаватели Prepods on PrepJournal.КодПреподавателя = Prepods.Код 
+                  where PrepJournal.УчебныйГод = '{AcademicYear}' and Groups.Код_Факультета = {FaculityID} and PrepJournal.Код > {LastId}
+
+        ");
+            return await query.ToListAsync();
+        }
+       
 
     }
 }

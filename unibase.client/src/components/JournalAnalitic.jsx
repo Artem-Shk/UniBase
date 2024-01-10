@@ -36,7 +36,6 @@ function ListOfJournals() {
         :<div className={styles.ListOfJournals} >
             <FindLine></FindLine>
             <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
- 
             </div>
             {journals.map(journal =>
                 <PartOfList prepodName={journal.teacherName} GroupName={journal.GroupName} usercount={journal.studentCount} disciplineName={journal.discipline} attendance={journal.lectionHours} ></PartOfList>
@@ -45,8 +44,8 @@ function ListOfJournals() {
     return (
         contents
         )
-    async function UpdateJournals() {
-        const response = await fetch('https://localhost:7256/api/JournalData/GetJornals/28');
+    async function UpdateJournals(kaf_id) {
+        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28');
         const data = await response.json();
         setJourals(data);
     }
@@ -69,7 +68,7 @@ function FindLine() {
         </div>
     )
 }
-function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat }) {
+function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat, lectionHours }) {
     const [AnaliticCardVisible, setVisible] = useState(true);
   
 
@@ -83,7 +82,7 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
                 GroupName={GroupName} usercount={usercount} disciplineName={disciplineName}
                 attendance={attendance} stat={stat} />
 
-        {!AnaliticCardVisible && <SuperAnaliticCard></SuperAnaliticCard>}
+        {!AnaliticCardVisible && <SuperAnaliticCard ></SuperAnaliticCard>}
       </div>
     );
   }
@@ -108,8 +107,8 @@ function GoodRowWithData({ onClick, prepodName, GroupName, usercount, discipline
                 </div>
             <p className={styles.font} >{disciplineName}</p>
                 <div style={{ display: 'flex', margin: 0 }} >
-                    <div style={{ width: '45px', height: '45px' }}>
-                    <DoughnutChart style={{ display: 'flex', margin: 0 }} value={stat} ></DoughnutChart>
+                    <div  style={{ width: '45px', height: '45px' }}>
+                        <DoughnutChart style={{ display: 'flex', margin: 0 }} value={stat} ></DoughnutChart>
                     </div >
                 </div>
             </div>
@@ -144,7 +143,7 @@ function DoughnutChart({ value }) {
     };
     return (<Doughnut data={data} options={options} />)
 };
-function SuperAnaliticCard() {
+function SuperAnaliticCard(lectionHours, attendance_count, mid_attandance, leave_count) {
  
     return (
         <div className={styles.super_analictic}>
@@ -157,9 +156,9 @@ function SuperAnaliticCard() {
             </div>
             <div className={styles.super_analictic_data}>
                 <div className={styles.super_analictic_Card}>
-                    <div className={styles.super_analictic_dataCard}>
-                        <p className={styles.super_analictic_dataCard_text}>120</p>
-                        <p className={styles.super_analictic_dataCard_text2} >часов за период</p>
+                    <div id= 'Hours' className={styles.super_analictic_dataCard}>
+                        <p id='Hours_text' className={styles.super_analictic_dataCard_text}>120</p>
+                        <p id='Hours_label' className={styles.super_analictic_dataCard_text2} >часов за период</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
                         <p className={styles.super_analictic_dataCard_text}>112</p>

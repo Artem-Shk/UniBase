@@ -40,6 +40,21 @@ namespace UniBase.Controllers
             }
 
         }
+        [HttpGet("GetJornalsHeaders/{faculityId=8}")]
+        public async Task<IActionResult> GetJornalsHeaders(int faculityId)
+        {
+            DBManager manager = DBManager.GetInstance();
+            List<JournalHeader> result = await manager.GetJournalHeaderData(0, faculityId);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(JsonHelper.JsonSerialize(result));
+            }
+
+        }
 
     }
 }

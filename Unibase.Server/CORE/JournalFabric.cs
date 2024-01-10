@@ -41,7 +41,8 @@ namespace UniBase.CORE
             }
             return faculityJournal;
         }
- 
+        
+        
         private void collectData(int faculityID)
         {
             DBManager data_base_manager = DBManager.GetInstance();
@@ -73,6 +74,6 @@ namespace UniBase.CORE
             }
             return 0;
         }
-    
+        
     }
 }
