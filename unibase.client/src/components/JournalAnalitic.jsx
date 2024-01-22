@@ -1,5 +1,6 @@
 ﻿import styles from "./journal_analitic.module.css"
 import React, { useEffect, useState } from 'react';
+import Calendar from 'react-calendar'
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip);
@@ -68,6 +69,9 @@ function FindLine() {
         </div>
     )
 }
+async function UpdateAnaliticCardData() {
+    
+}
 function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat, lectionHours }) {
     const [AnaliticCardVisible, setVisible] = useState(true);
   
@@ -82,7 +86,7 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
                 GroupName={GroupName} usercount={usercount} disciplineName={disciplineName}
                 attendance={attendance} stat={stat} />
 
-        {!AnaliticCardVisible && <SuperAnaliticCard ></SuperAnaliticCard>}
+            {!AnaliticCardVisible && < SuperAnaliticCard />}
       </div>
     );
   }
@@ -144,15 +148,15 @@ function DoughnutChart({ value }) {
     return (<Doughnut data={data} options={options} />)
 };
 function SuperAnaliticCard(lectionHours, attendance_count, mid_attandance, leave_count) {
- 
+   
     return (
         <div className={styles.super_analictic}>
             <div className={styles.super_analictic_calendar}>
                 <div className={styles.super_analictic_calendar_Button}>
-                    <p className={styles.super_analictic_calendar_Button_text}>всё время</p>
-                    <p className={styles.super_analictic_calendar_Button_text_choose}>период</p>
+                    <p className={styles.super_analictic_calendar_Button_text_choose}>всё время</p>
+                    <p className={styles.super_analictic_calendar_Button_text}>период</p>
                 </div>
-                <p className={styles.super_analictic_calendar_text} > 01.06.2023 по 30.09.2024</p>
+                <p className={styles.super_analictic_calendar_text} > 01.06.2023 по {GetTodayDate()}</p>
             </div>
             <div className={styles.super_analictic_data}>
                 <div className={styles.super_analictic_Card}>
@@ -189,7 +193,7 @@ function SuperAnaliticCard(lectionHours, attendance_count, mid_attandance, leave
                             <DoughnutChart value={50}></DoughnutChart>
                         </div>
                         <p style={{ color: "black" }}>
-                            Заполнение журнала
+                             Посещаемость
                         </p>
                     </div>
                 </div>
@@ -198,3 +202,14 @@ function SuperAnaliticCard(lectionHours, attendance_count, mid_attandance, leave
         </div>
     )
 };
+
+
+function GetTodayDate() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = mm + '.' + dd + '.' + yyyy;
+    return today;
+}

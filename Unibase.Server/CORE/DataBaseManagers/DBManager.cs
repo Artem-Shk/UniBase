@@ -207,11 +207,34 @@ namespace UniBase.CORE.DataBaseManagers
                   inner join [Деканат].dbo.Все_Группы Groups on PrepJournal.КодГруппы = Groups.Код
                   inner join [Деканат].dbo.Преподаватели Prepods on PrepJournal.КодПреподавателя = Prepods.Код 
                   where PrepJournal.УчебныйГод = '{AcademicYear}' and Groups.Код_Факультета = {FaculityID} and PrepJournal.Код > {LastId}
-
         ");
-            return await query.ToListAsync();
+            var result = await query.ToListAsync();
+            return result;
         }
-       
+        public async Task<int> getJournalHours(int journalId, string date)
+        {
+            var result = context.Database.SqlQueryRaw<int>($@"
+                      SELECT 
+                      count(Dates.Дата) as hours
+                      FROM [Деканат].[dbo].[ЖурналДаты] Dates
+                      WHERE Dates.КодЖурнала = {journalId}
+                      and Дата < {date}").First();
+
+            return result;
+
+        }
+        public async Task<int> getJournalAttenc(int journalId)
+        {
+            var result = context.Database.SqlQueryRaw<int>($@"
+                       SELECT count([ЖурналДанные].КодЗначения) AS attens 
+			           FROM [ЖурналДанные]  
+			           WHERE [ЖурналДанные].КодЖурнала = {journalId} and КодЗначения != 6
+            ").First();
+            return result;
+
+        }
+
+
 
     }
 }

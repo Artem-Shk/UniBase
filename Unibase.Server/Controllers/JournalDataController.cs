@@ -55,6 +55,15 @@ namespace UniBase.Controllers
             }
 
         }
+        [HttpGet("GetJornalBody/{journalId=9673}")]
+        public async Task<IActionResult> GetJornalBody(int journalId,string date)
+        {
+            DBManager manager = DBManager.GetInstance();
+            int hours = await manager.getJournalHours(journalId, date);
+            int atten = await manager.getJournalAttenc(journalId);
+
+        }
+        // дописать конструктор
 
     }
 }
