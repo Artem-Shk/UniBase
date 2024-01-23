@@ -52,6 +52,7 @@ namespace UniBase.Models
         public virtual DbSet<ЖурналДаты> ЖурналДаты { get; set; }
         public virtual DbSet<Все_Группы> Все_Группы { get;  set; }
         public virtual DbSet<ЖурналПреподавателя> ЖурналПреподавателя { get; set; }
+        public virtual DbSet<JournalAttence> JournalAttence { get; set; }
 
 
         //TODO: this shit thats not right 
@@ -66,8 +67,7 @@ namespace UniBase.Models
                   .HasKey(m => new { m.ФИО });
             modelBuilder.Entity<ДекСпециальности>()
                   .HasKey(m => new { m.Код });
-            modelBuilder.Entity<ДекСписокГруппФакультета>()
-.HasKey(m => new { m.Код });
+            modelBuilder.Entity<ДекСписокГруппФакультета>().HasKey(m => new { m.Код });
             modelBuilder.Entity<Факультеты>()
                .HasKey(m => new { m.Код });
             modelBuilder.Entity<ufuОценкиТекущаяУспеваемость>()

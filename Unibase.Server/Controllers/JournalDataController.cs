@@ -60,8 +60,28 @@ namespace UniBase.Controllers
         {
             DBManager manager = DBManager.GetInstance();
             int hours = await manager.getJournalHours(journalId, date);
-            int atten = await manager.getJournalAttenc(journalId);
+            int attencCount = await manager.getJournalAttencCount(journalId);
+            List<JournalAttence> journalAttence = await manager.getJournalAttenc(journalId);
+            Double midleAttence = GetMiddleValue(attencCount, journalAttence);
 
+        }
+        private Double GetMiddleValue(int attencCount, List<JournalAttence> journalAttence)
+        {
+            Double midleAttence = 0;
+            foreach (var item in journalAttence)
+            {
+               
+                if (item.valuekey < 6)
+                {
+                    midleAttence += item.valuekey;
+                }
+                if (midleAttence > 0)
+                {
+                    midleAttence = midleAttence / attencCount;
+                }
+                
+            }
+            return midleAttence;
         }
         // дописать конструктор
 

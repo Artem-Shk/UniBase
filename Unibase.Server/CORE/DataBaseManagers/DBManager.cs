@@ -223,15 +223,27 @@ namespace UniBase.CORE.DataBaseManagers
             return result;
 
         }
-        public async Task<int> getJournalAttenc(int journalId)
+        public async Task<int> getJournalAttencCount(int journalId)
         {
             var result = context.Database.SqlQueryRaw<int>($@"
                        SELECT count([ЖурналДанные].КодЗначения) AS attens 
 			           FROM [ЖурналДанные]  
-			           WHERE [ЖурналДанные].КодЖурнала = {journalId} and КодЗначения != 6
+			           WHERE [ЖурналДанные].КодЖурнала = {journalId} and КодЗначения < 6
             ").First();
             return result;
-
+        }
+        public async Task<List<JournalAttence>> getJournalAttenc(int journalId)
+        {
+            var result = context.JournalAttence.FromSqlRaw($@"SELECT  [Код] as key
+                                                      ,[КодЖурнала] as journalKey
+                                                      ,[КодСтудента] as studentKey
+                                                      ,[КодДаты] as dataKey
+                                                      ,[КодЗначения] as valueKey
+                                                      ,[ДатаИзменения] as changeDate
+                                                        FROM [Деканат].[dbo].[ЖурналДанные]
+                                                        WHERE [КодЖурнала] = {journalId}
+            ");
+            return await result.ToListAsync();
         }
 
 
