@@ -213,28 +213,24 @@ namespace UniBase.CORE.DataBaseManagers
         }
         public async Task<int> getJournalHours(int journalId, string date)
         {
-            var result = context.Database.SqlQueryRaw<int>($@"
-                      SELECT 
-                      count(Dates.Дата) as hours
-                      FROM [Деканат].[dbo].[ЖурналДаты] Dates
-                      WHERE Dates.КодЖурнала = {journalId}
-                      and Дата < {date}").First();
-
-            return result;
-
+            var result = context.ЖурналДаты.AsNoTracking()
+                                            .Where(id => id.КодЖурнала == journalId && id.Дата < DateTime.Parse(date))
+                                            .Select(date => date.Дата);
+            int c = result.Count();
+            return  c;
         }
         public async Task<int> getJournalAttencCount(int journalId)
         {
-            var result = context.Database.SqlQueryRaw<int>($@"
-                       SELECT count([ЖурналДанные].КодЗначения) AS attens 
-			           FROM [ЖурналДанные]  
-			           WHERE [ЖурналДанные].КодЖурнала = {journalId} and КодЗначения < 6
-            ").First();
+            var result = context.ЖурналДанные.AsNoTracking()
+                                              .Where(key => key.КодЖурнала ==journalId && key.КодЗначения < 6)
+                                              .Select(data => data.КодЗначения)
+                                              .Count();
+
             return result;
         }
         public async Task<List<JournalAttence>> getJournalAttenc(int journalId)
         {
-            var result = context.JournalAttence.FromSqlRaw($@"SELECT  [Код] as key
+            var result = context.JournalAttence.FromSqlRaw($@"SELECT  [Код] as [key]
                                                       ,[КодЖурнала] as journalKey
                                                       ,[КодСтудента] as studentKey
                                                       ,[КодДаты] as dataKey

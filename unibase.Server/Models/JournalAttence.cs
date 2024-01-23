@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Unibase.Server.Models
 {
-    [Table("ЖурналДанные")]
+
     public class JournalAttence
     {
         [Key]

@@ -55,17 +55,42 @@ namespace UniBase.Controllers
             }
 
         }
-        [HttpGet("GetJornalBody/{journalId=9673}")]
-        public async Task<IActionResult> GetJornalBody(int journalId,string date)
+        [HttpGet("GetJornalBody/{journalId=9673}&{date}")]
+        public async Task<IActionResult> GetJornalBody(int journalId = 9673, string date = "17.01.2024")
         {
             DBManager manager = DBManager.GetInstance();
+            JournalBody body = new JournalBody(); 
             int hours = await manager.getJournalHours(journalId, date);
             int attencCount = await manager.getJournalAttencCount(journalId);
             List<JournalAttence> journalAttence = await manager.getJournalAttenc(journalId);
-            Double midleAttence = GetMiddleValue(attencCount, journalAttence);
+            Task<Double> midleAttence = GetMiddleValue(attencCount, journalAttence);
 
+            Task<int> Ncount = CountN(journalAttence);
+
+           
+            body.hours = hours;
+            body.attenceCount = attencCount;
+            if (midleAttence.IsCompleted)
+            {
+                body.midleAttence = midleAttence.Result;
+            }
+            else
+            {
+                body.midleAttence = await midleAttence;
+            }
+            if (Ncount.IsCompleted)
+            {
+                body.Ncount = Ncount.Result;
+
+            }
+            else
+            {
+                body.Ncount = await Ncount;
+            }
+
+            return  Ok(JsonHelper.JsonSerialize(body));
         }
-        private Double GetMiddleValue(int attencCount, List<JournalAttence> journalAttence)
+        private async Task<Double> GetMiddleValue(int attencCount, List<JournalAttence> journalAttence)
         {
             Double midleAttence = 0;
             foreach (var item in journalAttence)
@@ -83,7 +108,12 @@ namespace UniBase.Controllers
             }
             return midleAttence;
         }
-        // дописать конструктор
+        private async Task<int> CountN(List<JournalAttence> journalAttence)
+        {
+            // 7 это Н
+            int result = journalAttence.Count(x => x.journalKey == 7);
+            return result;
+        }
 
     }
 }
