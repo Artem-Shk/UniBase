@@ -33,10 +33,7 @@ function ListOfJournals() {
         UpdateJournals();
     }, []);
     const contents = journals === undefined
-        ? <p>
-            <em>Loading... Please refresh once the ASP.NET backend has started. See
-            <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a>
-           for more details.</em></p>
+        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         :<div className={styles.ListOfJournals} >
             <FindLine></FindLine>
             <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
@@ -85,23 +82,10 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
     const [AnaliticCardVisible, setVisible] = useState(true);
     const [AnaliticCardData, SetData] = useState();
     const handleHideCard = () => {
-         UpdateJournals(journal_id);
 
-        if (AnaliticCardData !=
-            undefined) {
-            setVisible(!AnaliticCardVisible);
-        }
-       
+        console.log(AnaliticCardData.hours)
     };
-    console.log(AnaliticCardData)
-    const superAnaliticCards = (!AnaliticCardVisible )
-
-        ? <SuperAnaliticCard
-            lectionHours={AnaliticCardData.hours}
-            leave_count={AnaliticCardData.Ncount}
-            attendance_count={AnaliticCardData.attenceCount}
-            mid_attandance={AnaliticCardData.midleAttence} />
-        : <a>wait bitch</a>
+     
     return (
         <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
             <GoodRowWithData onClick={handleHideCard}
@@ -111,18 +95,26 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
                              disciplineName={disciplineName}
                              attendance={attendance}
                 stat={stat} />
-            {superAnaliticCards}
-        </div>
+            
+            {!AnaliticCardVisible && 
        
+                <SuperAnaliticCard
+
+                lectionHours={AnaliticCardData.hours}
+                leave_count={AnaliticCardData.Ncount}
+                attendance_count={AnaliticCardData.attenceCount}
+                mid_attandance={AnaliticCardData.midleAttence}/>}
+        </div>
+      
     );
     async function UpdateJournals(journal_id) {
-        const today = new Date().toLocaleDateString("de-DE");
+        const today = new Date().toLocaleDateString("de-DE")
         var response;
         if (AnaliticCardVisible === true) {
             response = await fetch('https://localhost:7256/api/JournalData/GetJornalBody/' + journal_id + '&' + today);
             const data = await response.json();
             SetData(data);
-
+            console.log(data)
         }
     }
   }
