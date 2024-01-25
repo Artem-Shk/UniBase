@@ -87,8 +87,15 @@ namespace UniBase.Controllers
             {
                 body.Ncount = await Ncount;
             }
-
-            return  Ok(JsonHelper.JsonSerialize(body));
+            if (body == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(JsonHelper.JsonSerialize(body));
+            }
+           
         }
         private async Task<Double> GetMiddleValue(int attencCount, List<JournalAttence> journalAttence)
         {

@@ -33,13 +33,24 @@ function ListOfJournals() {
         UpdateJournals();
     }, []);
     const contents = journals === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
+        ? <p>
+            <em>Loading... Please refresh once the ASP.NET backend has started. See
+            <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a>
+           for more details.</em></p>
         :<div className={styles.ListOfJournals} >
             <FindLine></FindLine>
             <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
             </div>
             {journals.map(journal =>
-                <PartOfList prepodName={journal.teacherName} GroupName={journal.GroupName} usercount={journal.studentCount} disciplineName={journal.discipline} attendance={journal.lectionHours} ></PartOfList>
+                <PartOfList key={journal.code}
+                            prepodName={journal.teacherName}
+                            GroupName={journal.GroupName}
+                            usercount={journal.studentCount} 
+                            disciplineName={journal.discipline} 
+                            attendance={journal.lectionHours} 
+                            journal_id={journal.code}
+                            >
+                </PartOfList>
             )}
         </div>
     return (
@@ -69,26 +80,51 @@ function FindLine() {
         </div>
     )
 }
-async function UpdateAnaliticCardData() {
-    
-}
-function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat, lectionHours }) {
-    const [AnaliticCardVisible, setVisible] = useState(true);
-  
 
+function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat,  journal_id }) {
+    const [AnaliticCardVisible, setVisible] = useState(true);
+    const [AnaliticCardData, SetData] = useState();
     const handleHideCard = () => {
-      setVisible(!AnaliticCardVisible);
+         UpdateJournals(journal_id);
+
+        if (AnaliticCardData !=
+            undefined) {
+            setVisible(!AnaliticCardVisible);
+        }
+       
     };
-  
+    console.log(AnaliticCardData)
+    const superAnaliticCards = (!AnaliticCardVisible )
+
+        ? <SuperAnaliticCard
+            lectionHours={AnaliticCardData.hours}
+            leave_count={AnaliticCardData.Ncount}
+            attendance_count={AnaliticCardData.attenceCount}
+            mid_attandance={AnaliticCardData.midleAttence} />
+        : <a>wait bitch</a>
     return (
         <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
-            <GoodRowWithData onClick={handleHideCard} prepodName={prepodName}
-                GroupName={GroupName} usercount={usercount} disciplineName={disciplineName}
-                attendance={attendance} stat={stat} />
-
-            {!AnaliticCardVisible && < SuperAnaliticCard />}
-      </div>
+            <GoodRowWithData onClick={handleHideCard}
+                             prepodName={prepodName}
+                             GroupName={GroupName}
+                             usercount={usercount}
+                             disciplineName={disciplineName}
+                             attendance={attendance}
+                stat={stat} />
+            {superAnaliticCards}
+        </div>
+       
     );
+    async function UpdateJournals(journal_id) {
+        const today = new Date().toLocaleDateString("de-DE");
+        var response;
+        if (AnaliticCardVisible === true) {
+            response = await fetch('https://localhost:7256/api/JournalData/GetJornalBody/' + journal_id + '&' + today);
+            const data = await response.json();
+            SetData(data);
+
+        }
+    }
   }
 function GoodRowWithData({ onClick, prepodName, GroupName, usercount, disciplineName, attendance, stat }){
     const handleClick = () => {
@@ -148,7 +184,6 @@ function DoughnutChart({ value }) {
     return (<Doughnut data={data} options={options} />)
 };
 function SuperAnaliticCard(lectionHours, attendance_count, mid_attandance, leave_count) {
-   
     return (
         <div className={styles.super_analictic}>
             <div className={styles.super_analictic_calendar}>
@@ -161,7 +196,7 @@ function SuperAnaliticCard(lectionHours, attendance_count, mid_attandance, leave
             <div className={styles.super_analictic_data}>
                 <div className={styles.super_analictic_Card}>
                     <div id= 'Hours' className={styles.super_analictic_dataCard}>
-                        <p id='Hours_text' className={styles.super_analictic_dataCard_text}>120</p>
+                        <p id='Hours_text' className={styles.super_analictic_dataCard_text}>{lectionHours}</p>
                         <p id='Hours_label' className={styles.super_analictic_dataCard_text2} >часов за период</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
