@@ -6,7 +6,7 @@ import { Doughnut } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip);
 
 
-
+var journal_id_default = 0;
 export default function JournalAnalitic() {
     return (
         <ListOfJournals />
@@ -28,7 +28,7 @@ function LeftMenu() {
     )
 }
 function ListOfJournals() {
-    const [journals, setJourals] = useState();
+    const [journals, setJournals] = useState();
     useEffect(() => {
         UpdateJournals();
     }, []);
@@ -56,7 +56,7 @@ function ListOfJournals() {
     async function UpdateJournals(kaf_id) {
         const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28');
         const data = await response.json();
-        setJourals(data);
+        setJournals(data);
     }
 
 }
@@ -80,12 +80,23 @@ function FindLine() {
 
 function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat,  journal_id }) {
     const [AnaliticCardVisible, setVisible] = useState(true);
-    const [AnaliticCardData, SetData] = useState();
-    const handleHideCard = () => {
-
-        console.log(AnaliticCardData.hours)
+    const [AnaliticCardData, setData] = useState(new Object());
+    
+    
+    const handleHideCard = async () => {
+        UpdateJournals(journal_id).then(
+            function (result) {
+               
+                if (AnaliticCardData) {
+                    setVisible(!AnaliticCardVisible)
+                }
+            },
+            function (error) {
+               
+            }
+        )     
     };
-     
+
     return (
         <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
             <GoodRowWithData onClick={handleHideCard}
@@ -96,14 +107,12 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
                              attendance={attendance}
                 stat={stat} />
             
-            {!AnaliticCardVisible && 
-       
-                <SuperAnaliticCard
-
-                lectionHours={AnaliticCardData.hours}
-                leave_count={AnaliticCardData.Ncount}
-                attendance_count={AnaliticCardData.attenceCount}
-                mid_attandance={AnaliticCardData.midleAttence}/>}
+            {!AnaliticCardVisible && (
+                <SuperAnaliticCard key={journal_id}
+                                    {AnaliticCardData}
+                                    
+                />
+            )}
         </div>
       
     );
@@ -113,8 +122,7 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
         if (AnaliticCardVisible === true) {
             response = await fetch('https://localhost:7256/api/JournalData/GetJornalBody/' + journal_id + '&' + today);
             const data = await response.json();
-            SetData(data);
-            console.log(data)
+            setData(data);
         }
     }
   }
@@ -175,7 +183,8 @@ function DoughnutChart({ value }) {
     };
     return (<Doughnut data={data} options={options} />)
 };
-function SuperAnaliticCard(lectionHours, attendance_count, mid_attandance, leave_count) {
+function SuperAnaliticCard(data) {
+    console.log(data)
     return (
         <div className={styles.super_analictic}>
             <div className={styles.super_analictic_calendar}>
@@ -183,20 +192,20 @@ function SuperAnaliticCard(lectionHours, attendance_count, mid_attandance, leave
                     <p className={styles.super_analictic_calendar_Button_text_choose}>всё время</p>
                     <p className={styles.super_analictic_calendar_Button_text}>период</p>
                 </div>
-                <p className={styles.super_analictic_calendar_text} > 01.06.2023 по {GetTodayDate()}</p>
+                <p className={styles.super_analictic_calendar_text} > 01.06.2023 по {getTodayDate()}</p>
             </div>
             <div className={styles.super_analictic_data}>
                 <div className={styles.super_analictic_Card}>
-                    <div id= 'Hours' className={styles.super_analictic_dataCard}>
-                        <p id='Hours_text' className={styles.super_analictic_dataCard_text}>{lectionHours}</p>
+                    <div id='Hours' className={styles.super_analictic_dataCard}>
+                        <p id='Hours_text' className={styles.super_analictic_dataCard_text}>{data.data.hours}</p>
                         <p id='Hours_label' className={styles.super_analictic_dataCard_text2} >часов за период</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
-                        <p className={styles.super_analictic_dataCard_text}>112</p>
+                        <p className={styles.super_analictic_dataCard_text}>{data.data.attenceCount}</p>
                         <p className={styles.super_analictic_dataCard_text2} >оценки</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
-                        <p className={styles.super_analictic_dataCard_text}>4.3</p>
+                        <p className={styles.super_analictic_dataCard_text}></p>
                         <p className={styles.super_analictic_dataCard_text2} >Среднее</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
@@ -231,7 +240,7 @@ function SuperAnaliticCard(lectionHours, attendance_count, mid_attandance, leave
 };
 
 
-function GetTodayDate() {
+function getTodayDate() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
