@@ -67,26 +67,10 @@ namespace UniBase.Controllers
 
             Task<int> Ncount = CountN(journalAttence);
 
-           
-            body.hours = hours;
-            body.attenceCount = attencCount;
-            if (midleAttence.IsCompleted)
-            {
-                body.midleAttence = midleAttence.Result;
-            }
-            else
-            {
-                body.midleAttence = await midleAttence;
-            }
-            if (Ncount.IsCompleted)
-            {
-                body.Ncount = Ncount.Result;
 
-            }
-            else
-            {
-                body.Ncount = await Ncount;
-            }
+            body.midleAttence = await midleAttence;
+            body.Ncount = await Ncount;
+
             if (body == null)
             {
                 return NotFound();
@@ -95,7 +79,7 @@ namespace UniBase.Controllers
             {
                 return Ok(JsonHelper.JsonSerialize(body));
             }
-           
+
         }
         private async Task<Double> GetMiddleValue(int attencCount, List<JournalAttence> journalAttence)
         {

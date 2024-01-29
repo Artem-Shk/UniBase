@@ -86,7 +86,6 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
     const handleHideCard = async () => {
         UpdateJournals(journal_id).then(
             function (result) {
-               
                 if (AnaliticCardData) {
                     setVisible(!AnaliticCardVisible)
                 }
@@ -109,7 +108,7 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
             
             {!AnaliticCardVisible && (
                 <SuperAnaliticCard key={journal_id}
-                                    {AnaliticCardData}
+                                   data= {AnaliticCardData}
                                     
                 />
             )}
@@ -205,11 +204,11 @@ function SuperAnaliticCard(data) {
                         <p className={styles.super_analictic_dataCard_text2} >оценки</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
-                        <p className={styles.super_analictic_dataCard_text}></p>
+                        <p className={styles.super_analictic_dataCard_text}>{data.data.midleAttence}</p>
                         <p className={styles.super_analictic_dataCard_text2} >Среднее</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
-                        <p className={styles.super_analictic_dataCard_text}>40</p>
+                        <p className={styles.super_analictic_dataCard_text}>{data.data.Ncount}</p>
                         <p className={styles.super_analictic_dataCard_text2} >пропуски</p>
                     </div>
                 </div>
