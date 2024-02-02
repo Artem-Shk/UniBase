@@ -12,7 +12,7 @@
         public int studentCount { get; set; }
         public int? lectionHours { get; set; }
         public int? teacherCode { get; set; }
-
+        public int? КодСтрокиНагрузки { get; set; }
     }
 }
 

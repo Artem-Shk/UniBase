@@ -52,9 +52,8 @@ namespace UniBase.Models
         public virtual DbSet<ЖурналДаты> ЖурналДаты { get; set; }
         public virtual DbSet<Все_Группы> Все_Группы { get;  set; }
         public virtual DbSet<ЖурналПреподавателя> ЖурналПреподавателя { get; set; }
-        public virtual DbSet<JournalAttence> JournalAttence { get; set; }
-
-
+        public virtual DbSet<JournalPartRow> JournalPartRow { get; set; }
+        public virtual DbSet<Нагрузка> Нагрузка { get; set;}
         //TODO: this shit thats not right 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

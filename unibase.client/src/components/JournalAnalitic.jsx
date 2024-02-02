@@ -200,7 +200,7 @@ function SuperAnaliticCard(data) {
                         <p id='Hours_label' className={styles.super_analictic_dataCard_text2} >часов за период</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
-                        <p className={styles.super_analictic_dataCard_text}>{data.data.attenceCount}</p>
+                        <p className={styles.super_analictic_dataCard_text}>{data.data.EvalCount}</p>
                         <p className={styles.super_analictic_dataCard_text2} >оценки</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
@@ -217,7 +217,7 @@ function SuperAnaliticCard(data) {
                 <div className={styles.super_analictic_dataCard_graph_container}>
                     <div className={styles.super_analictic_dataCard_graph} >
                         <div >
-                            <DoughnutChart value={40}></DoughnutChart>
+                            <DoughnutChart value={getZapol(nagrHours = data.data.nagrHours, hours = data.data.hours)}></DoughnutChart>
                         </div>
                         <p style={{ color: "black" }} >
                             Заполнение журнала
@@ -247,4 +247,7 @@ function getTodayDate() {
 
     today = mm + '.' + dd + '.' + yyyy;
     return today;
+}
+function getZapol(nagrHours, hours) {
+    return (hours / nagrHours)*100
 }

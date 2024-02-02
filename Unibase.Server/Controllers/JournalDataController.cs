@@ -55,22 +55,32 @@ namespace UniBase.Controllers
             }
 
         }
+        // ЭТО ЛЮТОЕ ДЕРМИЩЕ ПОЛНОЕ ОРЕШКОВ
         [HttpGet("GetJornalBody/{journalId=9673}&{date}")]
         public async Task<IActionResult> GetJornalBody(int journalId = 9673, string date = "17.01.2024")
         {
+            //Взять инстанс базы
             DBManager manager = DBManager.GetInstance();
-            JournalBody body = new JournalBody(); 
-            int hours = await manager.getJournalHours(journalId, date);
-            int attencCount = await manager.getJournalAttencCount(journalId);
-            List<JournalAttence> journalAttence = await manager.getJournalAttenc(journalId);
-            Task<Double> midleAttence = GetMiddleValue(attencCount, journalAttence);
-
-            Task<int> Ncount = CountN(journalAttence);
-
-
-            body.midleAttence = await midleAttence;
-            body.Ncount = await Ncount;
-
+            // Вызвать методы асинхронно
+            int nagrCode = await manager.GetStringNagrCodeFromPrepJournal(journalId);
+           
+            List<JournalPartRow>  JournalPartRows =  await manager.getJournalDataPart(journalId);
+            int NagrHours = await manager.GetNagrHours(nagrCode);
+            int StudentCount = await manager.GetStudentCount(nagrCode);
+            int hours = await manager.getJournalHoursWithPeroid(journalId, date);
+            int EvalCount =  manager.getJournalEvalCount(journalId);
+            Double midleAttence = GetMiddleValue(EvalCount, JournalPartRows);
+            int Ncount = CountN(JournalPartRows);
+            //выставить данные в обьект
+            JournalBody body = new JournalBody
+            {
+                midleAttence = midleAttence,
+                Ncount = Ncount,
+                nagrHours = NagrHours,
+                hours = hours,
+                EvalCount = EvalCount,
+                studentCount = StudentCount
+            };
             if (body == null)
             {
                 return NotFound();
@@ -81,30 +91,34 @@ namespace UniBase.Controllers
             }
 
         }
-        private async Task<Double> GetMiddleValue(int attencCount, List<JournalAttence> journalAttence)
+        
+       
+        private  Double GetMiddleValue(int attencCount, List<JournalPartRow> journalAttence)
         {
-            Double midleAttence = 0;
+            float midleAttence = 0.00f;
             foreach (var item in journalAttence)
             {
-               
+          
+
                 if (item.valuekey < 6)
                 {
                     midleAttence += item.valuekey;
                 }
-                if (midleAttence > 0)
-                {
-                    midleAttence = midleAttence / attencCount;
-                }
-                
+              
             }
-            return midleAttence;
+            if (midleAttence > 0)
+            {
+                midleAttence = midleAttence / attencCount;
+            }
+            return Math.Round( midleAttence, 2);
         }
-        private async Task<int> CountN(List<JournalAttence> journalAttence)
+        private int CountN(List<JournalPartRow> journalAttence)
         {
             // 7 это Н
-            int result = journalAttence.Count(x => x.journalKey == 7);
+            int result = journalAttence.Count(x => x.valuekey == 7);
             return result;
         }
+        
 
     }
 }

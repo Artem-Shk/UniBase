@@ -120,7 +120,6 @@ namespace UniBase.CORE.DataBaseManagers
                 $" INNER JOIN [Деканат].[dbo].ЖурналЗначения JournalValue ON JournalData.КодЗначения = JournalValue.Код" +
                 $" WHERE p.[Код] = {prepodID} and PrepJournal.[УчебныйГод] = '{AcademicYear}'", prepodID, AcademicYear);
             var res = query.GetType();
-
             return await query.ToListAsync();
         }
         public async Task<List<Преподаватели>> GetPrepodsByFaculityIDAsynch(int FaculityID)
@@ -211,26 +210,32 @@ namespace UniBase.CORE.DataBaseManagers
             var result = await query.ToListAsync();
             return result;
         }
-        public async Task<int> getJournalHours(int journalId, string date)
+        public async Task<int> getJournalHours(int journalId)
+        {
+            var result = context.ЖурналДаты.AsNoTracking()
+                                            .Where(id => id.КодЖурнала == journalId )
+                                            .Select(date => date.Дата);
+            int c = result.Count();
+            return  c;
+        }
+        public async Task<int> getJournalHoursWithPeroid(int journalId, string date)
         {
             var result = context.ЖурналДаты.AsNoTracking()
                                             .Where(id => id.КодЖурнала == journalId && id.Дата < DateTime.Parse(date))
                                             .Select(date => date.Дата);
             int c = result.Count();
-            return  c;
+            return c;
         }
-        public async Task<int> getJournalAttencCount(int journalId)
+        public  int getJournalEvalCount(int journalId)
         {
-            var result = context.ЖурналДанные.AsNoTracking()
+            var result =  context.ЖурналДанные.AsNoTracking()
                                               .Where(key => key.КодЖурнала ==journalId && key.КодЗначения < 6)
-                                              .Select(data => data.КодЗначения)
-                                              .Count();
-
-            return result;
+                                              .Select(data => data.КодЗначения).Count();
+            return  result;
         }
-        public async Task<List<JournalAttence>> getJournalAttenc(int journalId)
+        public async Task<List<JournalPartRow>> getJournalDataPart(int journalId)
         {
-            var result = context.JournalAttence.FromSqlRaw($@"SELECT  [Код] as [key]
+            var result = context.JournalPartRow.FromSqlRaw($@"SELECT  [Код] as [key]
                                                       ,[КодЖурнала] as journalKey
                                                       ,[КодСтудента] as studentKey
                                                       ,[КодДаты] as dataKey
@@ -241,8 +246,32 @@ namespace UniBase.CORE.DataBaseManagers
             ");
             return await result.ToListAsync();
         }
+        public async Task<int> GetNagrHours(int NagrId)
+        {
+            float result = await context.Нагрузка.AsNoTracking()
+                                       .Where(key => key.Код == NagrId)
+                                       .Select(data => data.Часов)
+                                       .FirstOrDefaultAsync();
+            
+            return ((int)result);
 
-
-
+        }
+        public async Task<int> GetStringNagrCodeFromPrepJournal(int journalId)
+        {
+            var query = context.ЖурналПреподавателя.AsNoTracking()
+                                                    .Where(key => key.Код == journalId)
+                                                    .Select(data => data.КодСтрокиНагрузки);
+            var res = await query.FirstAsync();
+            return  res;
+        }
+        public async Task<int> GetStudentCount(int NagrId)
+        {
+            float result = await context.Нагрузка.AsNoTracking()
+                                       .Where(key => key.Код == NagrId)
+                                       .Select(data => data.Студентов)
+                                       .FirstOrDefaultAsync();
+            return ((int)result);
+        }
+       
     }
 }

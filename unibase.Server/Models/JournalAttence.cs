@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Unibase.Server.Models
 {
 
-    public class JournalAttence
+    public class JournalPartRow
     {
         [Key]
         public int key { get; set; }
