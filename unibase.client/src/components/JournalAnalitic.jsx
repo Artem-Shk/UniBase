@@ -91,11 +91,10 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
                 }
             },
             function (error) {
-               
+               console.log('Faggot')
             }
         )     
     };
-
     return (
         <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
             <GoodRowWithData onClick={handleHideCard}
@@ -105,7 +104,7 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
                              disciplineName={disciplineName}
                              attendance={attendance}
                 stat={stat} />
-            
+
             {!AnaliticCardVisible && (
                 <SuperAnaliticCard key={journal_id}
                                    data= {AnaliticCardData}
@@ -179,11 +178,20 @@ function DoughnutChart({ value }) {
         maintainAspectRatio: false,
         width: 130,
         height: 55,
+        plugins: {
+            datalabels: false, // Removing this line shows the datalabels again
+            tooltip: {
+                enabled: false
+            }
+        }
     };
     return (<Doughnut data={data} options={options} />)
 };
 function SuperAnaliticCard(data) {
-    console.log(data)
+    var zapol = getZapol(data.data.nagrHours, data.data.hours)
+    var attence = CountNProcent(data.data.Ncount, data.data.studentCount, data.data.hours)
+ 
+
     return (
         <div className={styles.super_analictic}>
             <div className={styles.super_analictic_calendar}>
@@ -217,7 +225,7 @@ function SuperAnaliticCard(data) {
                 <div className={styles.super_analictic_dataCard_graph_container}>
                     <div className={styles.super_analictic_dataCard_graph} >
                         <div >
-                            <DoughnutChart value={getZapol(nagrHours = data.data.nagrHours, hours = data.data.hours)}></DoughnutChart>
+                            <DoughnutChart value={zapol}></DoughnutChart>
                         </div>
                         <p style={{ color: "black" }} >
                             Заполнение журнала
@@ -225,7 +233,7 @@ function SuperAnaliticCard(data) {
                     </div>
                     <div className={styles.super_analictic_dataCard_graph} >
                         <div >
-                            <DoughnutChart value={50}></DoughnutChart>
+                            <DoughnutChart value={attence}></DoughnutChart>
                         </div>
                         <p style={{ color: "black" }}>
                              Посещаемость
@@ -250,4 +258,9 @@ function getTodayDate() {
 }
 function getZapol(nagrHours, hours) {
     return (hours / nagrHours)*100
+}
+function CountNProcent(ncount, studentcount, hourscount) {
+    var allAttence = studentcount * hourscount
+  
+    return ((allAttence - ncount) / allAttence) * 100
 }
