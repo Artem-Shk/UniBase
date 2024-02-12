@@ -1,8 +1,10 @@
 import React from 'react';
 import './button.css'
-function button() {
+function Button({ text }) {
   return (
-      <button class="click-button">ֽאזלט לוםÿ</button>
+	  <button className="click-button">
+		  <p className="Button_text">{text}</p>
+	  </button>
   );
 }
-export default button;
+export default Button;

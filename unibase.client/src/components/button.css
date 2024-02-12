@@ -1,18 +1,39 @@
 body {
 }
+
 .click-button {
     display: inline-block;
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
+
+    background: white;
+    color: black;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     transition: all 0.3s ease;
 }
+
     .click-button:hover {
-        background-color: #45a049;
+        background: #07C;
     }
+
     .click-button:active {
+        border: none;
         transform: scale(0.95);
+        background: #07C;
     }
+    .click-button:focus {
+        background: #07C;
+        outline:none
+    }
+
+.Button_text {
+    display: flex;
+    padding: 8px 10px;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    margin: 0;
+    font-size: 24px;
+    color: black;
+}

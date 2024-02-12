@@ -144,7 +144,6 @@
     background: #FFF;
     box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.50);
     align-self: stretch;
-
 }
 .super_analictic_calendar_Button{
     display: flex;
@@ -224,7 +223,6 @@ box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
 .super_analictic_dataCard_graph_container{
     display: flex;
     padding: 0px 32px;
- 
     align-items: center;
     align-self: stretch;
 }
