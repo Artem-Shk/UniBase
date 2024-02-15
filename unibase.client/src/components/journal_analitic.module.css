@@ -90,42 +90,7 @@
     font-weight: 500;
     line-height: normal;
 }
-.search_container_text {
-    border: none;
-    border-bottom: 2px solid #828282;
-    background: white;
-    color: #828282;
-    font-family: Inter;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    display: flex;
-    align-items: center;
-    gap: 8px
-}
-.search_container_text input:focus{
-   outline: none;
-   border:none;
-}
-.search_container {
 
-    color: white;
-    display: flex;
-    align-items: left;
-    gap: 8px;
-}
-.FindLine{
- 
-    display: flex;
-    height: 61px;
-    padding: 16px;
-    justify-content: left;
-    align-items: flex-start;
-    gap: 266px;
-    flex-shrink: 0;
-    align-self: stretch;
-}
 .super_analictic_calendar{
     display: flex;
 

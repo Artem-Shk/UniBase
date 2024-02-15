@@ -12,7 +12,6 @@ function MyDatePicker() {
     ));
     return (
         <DatePicker
-          
             selectsRange={true}
             startDate={startDate}
             endDate={endDate}

@@ -1,0 +1,16 @@
+.column_box {
+    display: flex;
+    flex-direction: column;
+    position:absolute;
+
+}
+
+.border_box {
+    border: 1px solid #ccc;
+    z-index: 999;
+    margin-bottom: 10px;
+}
+
+.text {
+    color: #333;
+}
