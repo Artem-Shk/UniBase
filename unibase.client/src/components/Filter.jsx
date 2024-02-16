@@ -1,26 +1,34 @@
 import React, { useState } from 'react';
-import './Filter.css'
-function Filter({ list }) {
-    const [values, setVisibleValue] = useState([]);
+import './Filter.css';
 
-    function setValues(newValues) {
-        setVisibleValue(newValues);
+function Filter({ list }) {
+    const [valuesF, setValues] = useState(true);
+    const [filteredValue, setFilteredValue] = useState('');
+    var id = 0;
+    var values = ['AAAAAAAAAAAAA', 'XXXXXXXXXXXXXXXasd', 'GHGFASDGHAS']
+    function updateInput(value) {
+        console.log(value);
+        setFilteredValue(value);
     }
+
     return (
         <div>
             <input
-                onFocus={() => setValues(['AAAAAAAAAAAAA', 'XXXXXXXXXXXXXXXasd','GHGFASDGHAS'])}
-                onBlur={() => setValues([])}
-            />
-            {values.length > 0 && (
-                values.map((l, index) => (
-                    <div className='column_box' >
-                        <div key={index} className='border_box' style={{top: `${index * 70}px` }}>
-                            <div><p className='text'>{l}</p><div/>
+                onFocus={() => setValues(false)}
+                onBlur={() => setValues(true)}
+                className='filter_input'
+                placeholder={filteredValue}
+            ></input>
+            {!valuesF && (
+                <div className='column_box'>
+                    {values.map((l) => (
+                        <div onClick={() => updateInput(l)} key={id++} className='border_box'>
+                            <div>
+                                <p className='text'>{l}</p>
                             </div>
                         </div>
-                    </div>
-                ))
+                    ))}
+                </div>
             )}
         </div>
     );

@@ -1,16 +1,22 @@
 .column_box {
     display: flex;
     flex-direction: column;
-    position:absolute;
-
+    position: absolute;
 }
 
 .border_box {
     border: 1px solid #ccc;
     z-index: 999;
-    margin-bottom: 10px;
+    background: white;
+    padding: 5px;
+
 }
 
 .text {
     color: #333;
+    margin: 0;
+}
+
+.filter_input {
+    background: white;
 }
