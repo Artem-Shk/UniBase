@@ -1,5 +1,4 @@
-body {
-}
+
 .part_ofList {
     border-radius: 12px;
     background: #FFF;
@@ -18,4 +17,14 @@ body {
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    text-align: right;
+}
+.discipline_font {
+    text-align: left;
+}
+.discipline_container{
+    width:60%;
+}
+.prepod_container {
+    width: 20%;
 }

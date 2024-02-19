@@ -17,12 +17,14 @@ function Filter({ list }) {
                 onFocus={() => setValues(false)}
                 onBlur={() => setValues(true)}
                 className='filter_input'
-                placeholder={filteredValue}
+                readOnly={true}
+                value={filteredValue}
+
             ></input>
             {!valuesF && (
                 <div className='column_box'>
                     {values.map((l) => (
-                        <div onClick={() => updateInput(l)} key={id++} className='border_box'>
+                        <div onMouseDown={() => updateInput(l)} key={id++} className='border_box'>
                             <div>
                                 <p className='text'>{l}</p>
                             </div>

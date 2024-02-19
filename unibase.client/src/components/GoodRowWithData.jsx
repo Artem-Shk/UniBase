@@ -6,7 +6,10 @@ function GoodRowWithData({ onClick, prepodName, GroupName, usercount, discipline
     };
     return (
         <div className="part_ofList" onClick={handleClick}  >
-            <p className="font" >{prepodName}</p>
+            <div className = "prepod_container">
+                <p className="font discipline_font" >{prepodName}</p>
+            </div>
+          
             <p className="font" >{GroupName}</p>
             <div style={{ display: 'flex', margin: 0, alignItems: 'center' }} >
                 <div style={{ display: 'flex', margin: 0, alignItems: 'center', flexDirection: 'row' }}>
@@ -21,7 +24,7 @@ function GoodRowWithData({ onClick, prepodName, GroupName, usercount, discipline
                     </svg>
                 </div>
             </div>
-            <div >
+            <div className= "discipline_container" >
                 <p className="font">{disciplineName}</p>
             </div>
         </div>
