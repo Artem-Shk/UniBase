@@ -10,10 +10,9 @@ function Filter({ list }) {
         console.log(value);
         setFilteredValue(value);
     }
-
     return (
-        <div>
-            <input
+        <div >
+            <div className='filter_container'> <input
                 onFocus={() => setValues(false)}
                 onBlur={() => setValues(true)}
                 className='filter_input'
@@ -21,6 +20,8 @@ function Filter({ list }) {
                 value={filteredValue}
 
             ></input>
+            </div>
+           
             {!valuesF && (
                 <div className='column_box'>
                     {values.map((l) => (

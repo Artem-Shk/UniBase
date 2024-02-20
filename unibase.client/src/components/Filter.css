@@ -21,3 +21,12 @@
     background: white;
     color:black;
 }
+.filter_container {
+    display: flex;
+    padding: 1px;
+    justify-content: left;
+    align-items: flex-end;
+    flex-shrink: 0;
+    align-self: stretch;
+    margin: 15px;
+}

@@ -40,7 +40,8 @@ function ListOfJournals() {
             <div style={{ display: "flex", width: '100%', flexDirection: 'row' }}>
                 <FindLine/>
                 <MyDatePicker/>
-                <Filter/>
+                <Filter />
+                <Button text="Поиск" />
             </div>
             {journals.map(journal =>
                 <PartOfList key={journal.code}
@@ -149,7 +150,7 @@ function SuperAnaliticCard(data) {
                     <Button text = 'Всё время'></Button>
                     <Button text='Период' ></Button>
                 </div>
-                <p className={styles.super_analictic_calendar_text} > 01.06.2023 по {getTodayDate()}</p>
+               
             </div>
             <div className={styles.super_analictic_data}>
                 <div className={styles.super_analictic_Card}>

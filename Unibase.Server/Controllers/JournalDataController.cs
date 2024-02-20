@@ -28,15 +28,16 @@ namespace UniBase.Controllers
         {
             const int list = 200;
             int lastID = 0;
-            List<FaculityPackage> result = await new JournalFabric().createDataForFaculityAsync();
+            List<FaculityPackage> result = await new JournalFabric(faculityId).createDataForFaculityAsync();
             if (result == null)
             {
                 return NotFound();
             }
             else
             {
-                return Ok(JsonHelper.JsonSerialize(result));
                 lastID = result.Last().key;
+                return Ok(JsonHelper.JsonSerialize(result));
+                
             }
 
         }
@@ -53,7 +54,6 @@ namespace UniBase.Controllers
             {
                 return Ok(JsonHelper.JsonSerialize(result));
             }
-
         }
         // ЭТО ЛЮТОЕ ДЕРМИЩЕ ПОЛНОЕ ОРЕШКОВ
         [HttpGet("GetJornalBody/{journalId=9673}&{date}")]
@@ -63,7 +63,6 @@ namespace UniBase.Controllers
             DBManager manager = DBManager.GetInstance();
             // Вызвать методы асинхронно
             int nagrCode = await manager.GetStringNagrCodeFromPrepJournal(journalId);
-           
             List<JournalPartRow>  JournalPartRows =  await manager.getJournalDataPart(journalId);
             int NagrHours = await manager.GetNagrHours(nagrCode);
             int StudentCount = await manager.GetStudentCount(nagrCode);

@@ -8,14 +8,13 @@ namespace UniBase.CORE
     {
         private Journal GroupJournal { get; set; }
         private  DBManager data_base_manager = DBManager.GetInstance();
-        public JournalFabric()
+        public JournalFabric(int faculityId)
         {
-            collectData(28);
+            collectData(faculityId);
             GroupJournal = new Journal();
         }
         public void AuthKeys(int DekanId)
         {
-
         }
         //collected data from database
 
@@ -23,10 +22,8 @@ namespace UniBase.CORE
         {
             List<FaculityPackage> faculityJournal = new List<FaculityPackage>();
             var journals = await data_base_manager.GetJournalsByFaculity(0,28);
-
             if(journals is not null)
             {
-
                 foreach(var journal in journals)
                 {
                     var journalRecords = await data_base_manager.GetAttandanceRecord(journal.key);
@@ -41,8 +38,7 @@ namespace UniBase.CORE
             }
             return faculityJournal;
         }
-        
-        
+
         private void collectData(int faculityID)
         {
             DBManager data_base_manager = DBManager.GetInstance();
