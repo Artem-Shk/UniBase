@@ -43,7 +43,7 @@ namespace UniBase.Models
         public virtual DbSet<Факультеты> Факультеты { get; set; }
         public virtual DbSet<ufuОценкиТекущаяУспеваемость> ufuОценкиТекущаяУспеваемость { get; set; }
         public virtual DbSet<JournalData> prepJournalData { get; set; }
-        public virtual DbSet<JournalHeader> JournalHeader { get; set; }
+        public virtual DbSet<JournalHeaderDB> JournalHeader { get; set; }
         public virtual DbSet<ПреподавателиКафедры> ПреподавателиКафедры { get; set; }
         public virtual DbSet<Кафедры> Кафедры { get; set; }
         public virtual DbSet<Преподаватели> Преподаватели { get; set; }
@@ -72,7 +72,7 @@ namespace UniBase.Models
             modelBuilder.Entity<ufuОценкиТекущаяУспеваемость>()
                .HasKey(m => new { m.КодЖурнала });
             modelBuilder.Entity<JournalData>().HasKey(m => new { m.key });
-            modelBuilder.Entity<JournalHeader>().HasKey(m => new { m.code });
+            modelBuilder.Entity<JournalHeaderDB>().HasKey(m => new { m.code});
             modelBuilder.Entity<ПреподавателиКафедры>().HasKey(m => new { m.КодКафедры });
             modelBuilder.Entity<Кафедры>().HasKey(m => new { m.Код });
             modelBuilder.Entity<Преподаватели>().HasKey(m => new { m.Код });

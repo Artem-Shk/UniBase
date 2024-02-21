@@ -12,10 +12,11 @@ namespace UniBase.Controllers
     [Route("api/[controller]")]
     public class JournalDataController : ControllerBase
     {
-        private readonly DBManager DBManager = DBManager.GetInstance();
+        private readonly DBManager _dBManager;
         private readonly JsonSerializerHelper JsonHelper = new();
-        public JournalDataController()
+        public JournalDataController(DBManager DBManager)
         {
+            _dBManager = DBManager;
         }
         // GET: journaldata
         [HttpGet("get")]
@@ -28,7 +29,7 @@ namespace UniBase.Controllers
         {
             const int list = 200;
             int lastID = 0;
-            List<FaculityPackage> result = await new JournalFabric(faculityId).createDataForFaculityAsync();
+            List<FaculityPackage> result = await new JournalFabric(faculityId, _dBManager).createDataForFaculityAsync();
             if (result == null)
             {
                 return NotFound();
@@ -37,15 +38,15 @@ namespace UniBase.Controllers
             {
                 lastID = result.Last().key;
                 return Ok(JsonHelper.JsonSerialize(result));
-                
             }
 
         }
         [HttpGet("GetJornalsHeaders/{faculityId=8}")]
-        public async Task<IActionResult> GetJornalsHeaders(int faculityId)
+        public async Task<IActionResult> GetJornalsHeaders(int faculityId, int lastId =0)
         {
-            DBManager manager = DBManager.GetInstance();
-            List<JournalHeader> result = await manager.GetJournalHeaderData(0, faculityId);
+           
+            JournalFabric fabric = new JournalFabric(faculityId, _dBManager);
+            List<JournalHeaderWeb> result = await fabric.CreateHeaders(faculityId);
             if (result == null)
             {
                 return NotFound();
@@ -60,14 +61,14 @@ namespace UniBase.Controllers
         public async Task<IActionResult> GetJornalBody(int journalId = 9673, string date = "17.01.2024")
         {
             //Взять инстанс базы
-            DBManager manager = DBManager.GetInstance();
+          
             // Вызвать методы асинхронно
-            int nagrCode = await manager.GetStringNagrCodeFromPrepJournal(journalId);
-            List<JournalPartRow>  JournalPartRows =  await manager.getJournalDataPart(journalId);
-            int NagrHours = await manager.GetNagrHours(nagrCode);
-            int StudentCount = await manager.GetStudentCount(nagrCode);
-            int hours = await manager.getJournalHoursWithPeroid(journalId, date);
-            int EvalCount =  manager.getJournalEvalCount(journalId);
+            int nagrCode = await _dBManager.GetStringNagrCodeFromPrepJournal(journalId);
+            List<JournalPartRow>  JournalPartRows =  await _dBManager.getJournalDataPart(journalId);
+            int NagrHours = await _dBManager.GetNagrHours(nagrCode);
+            int StudentCount = await _dBManager.GetStudentCount(nagrCode);
+            int hours = await _dBManager.getJournalHoursWithPeroid(journalId, date);
+            int EvalCount = _dBManager.getJournalEvalCount(journalId);
             Double midleAttence = GetMiddleValue(EvalCount, JournalPartRows);
             int Ncount = CountN(JournalPartRows);
             //выставить данные в обьект

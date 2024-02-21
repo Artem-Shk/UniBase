@@ -11,8 +11,12 @@ namespace UniBase.Controllers
     [Route("api/[controller]")]
     public class StudentDataController : ControllerBase
     {
-        private readonly DBManager DBManager = DBManager.GetInstance();
+        private readonly DBManager _manager;
         private readonly JsonSerializerHelper JsonHelper = new();
+        public StudentDataController(DBManager manager)
+        {
+            _manager = manager;
+        }
 
         // GET: studentdata
         [HttpGet]
@@ -28,7 +32,7 @@ namespace UniBase.Controllers
         [HttpGet("GetHTMLByName/{name=Иван}")]
         public async Task<object> GetHTMLByName(string name)
         {
-            List<ДекВсеДанныеСтудента> result = await DBManager.FindStudentByNameAsynch(name);
+            List<ДекВсеДанныеСтудента> result = await _manager.FindStudentByNameAsynch(name);
             HtmlContentBuilder builder = new HtmlContentBuilder();
             if (result != null)
             {
@@ -36,7 +40,7 @@ namespace UniBase.Controllers
                 {
                     builder.AppendHtmlLine("<tr>");
                     var row = result[rowid].toList();
-                    for (int c = 0; c < DBManager.FieldNames.Count; c++)
+                    for (int c = 0; c < _manager.FieldNames.Count; c++)
                     {
                         Console.WriteLine(row.Count);
                         builder.AppendHtmlLine("<td id=\"data\"" +
@@ -53,7 +57,7 @@ namespace UniBase.Controllers
         [HttpGet("GetJsonTableRowData/{name=Иван}")]
         public async Task<IActionResult> GetJsonTableRowData(string name, bool jsontype)
         {
-            List<ДекВсеДанныеСтудента> result = await DBManager.FindStudentByNameAsynch(name);
+            List<ДекВсеДанныеСтудента> result = await _manager.FindStudentByNameAsynch(name);
             string? JsonedResult = JsonHelper.JsonSerialize(result);
             if (JsonedResult != null)
             {
@@ -69,7 +73,7 @@ namespace UniBase.Controllers
         [HttpGet("GetGroup/{faculities=ЭФ}")]
         public async Task<object> GetGroupJson(string fuckkultname)
         {
-            List<ДекСписокГруппФакультета> result = await DBManager.GetGroupByFaculty(fuckkultname);
+            List<ДекСписокГруппФакультета> result = await _manager.GetGroupByFaculty(fuckkultname);
             string? JsonedResult = JsonHelper.JsonSerialize(result);
             if (JsonedResult != null)
             {
@@ -84,7 +88,7 @@ namespace UniBase.Controllers
         [HttpGet("GetAllFacult")]
         public async Task<object> GetAllFacultJson()
         {
-            List<string> result = await DBManager.AllFacultiesAsynch();
+            List<string> result = await _manager.AllFacultiesAsynch();
             string? JsonedResult = JsonHelper.JsonSerialize(result);
             if (JsonedResult != null)
             {
@@ -100,7 +104,7 @@ namespace UniBase.Controllers
         public async Task<object> GetMenuParameters()
         {
             List<MenuItemModel> result = new List<MenuItemModel>();
-            List<string>? list = await DBManager.AllFacultiesAsynch();
+            List<string>? list = await _manager.AllFacultiesAsynch();
 
             if (list == null)
             {
@@ -111,7 +115,7 @@ namespace UniBase.Controllers
                 List<string> resultFaculity = list;
                 foreach (string faculity in resultFaculity)
                 {
-                    List<ДекСписокГруппФакультета> resultGroup = await DBManager.GetGroupByFaculty(faculity);
+                    List<ДекСписокГруппФакультета> resultGroup = await _manager.GetGroupByFaculty(faculity);
                     resultGroup = SortGroupByYear(resultGroup);
                     List<MenuItemModel> groups = resultGroup.Select(s => new MenuItemModel(s.Название, null)).ToList();
                     result.Add(new MenuItemModel(faculity, groups));
@@ -134,7 +138,7 @@ namespace UniBase.Controllers
         [HttpGet("GetStudentsByGroup/{group_name}")]
         public async Task<object> GetStudentsByGroup(int groupId)
         {
-            List<ДекВсеДанныеСтудента> result = await DBManager.GetStudentsByGroupCode(groupId);
+            List<ДекВсеДанныеСтудента> result = await _manager.GetStudentsByGroupCode(groupId);
             if (result == null)
             {
                 return NotFound(); // Возвращаем ошибку 404 Not Found, если результат равен null

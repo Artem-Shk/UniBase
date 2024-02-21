@@ -7,7 +7,7 @@ namespace UniBase.CORE.DataBaseManagers
     //узнать что быстрее запросы или сервер ;\
     public class DBManager
     {
-        private static DBManager _instance = GetInstance();
+       
         private readonly DekanatModel context;
         private static List<string>? _propertis;
         public List<string> FieldNames
@@ -26,21 +26,13 @@ namespace UniBase.CORE.DataBaseManagers
 
             }
         }
-        private DBManager()
-        {
+
+        public DBManager() {
             context = new DekanatModel();
         }
 
 
-
-        public static DBManager GetInstance()
-        {
-            if (_instance is null)
-            {
-                _instance = new DBManager();
-            }
-            return _instance;
-        }
+     
         public async Task<List<ДекСписокГруппФакультета>> GetGroupByFaculty(string GroupName)
         {
             return await context.ДекСписокГруппФакультета
@@ -190,7 +182,7 @@ namespace UniBase.CORE.DataBaseManagers
         ");
             return await query.ToListAsync();
         }
-        public async Task<List<JournalHeader>> GetJournalHeaderData(int LastId, int FaculityID, string AcademicYear = "2023-2024")
+        public async Task<List<JournalHeaderDB>> GetJournalHeaderData(int LastId, int FaculityID, string AcademicYear = "2023-2024")
         {
             var query = context.JournalHeader.FromSqlRaw($@"
                    SELECT TOP (120) PrepJournal.[Код] as code
@@ -206,6 +198,7 @@ namespace UniBase.CORE.DataBaseManagers
                   inner join [Деканат].dbo.Все_Группы Groups on PrepJournal.КодГруппы = Groups.Код
                   inner join [Деканат].dbo.Преподаватели Prepods on PrepJournal.КодПреподавателя = Prepods.Код 
                   where PrepJournal.УчебныйГод = '{AcademicYear}' and Groups.Код_Факультета = {FaculityID} and PrepJournal.Код > {LastId}
+                  order by code,discipline,GroupName
         ");
             var result = await query.ToListAsync();
             return result;
