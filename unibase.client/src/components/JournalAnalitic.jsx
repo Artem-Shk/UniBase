@@ -1,7 +1,6 @@
 ﻿import styles from "./journal_analitic.module.css"
 import "react-datepicker/dist/react-datepicker.css";
 import React, { useEffect, useState } from 'react';
-
 import DatePicker from "react-datepicker";
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
@@ -17,11 +16,9 @@ export default function JournalAnalitic() {
     )
 }
 function Body() {
-    return (
-        <div className={styles.main_container}>
-            <ListOfJournals />
-        </div>
-    )
+    return (<div className={styles.main_container}>
+                <ListOfJournals />
+            </div>)
 }
 function LeftMenu() {
     return (
@@ -29,6 +26,7 @@ function LeftMenu() {
         </div>
     )
 }
+// тут пропсы у хедеров строк надо поменять а то хуйня а именно без {} сделать
 function ListOfJournals() {
     const [journals, setJournals] = useState();
     useEffect(() => {
@@ -39,23 +37,28 @@ function ListOfJournals() {
         :<div className={styles.ListOfJournals} >
             <div style={{ display: "flex", width: '100%', flexDirection: 'row' }}>
                 <FindLine/>
-                <MyDatePicker/>
-                <Filter />
+                <MyDatePicker />
+                <Filter list={['2023-2024','2022-2023'] } />
+                <Filter list={['Весна', 'Осень']} />
                 <Button text="Поиск" />
             </div>
             {journals.map(journal =>
                 <PartOfList key={journal.code}
-                            prepodName={journal.teacherName}
-                            GroupName={journal.GroupName}
-                            usercount={journal.studentCount} 
-                            disciplineName={journal.discipline} 
-                            attendance={journal.lectionHours} 
-                            journal_id={journal.code}
-                            >
+                    prepodName={journal.teacherName}
+                    GroupName={journal.GroupName}
+                    usercount={journal.studentCount}
+                    disciplineName={journal.discipline}
+                    attendance={journal.lectionHours}
+                    nagr_idList={journal.nagrCode}
+                    lectionTypes={journal.lectionType}
+                    journal_id={journal.code}
+                >
+                    
                 </PartOfList>
             )}
         </div>
     return (
+
         contents
         )
     async function UpdateJournals(kaf_id) {
@@ -64,13 +67,24 @@ function ListOfJournals() {
         setJournals(data);
     }
 }
-
-function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat,  journal_id }) {
+function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat, journal_id, nagr_idList, lectionTypes }) {
     const [AnaliticCardVisible, setVisible] = useState(true);
     const [AnaliticCardData, setData] = useState(new Object());
+    async function UpdateJournals(journal_id, nagr_id) {
+        const today = new Date().toLocaleDateString("de-DE")
+        var response;
+        if (AnaliticCardVisible === true) {
+            response = await fetch('https://localhost:7256/api/JournalData/GetJornalBody/' + journal_id + '&' + today + '?' + nagr_id);
+            const data = await response.json();
+            console.log(data)
+            setData(data);
+        }
+    } 
     const handleHideCard = async () => {
-        UpdateJournals(journal_id).then(
-            function (result) {
+        
+        var nagr_id = nagr_idList[0];
+        UpdateJournals(journal_id, nagr_id).then(
+            function () {
                 if (AnaliticCardData) {
                     setVisible(!AnaliticCardVisible)
                 }
@@ -80,6 +94,7 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
             }
         )     
     };
+
     return (
         <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
             <GoodRowWithData onClick={handleHideCard}
@@ -88,24 +103,18 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
                              usercount={usercount}
                              disciplineName={disciplineName}
                              attendance={attendance}
-                stat={stat} />
+                             stat={stat}
+            />
             {!AnaliticCardVisible && (
+
                 <SuperAnaliticCard key={journal_id}
-                                   data= {AnaliticCardData}  
-                />
+                    data={AnaliticCardData}
+                    nagr_idList={nagr_idList}
+                    lectionTypes={lectionTypes}/>
             )}
         </div>
-    );
-    async function UpdateJournals(journal_id) {
-        const today = new Date().toLocaleDateString("de-DE")
-        var response;
-        if (AnaliticCardVisible === true) {
-            response = await fetch('https://localhost:7256/api/JournalData/GetJornalBody/' + journal_id + '&' + today);
-            const data = await response.json();
-            setData(data);
-        }
-    }
-  }
+    );  
+} 
 function DoughnutChart({ value }) {
     const containerStyle = {
         width: '50px',
@@ -140,43 +149,43 @@ function DoughnutChart({ value }) {
     };
     return (<Doughnut data={data} options={options} />)
 };
-function SuperAnaliticCard(data) {
-    var zapol = getZapol(data.data.nagrHours, data.data.hours)
-    var attence = CountNProcent(data.data.Ncount, data.data.studentCount, data.data.hours)
+function SuperAnaliticCard({ nagr_idList, lectionTypes, data }) {
+    var zapol = getZapol(data.nagrHours, data.hours)
+    var attence = CountNProcent(data.Ncount, data.studentCount, data.hours)
+
     return (
         <div className={styles.super_analictic}>
             <div className={styles.super_analictic_calendar}>
                 <div className={styles.super_analictic_calendar_Button}>
-                    <Button text = 'Всё время'></Button>
-                    <Button text='Период' ></Button>
+                    {lectionTypes.map(item => <Button text={item}>
+                                                    </Button>)}
                 </div>
-               
             </div>
             <div className={styles.super_analictic_data}>
                 <div className={styles.super_analictic_Card}>
                     <div id='Hours' className={styles.super_analictic_dataCard}>
-                        <p id='Hours_text' className={styles.super_analictic_dataCard_text}>{data.data.hours}</p>
+                        <p id='Hours_text' className={styles.super_analictic_dataCard_text}>{data.hours}</p>
                         <p id='Hours_label' className={styles.super_analictic_dataCard_text2} >часов за период</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
-                        <p className={styles.super_analictic_dataCard_text}>{data.data.EvalCount}</p>
+                        <p className={styles.super_analictic_dataCard_text}>{data.EvalCount}</p>
                         <p className={styles.super_analictic_dataCard_text2} >оценки</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
-                        <p className={styles.super_analictic_dataCard_text}>{data.data.midleAttence}</p>
+                        <p className={styles.super_analictic_dataCard_text}>{data.midleAttence}</p>
                         <p className={styles.super_analictic_dataCard_text2} >Среднее</p>
                     </div>
                     <div className={styles.super_analictic_dataCard}>
-                        <p className={styles.super_analictic_dataCard_text}>{data.data.Ncount}</p>
+                        <p className={styles.super_analictic_dataCard_text}>{data.Ncount}</p>
                         <p className={styles.super_analictic_dataCard_text2} >пропуски</p>
                     </div>
                 </div>
                 <div>
                 </div>
                 <div className={styles.super_analictic_dataCard_graph_container}>
-                    <div className={styles.super_analictic_dataCard_graph} >
+                    <div className={styles.super_analictic_dataCard_graph}>
                         <div >
-                            <DoughnutChart value={zapol}></DoughnutChart>
+                            <DoughnutChart value={zapol} ></DoughnutChart>
                         </div>
                         <p style={{ color: "black" }} >
                             Заполнение журнала
@@ -191,7 +200,6 @@ function SuperAnaliticCard(data) {
                         </p>
                     </div>
                 </div>
-
             </div>
         </div>
     )
@@ -199,7 +207,7 @@ function SuperAnaliticCard(data) {
 function getTodayDate() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var mm = String(today.getMonth() + 1).padStart(2, '0');//January is 0!
     var yyyy = today.getFullYear();
     today = mm + '.' + dd + '.' + yyyy;
     return today;

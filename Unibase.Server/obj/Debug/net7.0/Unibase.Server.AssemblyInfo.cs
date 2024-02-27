@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Unibase.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d77070ae8a5de29ba28e26bf3a13b5a6aca4ab41")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("Unibase.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Unibase.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

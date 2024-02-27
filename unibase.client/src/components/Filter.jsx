@@ -5,7 +5,7 @@ function Filter({ list }) {
     const [valuesF, setValues] = useState(true);
     const [filteredValue, setFilteredValue] = useState('');
     var id = 0;
-    var values = ['AAAAAAAAAAAAA', 'XXXXXXXXXXXXXXXasd', 'GHGFASDGHAS']
+    var values = list
     function updateInput(value) {
         console.log(value);
         setFilteredValue(value);

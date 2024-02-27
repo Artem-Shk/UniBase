@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using Unibase.Server.Models;
 using UniBase.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UniBase.CORE.DataBaseManagers
 {
@@ -158,6 +160,7 @@ namespace UniBase.CORE.DataBaseManagers
         public async Task<List<JournalData>> GetJournalsByFaculity(int LastId, int FaculityID, string AcademicYear = "2023-2024")
         {
             var query = context.prepJournalData.FromSqlRaw($@"
+           
            SELECT   TOP 20  PrepJournal.[Код] as [key]
                 ,PrepJournal.[Дисциплина] as [discipline]
                 ,p.ФИО as teacherName
@@ -182,24 +185,39 @@ namespace UniBase.CORE.DataBaseManagers
         ");
             return await query.ToListAsync();
         }
-        public async Task<List<JournalHeaderDB>> GetJournalHeaderData(int LastId, int FaculityID, string AcademicYear = "2023-2024")
+        public async Task<List<JournalHeaderDB>> GetJournalHeaderData( int FaculityID, int LastId=0, string AcademicYear = "2023-2024", string startDate = "2023-12-27T00:00:00",string EndDate = "2024-01-25T00:00:00", int semestr = 1)
         {
             var query = context.JournalHeader.FromSqlRaw($@"
+           
+                     DECLARE @a DATETIME = '{startDate}'
+                    DECLARE @b DATETIME = '{EndDate}'
                    SELECT TOP (120) PrepJournal.[Код] as code
-                      ,PrepJournal.[Дисциплина] as discipline
-                      ,PrepJournal.[ВидЗанятий] as lectionType
-                      ,PrepJournal.[Семестр] as semester
-                      ,PrepJournal.[КодСтрокиНагрузки] as nagrCode
-	                  ,nagr.Студентов as studentCount
-	                  ,Groups.Название as GroupName
-	                  ,Prepods.ФИО as teacherName
-                  FROM [Деканат].[dbo].[ЖурналПреподавателя] PrepJournal
-                  inner join [Деканат].dbo.Нагрузка nagr on PrepJournal.КодСтрокиНагрузки =nagr.Код
-                  inner join [Деканат].dbo.Все_Группы Groups on PrepJournal.КодГруппы = Groups.Код
-                  inner join [Деканат].dbo.Преподаватели Prepods on PrepJournal.КодПреподавателя = Prepods.Код 
-                  where PrepJournal.УчебныйГод = '{AcademicYear}' and Groups.Код_Факультета = {FaculityID} and PrepJournal.Код > {LastId}
-                  order by code,discipline,GroupName
+                     ,PrepJournal.[Дисциплина] as discipline
+                     ,PrepJournal.[ВидЗанятий] as lectionType
+                     ,PrepJournal.[Семестр] as semester
+                     ,PrepJournal.[КодСтрокиНагрузки] as nagrCode
+	                 ,PrepJournal.КодГруппы as groupCode
+	                 ,nagr.КодДисциплины as disciplineCode
+                     ,nagr.Студентов as studentCount
+                     ,Groups.Название as GroupName
+                     ,Prepods.ФИО as teacherName
+                 FROM [Деканат].[dbo].[ЖурналПреподавателя] PrepJournal
+                     inner join [Деканат].dbo.Нагрузка nagr on PrepJournal.КодСтрокиНагрузки =nagr.Код
+                     inner join [Деканат].dbo.Все_Группы Groups on PrepJournal.КодГруппы = Groups.Код
+                     inner join [Деканат].dbo.Преподаватели Prepods on PrepJournal.КодПреподавателя = Prepods.Код 
+                 where 
+				
+				 PrepJournal.УчебныйГод = '{AcademicYear}' and Groups.Код_Факультета = {FaculityID}
+            and PrepJournal.Код > {LastId}
+            and PrepJournal.Семестр = {semestr}
+            and PrepJournal.Код in (
+				select КодЖурнала from [Деканат].dbo.ЖурналДаты
+				where Дата BETWEEN @a AND @b
+			)
+            order by code,groupCode,disciplineCode
+                
         ");
+       
             var result = await query.ToListAsync();
             return result;
         }
@@ -264,6 +282,11 @@ namespace UniBase.CORE.DataBaseManagers
                                        .Select(data => data.Студентов)
                                        .FirstOrDefaultAsync();
             return ((int)result);
+        }
+        public async Task<string> DateTimeToSqlString(DateTime date)
+        {
+            
+            return date.ToString();
         }
        
     }

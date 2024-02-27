@@ -72,9 +72,9 @@ namespace UniBase.CORE
         }
         public async Task<List<JournalHeaderWeb>>  CreateHeaders(int faculityId)
         {
-            List<JournalHeaderDB> resultDB = await _data_base_manager.GetJournalHeaderData(0, faculityId);
+            List<JournalHeaderDB> resultDB = await _data_base_manager.GetJournalHeaderData(faculityId);
             List<JournalHeaderWeb> result = new List<JournalHeaderWeb>();
-            for (int i = 0; i <= resultDB.Count; i++)
+            for (int i = 0; i < resultDB.Count; i++)
             {   JournalHeaderWeb WebItem = new JournalHeaderWeb();
                 
                 WebItem.discipline = resultDB[i].discipline;
@@ -82,30 +82,32 @@ namespace UniBase.CORE
                 WebItem.semester = resultDB[i].semester;
                 WebItem.teacherName = resultDB[i].teacherName;
                 WebItem.studentCount = resultDB[i].studentCount;
-                WebItem.lectionType = resultDB[i].lectionType;
+                WebItem.code = resultDB[i].code;
                 WebItem.nagrCode = new List<int?>();
-                if (i >= resultDB.Count - 1)
+                WebItem.lectionType = new List<string?>();
+                
+                while (i + 1 < resultDB.Count && 
+                       (resultDB[i].disciplineCode == resultDB[i + 1].disciplineCode &&
+                        resultDB[i].groupCode == resultDB[i + 1].groupCode))
                 {
-                    result.Add(WebItem);
-                    return result;
-                }
-                bool condition = resultDB[i].discipline == resultDB[i + 1].discipline && resultDB[i].GroupName == resultDB[i + 1].GroupName;
-
-                while (condition)
-                {
+                 
                     WebItem.nagrCode.Add(resultDB[i].nagrCode);
+                    WebItem.lectionType.Add(resultDB[i].lectionType);
                     i++;
                 }
-                if(!condition)
+                if (
+                    (i > 0 && i + 1 < resultDB.Count )
+                    &&  (resultDB[i].disciplineCode == resultDB[i - 1].disciplineCode &&
+                        resultDB[i].groupCode == resultDB[i - 1].groupCode &&
+                        resultDB[i].disciplineCode != resultDB[i + 1].disciplineCode)
+                        );
                 {
-                    List<int?>? nagrCodes = new List<int?>
-                    {
-                        resultDB[i].nagrCode,
-                    };
-                    WebItem.nagrCode = nagrCodes;
+                    WebItem.nagrCode.Add(resultDB[i].nagrCode);
+                    WebItem.lectionType.Add(resultDB[i].lectionType);
                 }
                 result.Add(WebItem);
             }
+
             return result;
         }
 

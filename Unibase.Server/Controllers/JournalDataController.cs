@@ -58,12 +58,10 @@ namespace UniBase.Controllers
         }
         // ЭТО ЛЮТОЕ ДЕРМИЩЕ ПОЛНОЕ ОРЕШКОВ
         [HttpGet("GetJornalBody/{journalId=9673}&{date}")]
-        public async Task<IActionResult> GetJornalBody(int journalId = 9673, string date = "17.01.2024")
+        public async Task<IActionResult> GetJornalBody(int journalId = 9673, string date = "17.01.2024", int nagrCode = 68458)
         {
             //Взять инстанс базы
-          
             // Вызвать методы асинхронно
-            int nagrCode = await _dBManager.GetStringNagrCodeFromPrepJournal(journalId);
             List<JournalPartRow>  JournalPartRows =  await _dBManager.getJournalDataPart(journalId);
             int NagrHours = await _dBManager.GetNagrHours(nagrCode);
             int StudentCount = await _dBManager.GetStudentCount(nagrCode);
@@ -79,7 +77,8 @@ namespace UniBase.Controllers
                 nagrHours = NagrHours,
                 hours = hours,
                 EvalCount = EvalCount,
-                studentCount = StudentCount
+                studentCount = StudentCount,
+                
             };
             if (body == null)
             {
@@ -89,10 +88,7 @@ namespace UniBase.Controllers
             {
                 return Ok(JsonHelper.JsonSerialize(body));
             }
-
         }
-        
-       
         private  Double GetMiddleValue(int attencCount, List<JournalPartRow> journalAttence)
         {
             float midleAttence = 0.00f;
