@@ -57,7 +57,7 @@ namespace UniBase.Controllers
             }
         }
         // ЭТО ЛЮТОЕ ДЕРМИЩЕ ПОЛНОЕ ОРЕШКОВ
-        [HttpGet("GetJornalBody/{journalId=9673}&{date}")]
+        [HttpGet("GetJornalBody/{journalId=9673}&{date}&{nagrCode}")]
         public async Task<IActionResult> GetJornalBody(int journalId = 9673, string date = "17.01.2024", int nagrCode = 68458)
         {
             //Взять инстанс базы

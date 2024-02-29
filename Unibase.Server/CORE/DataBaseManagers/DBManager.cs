@@ -259,12 +259,13 @@ namespace UniBase.CORE.DataBaseManagers
         }
         public async Task<int> GetNagrHours(int NagrId)
         {
-            float result = await context.Нагрузка.AsNoTracking()
+            var result = context.Нагрузка.AsNoTracking()
                                        .Where(key => key.Код == NagrId)
-                                       .Select(data => data.Часов)
-                                       .FirstOrDefaultAsync();
+                                       .Select(data => data.Часов);
+                                     
             
-            return ((int)result);
+            var res = await result.FirstAsync();
+            return (int)res;
 
         }
         public async Task<int> GetStringNagrCodeFromPrepJournal(int journalId)

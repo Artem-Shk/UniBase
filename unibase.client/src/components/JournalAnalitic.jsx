@@ -38,9 +38,9 @@ function ListOfJournals() {
             <div style={{ display: "flex", width: '100%', flexDirection: 'row' }}>
                 <FindLine/>
                 <MyDatePicker />
-                <Filter list={['2023-2024','2022-2023'] } />
+                <Filter  list={['2023-2024','2022-2023'] } />
                 <Filter list={['Весна', 'Осень']} />
-                <Button text="Поиск" />
+                <Button text="Поиск" onClick={updateJournalByFilter({})} />
             </div>
             {journals.map(journal =>
                 <PartOfList key={journal.code}
@@ -53,16 +53,19 @@ function ListOfJournals() {
                     lectionTypes={journal.lectionType}
                     journal_id={journal.code}
                 >
-                    
                 </PartOfList>
             )}
         </div>
     return (
-
         contents
         )
     async function UpdateJournals(kaf_id) {
         const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28');
+        const data = await response.json();
+        setJournals(data);
+    }
+    function updateJournalByFilter(filtred_obj) {
+        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/' + filtred_obj.faculityID + '&' + filtred_obj.lastId);
         const data = await response.json();
         setJournals(data);
     }
@@ -74,7 +77,7 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
         const today = new Date().toLocaleDateString("de-DE")
         var response;
         if (AnaliticCardVisible === true) {
-            response = await fetch('https://localhost:7256/api/JournalData/GetJornalBody/' + journal_id + '&' + today + '?' + nagr_id);
+            response = await fetch('https://localhost:7256/api/JournalData/GetJornalBody/' + journal_id + '&' + today + '&' + nagr_id);
             const data = await response.json();
             console.log(data)
             setData(data);
@@ -90,7 +93,7 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
                 }
             },
             function (error) {
-               console.log('not Faggot just like a man')
+                console.log(error)
             }
         )     
     };

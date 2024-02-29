@@ -76,7 +76,6 @@ namespace UniBase.CORE
             List<JournalHeaderWeb> result = new List<JournalHeaderWeb>();
             for (int i = 0; i < resultDB.Count; i++)
             {   JournalHeaderWeb WebItem = new JournalHeaderWeb();
-                
                 WebItem.discipline = resultDB[i].discipline;
                 WebItem.GroupName = resultDB[i].GroupName;
                 WebItem.semester = resultDB[i].semester;
