@@ -9,6 +9,7 @@ import GoodRowWithData from './GoodRowWithData'
 import MyDatePicker from './MyDatePicker'
 import FindLine from './FindLine'
 import Filter from './Filter'
+import { set } from "../../../../../Users/shakrislanov.a/AppData/Local/Microsoft/TypeScript/5.2/node_modules/date-fns/set";
 ChartJS.register(ArcElement, Tooltip);
 export default function JournalAnalitic() {
     return (
@@ -32,6 +33,7 @@ function ListOfJournals() {
     useEffect(() => {
         UpdateJournals();
     }, []);
+
     const contents = journals === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         :<div className={styles.ListOfJournals} >
@@ -40,7 +42,11 @@ function ListOfJournals() {
                 <MyDatePicker />
                 <Filter  list={['2023-2024','2022-2023'] } />
                 <Filter list={['Весна', 'Осень']} />
-                <Button text="Поиск" onClick={updateJournalByFilter({})} />
+                <Button text="Поиск" onClick={() => {
+                    console.log("Button clicked");
+                    UpdateJournalsWithFilter(8);
+                }} />
+
             </div>
             {journals.map(journal =>
                 <PartOfList key={journal.code}
@@ -57,6 +63,7 @@ function ListOfJournals() {
             )}
         </div>
     return (
+
         contents
         )
     async function UpdateJournals(kaf_id) {
@@ -64,10 +71,18 @@ function ListOfJournals() {
         const data = await response.json();
         setJournals(data);
     }
-    function updateJournalByFilter(filtred_obj) {
-        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/' + filtred_obj.faculityID + '&' + filtred_obj.lastId);
+    async function UpdateJournalsWithFilter(kaf_id) {
+        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/' + kaf_id + '&' +);
+        
         const data = await response.json();
-        setJournals(data);
+        console.log(data)
+        if (data != undefined) {
+            setJournals(data);
+        }
+        else {
+            setJournals([]);
+        }
+        
     }
 }
 function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat, journal_id, nagr_idList, lectionTypes }) {
