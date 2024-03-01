@@ -41,7 +41,7 @@ namespace UniBase.Controllers
             }
 
         }
-        [HttpGet("GetJornalsHeaders/{faculityId=8}")]
+        [HttpGet("GetJornalsHeaders/{faculityId=8}&{lastId=0}")]
         public async Task<IActionResult> GetJornalsHeaders(int faculityId, int lastId =0)
         {
            

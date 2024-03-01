@@ -188,7 +188,6 @@ namespace UniBase.CORE.DataBaseManagers
         public async Task<List<JournalHeaderDB>> GetJournalHeaderData( int FaculityID, int LastId=0, string AcademicYear = "2023-2024", string startDate = "2023-12-27T00:00:00",string EndDate = "2024-01-25T00:00:00", int semestr = 1)
         {
             var query = context.JournalHeader.FromSqlRaw($@"
-           
                      DECLARE @a DATETIME = '{startDate}'
                     DECLARE @b DATETIME = '{EndDate}'
                    SELECT TOP (120) PrepJournal.[Код] as code

@@ -18,7 +18,7 @@ function Filter({ list }) {
                 className='filter_input'
                 readOnly={true}
                 value={filteredValue}
-
+               
             ></input>
             </div>
            

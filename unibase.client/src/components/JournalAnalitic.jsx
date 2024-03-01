@@ -44,7 +44,7 @@ function ListOfJournals() {
                 <Filter list={['Весна', 'Осень']} />
                 <Button text="Поиск" onClick={() => {
                     console.log("Button clicked");
-                    UpdateJournalsWithFilter(8);
+                    UpdateJournalsWithFilter(8,0);
                 }} />
 
             </div>
@@ -67,13 +67,12 @@ function ListOfJournals() {
         contents
         )
     async function UpdateJournals(kaf_id) {
-        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28');
+        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28&0');
         const data = await response.json();
         setJournals(data);
     }
-    async function UpdateJournalsWithFilter(kaf_id) {
-        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/' + kaf_id + '&' +);
-        
+    async function UpdateJournalsWithFilter(kaf_id,last_id) {
+        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/' + kaf_id + '&' + last_id);
         const data = await response.json();
         console.log(data)
         if (data != undefined) {
@@ -82,7 +81,6 @@ function ListOfJournals() {
         else {
             setJournals([]);
         }
-        
     }
 }
 function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat, journal_id, nagr_idList, lectionTypes }) {
