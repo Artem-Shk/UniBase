@@ -13,3 +13,10 @@
 /.vs/UniBase/DesignTimeBuild/.dtbcache.v2
 /.vs/UniBase/FileContentIndex/188b9e10-f2a3-4db4-acad-7c4f3bf1a350.vsidx
 /.vs/UniBase/v17/.futdcache.v2
+/.vs
+/Unibase.Server/obj/Debug/net7.0/Unibase.Server.AssemblyInfo.cs
+/Unibase.Server/obj/Debug/net7.0/Unibase.Server.AssemblyInfoInputs.cache
+/Unibase.Server/obj/Debug/net7.0/Unibase.Server.assets.cache
+/Unibase.Server/obj/Debug/net7.0/Unibase.Server.GeneratedMSBuildEditorConfig.editorconfig
+/Unibase.Server/obj/Release/net7.0/Unibase.Server.assets.cache
+/Unibase.Server/obj/Release/net7.0/Unibase.Server.GeneratedMSBuildEditorConfig.editorconfig
