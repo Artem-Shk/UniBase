@@ -1,48 +1,81 @@
-import React from 'react';
+import "./paginator.css";
 import classNames from "classnames";
-import "./pagination.css"
-//create list of numbers from start to end example: range(0, 10) return [0,1,2,3,....]
+
 const range = (start, end) => {
-    return[...Array(end - start).keys()].map((el)) => el + start);
-}
-//cut pages use condirions 
+    return [...Array(end - start).keys()].map((el) => el + start);
+};
+
 const getPagesCut = ({ pagesCount, pagesCutCount, currentPage }) => {
-    //const u now what is
-    // Math thats js library
-    // cell makes less rounding
-    const ceiling = Math.ceil(pagescutCount / 2);
+    const ceiling = Math.ceil(pagesCutCount / 2);
     const floor = Math.floor(pagesCutCount / 2);
-    console.log("ceiling:", ceiling);
+    console.log("ceiling", ceiling);
     console.log("floor", floor);
 
-    //conditions all pages < needed value pages return object {start:1 end: allpages + 1 }
     if (pagesCount < pagesCutCount) {
         return { start: 1, end: pagesCount + 1 };
-    }
-    // 
-    else if (currentPage >= 1 && currentPage <= ceiling) {
+    } else if (currentPage >= 1 && currentPage <= ceiling) {
         return { start: 1, end: pagesCutCount + 1 };
-    }
-    else if (currentPage + floor >= pagesCount) {
-        return { start: pagesCount - pagesCutCount + 1, end: pagesCount + 1 }
-    }
-    else {
+    } else if (currentPage + floor >= pagesCount) {
+        return { start: pagesCount - pagesCutCount + 1, end: pagesCount + 1 };
+    } else {
         return { start: currentPage - ceiling + 1, end: currentPage + floor + 1 };
     }
-}
+};
 
-const PaginationItem({ page, currentPage, onPageChange, isDisable }) => {
+const PaginationItem = ({ page, currentPage, onPageChange, isDisabled }) => {
+    const liClasses = classNames({
+        "page-item": true,
+        active: page === currentPage,
+        disabled: isDisabled,
+    });
     return (
-        <li>
-            <span>{page}</span>
+        <li className={liClasses} onClick={() => onPageChange(page)}>
+            <span className="page-link">{page}</span>
         </li>
-    )
-}
-const Pagination({ }) => {
-    <ui>
-        <PaginationItem></PaginationItem>
-    </ui>
+    );
+};
 
-}
-
-export default ;
+const Pagination = ({ currentPage, total, limit, onPageChange }) => {
+    const pagesCount = Math.ceil(total / limit);
+    const pagesCut = getPagesCut({ pagesCount, pagesCutCount: 5, currentPage });
+    const pages = range(pagesCut.start, pagesCut.end);
+    const isFirstPage = currentPage === 1;
+    const isLastPage = currentPage === pagesCount;
+    return (
+        <ul className="pagination">
+            <PaginationItem
+                page="First"
+                currentPage={currentPage}
+                onPageChange={() => onPageChange(1)}
+                isDisabled={isFirstPage}
+            />
+            <PaginationItem
+                page="Prev"
+                currentPage={currentPage}
+                onPageChange={() => onPageChange(currentPage - 1)}
+                isDisabled={isFirstPage}
+            />
+            {pages.map((page) => (
+                <PaginationItem
+                    page={page}
+                    key={page}
+                    currentPage={currentPage}
+                    onPageChange={onPageChange}
+                />
+            ))}
+            <PaginationItem
+                page="Next"
+                currentPage={currentPage}
+                onPageChange={() => onPageChange(currentPage + 1)}
+                isDisabled={isLastPage}
+            />
+            <PaginationItem
+                page="Last"
+                currentPage={currentPage}
+                onPageChange={() => onPageChange(pages.length)}
+                isDisabled={isLastPage}
+            />
+        </ul>
+    );
+};
+export default Pagination;

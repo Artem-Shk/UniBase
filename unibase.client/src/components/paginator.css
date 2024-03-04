@@ -25,7 +25,7 @@
     .page-item.active .page-link:focus,
     .page-item.active .page-link:hover {
         z-index: 2;
-        color: #fff;
+        color: #000000;
         cursor: default;
         background-color: #5cb85c;
         border-color: #5cb85c;

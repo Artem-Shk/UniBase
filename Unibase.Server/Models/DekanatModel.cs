@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using Unibase.Server.Models;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UniBase.Models
 {
@@ -57,7 +60,7 @@ namespace UniBase.Models
         //TODO: this shit thats not right 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=sql;Database=Деканат;Trusted_Connection=True; TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Деканат;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
             optionsBuilder.EnableSensitiveDataLogging();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

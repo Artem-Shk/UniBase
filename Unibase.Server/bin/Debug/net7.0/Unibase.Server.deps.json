@@ -9,7 +9,7 @@
       "Unibase.Server/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "7.0.13",
-          "Microsoft.AspNetCore.SpaProxy": "7.0.15",
+          "Microsoft.AspNetCore.SpaProxy": "7.0.16",
           "Microsoft.EntityFrameworkCore": "7.0.14",
           "Microsoft.EntityFrameworkCore.Relational": "7.0.14",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.14",
@@ -73,11 +73,11 @@
           }
         }
       },
-      "Microsoft.AspNetCore.SpaProxy/7.0.15": {
+      "Microsoft.AspNetCore.SpaProxy/7.0.16": {
         "runtime": {
           "lib/net7.0/Microsoft.AspNetCore.SpaProxy.dll": {
-            "assemblyVersion": "7.0.15.0",
-            "fileVersion": "7.0.1523.60110"
+            "assemblyVersion": "7.0.16.0",
+            "fileVersion": "7.0.1624.6815"
           }
         }
       },
@@ -659,12 +659,12 @@
       "path": "microsoft.aspnetcore.openapi/7.0.13",
       "hashPath": "microsoft.aspnetcore.openapi.7.0.13.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.SpaProxy/7.0.15": {
+    "Microsoft.AspNetCore.SpaProxy/7.0.16": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-JS6MFw9YyPMauEGs1SRXZ1oPR+7qAXBdp3f75fOQIdPW6cNWm27g678P7F1DSAc97mZ8mIBBdTRpvC6radS0/A==",
-      "path": "microsoft.aspnetcore.spaproxy/7.0.15",
-      "hashPath": "microsoft.aspnetcore.spaproxy.7.0.15.nupkg.sha512"
+      "sha512": "sha512-7FULMIscoqnMbgqot77mVpnsWxNpV0qHluCsNJRcx9io4POELJ/hIGZa71cbIUImEpKQoaJZe7Wzh3h0IFvdRw==",
+      "path": "microsoft.aspnetcore.spaproxy/7.0.16",
+      "hashPath": "microsoft.aspnetcore.spaproxy.7.0.16.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
       "type": "package",
