@@ -1,2 +1,3 @@
 D:\Artem-Shk\Unibase1\unibase1.client\obj\Debug\unibase.client.esproj.CoreCompileInputs.cache
 D:\Artem-Shk\UniBase\unibase.client\obj\Debug\unibase.client.esproj.CoreCompileInputs.cache
+C:\Users\Администратор\Source\Repos\Artem-Shk\UniBase\unibase.client\obj\Debug\unibase.client.esproj.CoreCompileInputs.cache

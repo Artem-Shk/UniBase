@@ -9,8 +9,10 @@ import GoodRowWithData from './GoodRowWithData'
 import MyDatePicker from './MyDatePicker'
 import FindLine from './FindLine'
 import Filter from './Filter'
-import { set } from "../../../../../Users/shakrislanov.a/AppData/Local/Microsoft/TypeScript/5.2/node_modules/date-fns/set";
+import generateData from 'C:/Users/Администратор/Source/Repos/Artem-Shk/UniBase/unibase.client/src/testData.js'
+import Paginator from './Paginator'
 ChartJS.register(ArcElement, Tooltip);
+const TestData = generateData();
 export default function JournalAnalitic() {
     return (
         <ListOfJournals />
@@ -23,7 +25,7 @@ function Body() {
 }
 function LeftMenu() {
     return (
-        <div>
+        <div> 
         </div>
     )
 }
@@ -48,7 +50,8 @@ function ListOfJournals() {
                 }} />
 
             </div>
-            {journals.map(journal =>
+            {TestData.map(journal =>
+                <div>
                 <PartOfList key={journal.code}
                     prepodName={journal.teacherName}
                     GroupName={journal.GroupName}
@@ -59,12 +62,18 @@ function ListOfJournals() {
                     lectionTypes={journal.lectionType}
                     journal_id={journal.code}
                 >
-                </PartOfList>
+                    </PartOfList>
+                </div>
             )}
+            
         </div>
     return (
-
-        contents
+        <div>
+            {contents}
+            <Paginator currentPage={1} total={200} limit={20} onPageChange={generateData()}  ></Paginator>
+        
+        </div>
+     
         )
     async function UpdateJournals(kaf_id) {
         const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28&0');
