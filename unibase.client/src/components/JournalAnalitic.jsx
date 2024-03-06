@@ -9,10 +9,11 @@ import GoodRowWithData from './GoodRowWithData'
 import MyDatePicker from './MyDatePicker'
 import FindLine from './FindLine'
 import Filter from './Filter'
-import generateData from 'C:/Users/Администратор/Source/Repos/Artem-Shk/UniBase/unibase.client/src/testData.js'
+//import generateData from 'C:/Users/Администратор/Source/Repos/Artem-Shk/UniBase/unibase.client/src/testData.js'
+
 import Paginator from './Paginator'
 ChartJS.register(ArcElement, Tooltip);
-const TestData = generateData();
+//const TestData = generateData();
 export default function JournalAnalitic() {
     return (
         <ListOfJournals />
@@ -32,26 +33,37 @@ function LeftMenu() {
 // тут пропсы у хедеров строк надо поменять а то хуйня а именно без {} сделать
 function ListOfJournals() {
     const [journals, setJournals] = useState();
+    const [click, ClickEvent] = useState(false);
     useEffect(() => {
         UpdateJournals();
     }, []);
-
+    const curentDate = createListOfcurrentDates()
+    var selectedFiltersObj = {
+        "findline": 'Чайкина',
+        "datepicker": 'Чайкина',
+        "year": 'Чайкина',
+        "semestr": 'Чайкина',
+    }
+    const years = ['2023-2024', '2022-2023']
+    const semesters = ['Весна', 'Осень']
+    
+    const [selectedFilters, setSelectedFilters] = useState(selectedFiltersObj)
     const contents = journals === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         :<div className={styles.ListOfJournals} >
             <div style={{ display: "flex", width: '100%', flexDirection: 'row' }}>
-                <FindLine/>
-                <MyDatePicker />
-                <Filter  list={['2023-2024','2022-2023'] } />
-                <Filter list={['Весна', 'Осень']} />
-                <Button text="Поиск" onClick={() => {
+                <FindLine clickState={click} valueHook={UpdateFindlineFilterValue} />
+                <MyDatePicker defaultDate={curentDate} />
+                <Filter list={years} onChangeEvent={UpdateYearFilterValue} />
+                <Filter list={semesters} onChangeEvent={UpdateSemestrFilterValue} />
+                <Button text="Поиск"  onClick={() => {
                     console.log("Button clicked");
                     UpdateJournalsWithFilter(8,0);
                 }} />
 
             </div>
-            {TestData.map(journal =>
-                <div>
+            {journals.map(journal =>
+
                 <PartOfList key={journal.code}
                     prepodName={journal.teacherName}
                     GroupName={journal.GroupName}
@@ -63,19 +75,19 @@ function ListOfJournals() {
                     journal_id={journal.code}
                 >
                     </PartOfList>
-                </div>
+      
             )}
             
         </div>
     return (
         <div>
             {contents}
-            <Paginator currentPage={1} total={200} limit={20} onPageChange={generateData()}  ></Paginator>
+            <Paginator currentPage={1} total={200} limit={20} onPageChange={() => UpdateJournalsWithFilter(8,300)}  ></Paginator>
         
         </div>
      
         )
-    async function UpdateJournals(kaf_id) {
+    async function UpdateJournals() {
         const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28&0');
         const data = await response.json();
         setJournals(data);
@@ -90,6 +102,40 @@ function ListOfJournals() {
         else {
             setJournals([]);
         }
+    }
+    function createListOfcurrentDates() {
+        var result = []
+        const curentDate = new Date()
+        var startdate = new Date()
+        var enddate = new Date()
+        console.log(curentDate.getMonth > 0)
+
+        if (curentDate.getMonth() > 0 && curentDate.getMonth() < 6) {
+            
+            startdate.setFullYear(curentDate.getFullYear() - 1, 8, 1)
+            enddate.setFullYear(curentDate.getFullYear(),6,1)
+        }
+        else {
+            startdate.setFullYear(curentDate.getFullYear(), 8, 1)
+            enddate.setFullYear(curentDate.getFullYear() +1 , 6, 1)
+        }
+
+        result.push(startdate, enddate)
+        return result;
+    }
+    function UpdateFindlineFilterValue(val) {
+        selectedFiltersObj.findline = val
+        console.log(selectedFiltersObj)
+        setSelectedFilters(selectedFiltersObj)
+    }
+    function UpdateDatePickerFilterValue() {
+
+    }
+    function UpdateYearFilterValue() {
+        
+    }
+    function UpdateSemestrFilterValue() {
+
     }
 }
 function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat, journal_id, nagr_idList, lectionTypes }) {

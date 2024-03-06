@@ -58,9 +58,10 @@ namespace UniBase.Models
         public virtual DbSet<JournalPartRow> JournalPartRow { get; set; }
         public virtual DbSet<Нагрузка> Нагрузка { get; set;}
         //TODO: this shit thats not right 
+        // @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Деканат;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Деканат;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            optionsBuilder.UseSqlServer(@"Data Source=SQL;Initial Catalog=Деканат;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
             optionsBuilder.EnableSensitiveDataLogging();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

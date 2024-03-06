@@ -3375,24 +3375,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Администратор\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "D:\\Users\\shakrislanov.a\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Администратор\\Source\\Repos\\Artem-Shk\\UniBase\\unibase.Server\\Unibase.Server.csproj",
+      "projectUniqueName": "D:\\Artem-Shk\\UniBase\\unibase.Server\\Unibase.Server.csproj",
       "projectName": "Unibase.Server",
-      "projectPath": "C:\\Users\\Администратор\\Source\\Repos\\Artem-Shk\\UniBase\\unibase.Server\\Unibase.Server.csproj",
-      "packagesPath": "C:\\Users\\Администратор\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Администратор\\Source\\Repos\\Artem-Shk\\UniBase\\unibase.Server\\obj\\",
+      "projectPath": "D:\\Artem-Shk\\UniBase\\unibase.Server\\Unibase.Server.csproj",
+      "packagesPath": "D:\\Users\\shakrislanov.a\\.nuget\\packages\\",
+      "outputPath": "D:\\Artem-Shk\\UniBase\\unibase.Server\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Администратор\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "D:\\Users\\shakrislanov.a\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

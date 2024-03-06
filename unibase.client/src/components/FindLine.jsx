@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './FindLine.css'
-function FindLine() {
+function FindLine({ clickHandler, valueHook }) {
+    const [findlineinputVal, SetInpuVal] = useState('');
+    if (clickHandler) {
+        
+        valueHook(findlineinputVal)
+    }
     return (
         <div className='FindLine'>
             <div className='search_container' >
-                <input type="text" className='search_container_text' />
+
+                <input id="finline" type="text" className='search_container_text' onInput={evt => {
+                    SetInpuVal(evt.target.value)
+                }}/>
                 <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none">
                     <mask style={{ id: "mask0_378_8642", style: "mask-type:alpha", maskUnits: "userSpaceOnUse" }}>
                         <rect style={{ fill: "#D9D9D9" }} />

@@ -1,9 +1,10 @@
 import React, { forwardRef, useState } from 'react';
 import DatePicker from "react-datepicker";
 import './MyDatePicker.css'
-function MyDatePicker() {
+
+function MyDatePicker({ defaultDate }) {
     const [dateRange, setDateRange] = useState([null, null]);
-    const [startDate, endDate] = dateRange;
+    const [startDate, endDate] = defaultDate;
     const CustomInput = forwardRef(({ value, onClick }, ref) =>
     (
         <button className='custom-input' onClick={onClick} ref={ref}>
@@ -12,6 +13,7 @@ function MyDatePicker() {
     ));
     return (
         <DatePicker
+
             selectsRange={true}
             startDate={startDate}
             endDate={endDate}
