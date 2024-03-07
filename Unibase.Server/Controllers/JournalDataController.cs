@@ -29,7 +29,7 @@ namespace UniBase.Controllers
         {
             const int list = 200;
             int lastID = 0;
-            List<FaculityPackage> result = await new JournalFabric(faculityId, _dBManager).createDataForFaculityAsync();
+            List<FaculityPackage> result = await new JournalFabric(_dBManager, faculityId).createDataForFaculityAsync();
             if (result == null)
             {
                 return NotFound();
@@ -41,12 +41,12 @@ namespace UniBase.Controllers
             }
 
         }
-        [HttpGet("GetJornalsHeaders/{faculityId=8}&{lastId=0}")]
-        public async Task<IActionResult> GetJornalsHeaders(int faculityId, int lastId =0)
+        [HttpGet("GetJornalsHeaders/{FaculityID=8}&{LastId=0}&{AcademicYear}&{startDate}&{EndDate}&{semestr}")]
+        public async Task<IActionResult> GetJornalsHeaders(int FaculityID, int LastId = 0, string AcademicYear = "2023-2024", string startDate = "2023-12-27T00:00:00", string EndDate = "2024-01-25T00:00:00", int semestr = 1)
         {
            
-            JournalFabric fabric = new JournalFabric(faculityId, _dBManager);
-            List<JournalHeaderWeb> result = await fabric.CreateHeaders(faculityId);
+            JournalFabric fabric = new JournalFabric(_dBManager,FaculityID,LastId,AcademicYear,startDate,EndDate,semestr );
+            List<JournalHeaderWeb> result = await fabric.CreateHeaders(FaculityID);
             if (result == null)
             {
                 return NotFound();

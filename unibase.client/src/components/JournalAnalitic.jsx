@@ -1,6 +1,6 @@
 ﻿import styles from "./journal_analitic.module.css"
 import "react-datepicker/dist/react-datepicker.css";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DatePicker from "react-datepicker";
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
@@ -14,6 +14,7 @@ import Filter from './Filter'
 import Paginator from './Paginator'
 ChartJS.register(ArcElement, Tooltip);
 //const TestData = generateData();
+var last_id = 0;
 export default function JournalAnalitic() {
     return (
         <ListOfJournals />
@@ -30,39 +31,54 @@ function LeftMenu() {
         </div>
     )
 }
-// тут пропсы у хедеров строк надо поменять а то хуйня а именно без {} сделать
+
+
 function ListOfJournals() {
     const [journals, setJournals] = useState();
-    const [click, ClickEvent] = useState(false);
+
+    var curentDate = createListOfcurrentDates()
     useEffect(() => {
-        UpdateJournals();
+        UpdateJournals([]);
+       
     }, []);
-    const curentDate = createListOfcurrentDates()
+    const finLineRef = useRef('');
+    const DatePickerRef = useRef();
+    const FilterSemestrRef = useRef('');
+    const FilterYearRef = useRef('');
+
     var selectedFiltersObj = {
-        "findline": 'Чайкина',
-        "datepicker": 'Чайкина',
-        "year": 'Чайкина',
-        "semestr": 'Чайкина',
+        "findline": "",
+        "datepicker": '2023-12-27T00:00:00',
+        "year": '2023-2024',
+        "semestr": 1,
     }
-    const years = ['2023-2024', '2022-2023']
+    const years = ['2023-2024', '2022-2023'] 
     const semesters = ['Весна', 'Осень']
     
-    const [selectedFilters, setSelectedFilters] = useState(selectedFiltersObj)
+
     const contents = journals === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         :<div className={styles.ListOfJournals} >
             <div style={{ display: "flex", width: '100%', flexDirection: 'row' }}>
-                <FindLine clickState={click} valueHook={UpdateFindlineFilterValue} />
-                <MyDatePicker defaultDate={curentDate} />
-                <Filter list={years} onChangeEvent={UpdateYearFilterValue} />
-                <Filter list={semesters} onChangeEvent={UpdateSemestrFilterValue} />
-                <Button text="Поиск"  onClick={() => {
-                    console.log("Button clicked");
-                    UpdateJournalsWithFilter(8,0);
+                <FindLine finLineRef={finLineRef}  />
+                <MyDatePicker DatePickerRef={DatePickerRef}  defaultDate={curentDate} />
+                <Filter FilterRef={FilterYearRef} list={years} />
+                <Filter FilterRef={FilterSemestrRef} list={semesters} />
+                <Button text="Поиск" onClick={() => {
+                    console.log(DatePickerRef.current)
+                    handleSearchButtonClick(finLineRef.current.value,
+                        DatePickerRef.current,
+                        
+                        FilterYearRef.current.value,
+                        FilterSemestrRef.current.value,
+                        )
+                    UpdateJournalsWithFilter(selectedFiltersObj, 28, 0);
                 }} />
 
             </div>
-            {journals.map(journal =>
+
+            {
+                journals.map(journal =>
 
                 <PartOfList key={journal.code}
                     prepodName={journal.teacherName}
@@ -75,12 +91,14 @@ function ListOfJournals() {
                     journal_id={journal.code}
                 >
                     </PartOfList>
-      
-            )}
+                
+                )
+                        }
             
         </div>
+  
     return (
-        <div>
+        <div> 
             {contents}
             <Paginator currentPage={1} total={200} limit={20} onPageChange={() => UpdateJournalsWithFilter(8,300)}  ></Paginator>
         
@@ -88,14 +106,28 @@ function ListOfJournals() {
      
         )
     async function UpdateJournals() {
-        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28&0');
+        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28&0'
+            + '&' + selectedFiltersObj.year
+            + '&' + '27.12.2023'
+            + '&' + '25.01.2024'
+            + '&' + selectedFiltersObj.semestr);
         const data = await response.json();
         setJournals(data);
     }
-    async function UpdateJournalsWithFilter(kaf_id,last_id) {
-        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/' + kaf_id + '&' + last_id);
+    async function UpdateJournalsWithFilter(filter_obj, kaf_id, last_id) {
+        console.log(
+            filter_obj
+
+        )
+        const response = await fetch(
+            'https://localhost:7256/api/JournalData/GetJornalsHeaders/'
+            + kaf_id + '&' + 0
+            + '&' + filter_obj.year
+            + '&' + filter_obj.datepicker[0]
+            + '&' + filter_obj.datepicker[1]
+            + '&' + filter_obj.semestr);
         const data = await response.json();
-        console.log(data)
+       
         if (data != undefined) {
             setJournals(data);
         }
@@ -108,7 +140,7 @@ function ListOfJournals() {
         const curentDate = new Date()
         var startdate = new Date()
         var enddate = new Date()
-        console.log(curentDate.getMonth > 0)
+        
 
         if (curentDate.getMonth() > 0 && curentDate.getMonth() < 6) {
             
@@ -123,22 +155,24 @@ function ListOfJournals() {
         result.push(startdate, enddate)
         return result;
     }
-    function UpdateFindlineFilterValue(val) {
-        selectedFiltersObj.findline = val
-        console.log(selectedFiltersObj)
-        setSelectedFilters(selectedFiltersObj)
-    }
-    function UpdateDatePickerFilterValue() {
-
-    }
-    function UpdateYearFilterValue() {
-        
-    }
-    function UpdateSemestrFilterValue() {
-
+    function handleSearchButtonClick(findleneVal, datepickerVal ,
+        filterYearVal, filterSemestrVal) {
+        selectedFiltersObj.findline = findleneVal;
+        selectedFiltersObj.datepicker = [
+            datepickerVal.props.startDate.toLocaleDateString("de-DE"),
+            datepickerVal.props.endDate.toLocaleDateString("de-DE")];
+        if (filterSemestrVal === 'Весна') {
+            selectedFiltersObj.semestr = 2
+        }
+        else {
+            selectedFiltersObj.semestr = 1
+        }  
+      
+        selectedFiltersObj.year = filterYearVal;
+       
     }
 }
-function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat, journal_id, nagr_idList, lectionTypes }) {
+function PartOfList({key, prepodName, GroupName, usercount, disciplineName, attendance, stat, journal_id, nagr_idList, lectionTypes }) {
     const [AnaliticCardVisible, setVisible] = useState(true);
     const [AnaliticCardData, setData] = useState(new Object());
     async function UpdateJournals(journal_id, nagr_id) {
@@ -168,7 +202,9 @@ function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendan
 
     return (
         <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
-            <GoodRowWithData onClick={handleHideCard}
+            <GoodRowWithData
+               
+                             onClick={handleHideCard}
                              prepodName={prepodName}
                              GroupName={GroupName}
                              usercount={usercount}
@@ -220,7 +256,7 @@ function DoughnutChart({ value }) {
     };
     return (<Doughnut data={data} options={options} />)
 };
-function SuperAnaliticCard({ nagr_idList, lectionTypes, data }) {
+function SuperAnaliticCard({ key,nagr_idList, lectionTypes, data }) {
     var zapol = getZapol(data.nagrHours, data.hours)
     var attence = CountNProcent(data.Ncount, data.studentCount, data.hours)
 

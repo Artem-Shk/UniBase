@@ -1,18 +1,13 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './FindLine.css'
-function FindLine({ clickHandler, valueHook }) {
-    const [findlineinputVal, SetInpuVal] = useState('');
-    if (clickHandler) {
-        
-        valueHook(findlineinputVal)
-    }
+import { useEffect } from 'react';
+function FindLine({ finLineRef }) {
+   
     return (
         <div className='FindLine'>
             <div className='search_container' >
 
-                <input id="finline" type="text" className='search_container_text' onInput={evt => {
-                    SetInpuVal(evt.target.value)
-                }}/>
+                <input ref={finLineRef} id="finline" type="text" className='search_container_text'/>
                 <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none">
                     <mask style={{ id: "mask0_378_8642", style: "mask-type:alpha", maskUnits: "userSpaceOnUse" }}>
                         <rect style={{ fill: "#D9D9D9" }} />

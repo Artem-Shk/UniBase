@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Filter.css';
 
-function Filter({ list }) {
+function Filter({ FilterRef, list }) {
     const [valuesF, setValues] = useState(true);
     const [filteredValue, setFilteredValue] = useState('');
     var id = 0;
@@ -12,13 +12,16 @@ function Filter({ list }) {
     }
     return (
         <div >
-            <div className='filter_container'> <input
+            <div className='filter_container'>
+                <input
+              
                 onFocus={() => setValues(false)}
                 onBlur={() => setValues(true)}
                 className='filter_input'
                 readOnly={true}
-                value={filteredValue}
-               
+                    value={filteredValue}
+                    ref={FilterRef}
+                
             ></input>
             </div>
            
