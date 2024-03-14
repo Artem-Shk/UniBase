@@ -7,7 +7,6 @@ using UniBase.Models;
 
 namespace UniBase.Controllers
 {
-
     [ApiController]
     [Route("api/[controller]")]
     public class JournalDataController : ControllerBase
@@ -16,7 +15,9 @@ namespace UniBase.Controllers
         private readonly JsonSerializerHelper JsonHelper = new();
         public JournalDataController(DBManager DBManager)
         {
+            
             _dBManager = DBManager;
+
         }
         // GET: journaldata
         [HttpGet("get")]
@@ -39,7 +40,6 @@ namespace UniBase.Controllers
                 lastID = result.Last().key;
                 return Ok(JsonHelper.JsonSerialize(result));
             }
-
         }
         [HttpGet("GetJornalsHeaders/{FaculityID=8}&{LastId=0}&{AcademicYear}&{startDate}&{EndDate}&{semestr}")]
         public async Task<IActionResult> GetJornalsHeaders(int FaculityID, int LastId = 0, string AcademicYear = "2023-2024", string startDate = "2023-12-27T00:00:00", string EndDate = "2024-01-25T00:00:00", int semestr = 1)
@@ -71,14 +71,12 @@ namespace UniBase.Controllers
             int Ncount = CountN(JournalPartRows);
             //выставить данные в обьект
             JournalBody body = new JournalBody
-            {
-                midleAttence = midleAttence,
-                Ncount = Ncount,
-                nagrHours = NagrHours,
-                hours = hours,
-                EvalCount = EvalCount,
-                studentCount = StudentCount,
-                
+            {  midleAttence = midleAttence,
+               Ncount = Ncount,
+               nagrHours = NagrHours,
+               hours = hours,
+               EvalCount = EvalCount,
+               studentCount = StudentCount,
             };
             if (body == null)
             {
@@ -88,6 +86,12 @@ namespace UniBase.Controllers
             {
                 return Ok(JsonHelper.JsonSerialize(body));
             }
+        }
+        [HttpGet("GetRowCount/{FaculityID=8}&{AcademicYear}&{startDate}&{EndDate}&{semestr}")]
+        public async Task<IActionResult> GetRowCount(int FaculityID, string AcademicYear = "2023-2024", string startDate = "27.12.2023", string EndDate = "25.12.2024", int semestr = 1)
+        {
+            var results = await _dBManager.GetRowCount(startDate, EndDate, AcademicYear, FaculityID,semestr);
+            return Ok(JsonHelper.JsonSerialize(results));
         }
         private  Double GetMiddleValue(int attencCount, List<JournalPartRow> journalAttence)
         {
@@ -114,8 +118,6 @@ namespace UniBase.Controllers
             int result = journalAttence.Count(x => x.valuekey == 7);
             return result;
         }
-        
-
     }
 }
 

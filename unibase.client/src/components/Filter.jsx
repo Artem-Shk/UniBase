@@ -7,7 +7,6 @@ function Filter({ FilterRef, list }) {
     var id = 0;
     var values = list
     function updateInput(value) {
-        console.log(value);
         setFilteredValue(value);
     }
     return (

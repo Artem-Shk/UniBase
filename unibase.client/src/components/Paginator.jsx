@@ -19,7 +19,7 @@ const getPagesCut = ({ pagesCount, pagesCutCount, currentPage }) => {
     }
 };
 
-const PaginationItem = ({ page, currentPage, onPageChange, isDisabled }) => {
+const PaginationItem = ({ page, currentPage, onPageChange, isDisabled ,curent_id}) => {
     const liClasses = classNames({
         "page-item": true,
         active: page === currentPage,

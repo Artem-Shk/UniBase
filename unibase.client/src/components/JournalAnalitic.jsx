@@ -14,16 +14,21 @@ import Filter from './Filter'
 import Paginator from './Paginator'
 ChartJS.register(ArcElement, Tooltip);
 //const TestData = generateData();
-var last_id = 0;
 export default function JournalAnalitic() {
-    return (
-        <ListOfJournals />
-    )
+    return (<Body/>)
 }
 function Body() {
+    const RefFilterObj = useRef({
+        "findline": "",
+        "datepicker": ['27.12.2005', new Date().toLocaleDateString("ru-RU")],
+        "year": '2023-2024',
+        "semestr": 1,
+    })
     return (<div className={styles.main_container}>
-                <ListOfJournals />
-            </div>)
+        <FilterRow RefFilterObj={RefFilterObj} />
+        <ListOfJournals filterObj={RefFilterObj} />
+    </div>)
+
 }
 function LeftMenu() {
     return (
@@ -31,55 +36,83 @@ function LeftMenu() {
         </div>
     )
 }
-
-
-function ListOfJournals() {
-    const [journals, setJournals] = useState();
-
-    var curentDate = createListOfcurrentDates()
-    useEffect(() => {
-        UpdateJournals([]);
-       
-    }, []);
+function FilterRow({ RefFilterObj, btnHandler }) {
     const finLineRef = useRef('');
     const DatePickerRef = useRef();
     const FilterSemestrRef = useRef('');
     const FilterYearRef = useRef('');
-
-    var selectedFiltersObj = {
-        "findline": "",
-        "datepicker": '2023-12-27T00:00:00',
-        "year": '2023-2024',
-        "semestr": 1,
-    }
-    const years = ['2023-2024', '2022-2023'] 
+    var curentDate = createListOfcurrentDates()
+    const years = ['2023-2024', '2022-2023']
     const semesters = ['Весна', 'Осень']
-    
+    return (
+        <div style={{ display: "flex", width: '100%', flexDirection: 'row' }}>
+            <FindLine finLineRef={finLineRef} />
+            <MyDatePicker DatePickerRef={DatePickerRef} defaultDate={curentDate} />
+            <Filter FilterRef={FilterYearRef} list={years} />
+            <Filter FilterRef={FilterSemestrRef} list={semesters} />
+            <Button text="Поиск" onClick={() => {
+               
+                handleSearchButtonClick(finLineRef.current.value,
+                    DatePickerRef.current,
+                    FilterYearRef.current.value,
+                    FilterSemestrRef.current.value,
+                )
+                UpdateJournalsWithFilter(RefFilterObj, 28, last_id);
+            }} />
 
+        </div>
+    )
+    function handleSearchButtonClick(findleneVal, datepickerVal,
+                                     filterYearVal, filterSemestrVal)
+    {
+        console.log(RefFilterObj.current);
+        RefFilterObj.current.findline = findleneVal;
+        RefFilterObj.current.datepicker = [
+            DatePickerRef.current.props.startDate.toLocaleDateString("de-DE"),
+            DatePickerRef.current.props.endDate.toLocaleDateString("de-DE")];
+        if (filterSemestrVal === 'Весна') {
+            RefFilterObj.current.semestr = 2
+        }
+        else {
+            RefFilterObj.current.semestr = 1
+        }
+
+        RefFilterObj.year = filterYearVal;
+
+    }
+    function createListOfcurrentDates() {
+        var result = []
+        const curentDate = new Date()
+        var startdate = new Date()
+        var enddate = new Date()
+
+
+        if (curentDate.getMonth() > 0 && curentDate.getMonth() < 6) {
+
+            startdate.setFullYear(curentDate.getFullYear() - 1, 8, 1)
+            enddate.setFullYear(curentDate.getFullYear(), 6, 1)
+        }
+        else {
+            startdate.setFullYear(curentDate.getFullYear(), 8, 1)
+            enddate.setFullYear(curentDate.getFullYear() + 1, 6, 1)
+        }
+
+        result.push(startdate, enddate)
+        return result;
+    }
+}
+var last_id = 0
+function ListOfJournals({ filterObj }) {
+    const [journals, setJournals] = useState();
+    const [currentPage, setCurrentPage] = useState(1)
+    useEffect(() => {
+        UpdateJournals([]);
+    }, []);
     const contents = journals === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         :<div className={styles.ListOfJournals} >
-            <div style={{ display: "flex", width: '100%', flexDirection: 'row' }}>
-                <FindLine finLineRef={finLineRef}  />
-                <MyDatePicker DatePickerRef={DatePickerRef}  defaultDate={curentDate} />
-                <Filter FilterRef={FilterYearRef} list={years} />
-                <Filter FilterRef={FilterSemestrRef} list={semesters} />
-                <Button text="Поиск" onClick={() => {
-                    console.log(DatePickerRef.current)
-                    handleSearchButtonClick(finLineRef.current.value,
-                        DatePickerRef.current,
-                        
-                        FilterYearRef.current.value,
-                        FilterSemestrRef.current.value,
-                        )
-                    UpdateJournalsWithFilter(selectedFiltersObj, 28, 0);
-                }} />
-
-            </div>
-
             {
                 journals.map(journal =>
-
                 <PartOfList key={journal.code}
                     prepodName={journal.teacherName}
                     GroupName={journal.GroupName}
@@ -90,87 +123,68 @@ function ListOfJournals() {
                     lectionTypes={journal.lectionType}
                     journal_id={journal.code}
                 >
-                    </PartOfList>
-                
-                )
+                    </PartOfList>                )
                         }
-            
         </div>
-  
+    var rowsCount = RowsCount()
     return (
         <div> 
             {contents}
-            <Paginator currentPage={1} total={200} limit={20} onPageChange={() => UpdateJournalsWithFilter(8,300)}  ></Paginator>
-        
+            <Paginator currentPage={currentPage}
+                total={rowsCount} limit={20}
+                onPageChange={(page) => onPageChangeHandler(page)}  ></Paginator>
         </div>
-     
-        )
+    )
+
     async function UpdateJournals() {
-        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28&0'
-            + '&' + selectedFiltersObj.year
-            + '&' + '27.12.2023'
-            + '&' + '25.01.2024'
-            + '&' + selectedFiltersObj.semestr);
+        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28'
+            + '&' + last_id
+            + '&' + filterObj.current.year
+            + '&' + filterObj.current.datepicker[0]
+            + '&' + filterObj.current.datepicker[1]
+            + '&' + filterObj.current.semestr);
         const data = await response.json();
+
+        last_id = data[21].code
         setJournals(data);
     }
-    async function UpdateJournalsWithFilter(filter_obj, kaf_id, last_id) {
-        console.log(
-            filter_obj
-
-        )
+    async function UpdateJournalsWithFilter( kaf_id, last_id) {
+      
         const response = await fetch(
             'https://localhost:7256/api/JournalData/GetJornalsHeaders/'
-            + kaf_id + '&' + 0
-            + '&' + filter_obj.year
-            + '&' + filter_obj.datepicker[0]
-            + '&' + filter_obj.datepicker[1]
-            + '&' + filter_obj.semestr);
+            + kaf_id
+            + '&' + last_id
+            + '&' + filterObj.current.year
+            + '&' + filterObj.current.datepicker[0]
+            + '&' + filterObj.current.datepicker[1]
+            + '&' + filterObj.current.semestr);
         const data = await response.json();
-       
+
         if (data != undefined) {
             setJournals(data);
         }
         else {
             setJournals([]);
         }
-    }
-    function createListOfcurrentDates() {
-        var result = []
-        const curentDate = new Date()
-        var startdate = new Date()
-        var enddate = new Date()
         
-
-        if (curentDate.getMonth() > 0 && curentDate.getMonth() < 6) {
-            
-            startdate.setFullYear(curentDate.getFullYear() - 1, 8, 1)
-            enddate.setFullYear(curentDate.getFullYear(),6,1)
-        }
-        else {
-            startdate.setFullYear(curentDate.getFullYear(), 8, 1)
-            enddate.setFullYear(curentDate.getFullYear() +1 , 6, 1)
-        }
-
-        result.push(startdate, enddate)
-        return result;
     }
-    function handleSearchButtonClick(findleneVal, datepickerVal ,
-        filterYearVal, filterSemestrVal) {
-        selectedFiltersObj.findline = findleneVal;
-        selectedFiltersObj.datepicker = [
-            datepickerVal.props.startDate.toLocaleDateString("de-DE"),
-            datepickerVal.props.endDate.toLocaleDateString("de-DE")];
-        if (filterSemestrVal === 'Весна') {
-            selectedFiltersObj.semestr = 2
-        }
-        else {
-            selectedFiltersObj.semestr = 1
-        }  
-      
-        selectedFiltersObj.year = filterYearVal;
-       
+    async function RowsCount() {
+        const querySt = 'https://localhost:7256/api/JournalData/GetRowCount/'
+            + 28
+            + '&' + filterObj.current.year
+            + '&' + filterObj.current.datepicker[0]
+            + '&' + filterObj.current.datepicker[1]
+            + '&' + filterObj.current.semestr
+        const response = await fetch(querySt);
+        const data = await response.json();
+        return data;
     }
+    function onPageChangeHandler(page ) {
+        setCurrentPage(page)
+        last_id = last_id + ((page-1)*20)  
+        UpdateJournalsWithFilter(filterObj, 28, last_id)
+    }
+   
 }
 function PartOfList({key, prepodName, GroupName, usercount, disciplineName, attendance, stat, journal_id, nagr_idList, lectionTypes }) {
     const [AnaliticCardVisible, setVisible] = useState(true);
@@ -181,7 +195,6 @@ function PartOfList({key, prepodName, GroupName, usercount, disciplineName, atte
         if (AnaliticCardVisible === true) {
             response = await fetch('https://localhost:7256/api/JournalData/GetJornalBody/' + journal_id + '&' + today + '&' + nagr_id);
             const data = await response.json();
-            console.log(data)
             setData(data);
         }
     } 
@@ -203,7 +216,6 @@ function PartOfList({key, prepodName, GroupName, usercount, disciplineName, atte
     return (
         <div style={{ display: "flex", width: '100%', flexDirection: 'column' }}>
             <GoodRowWithData
-               
                              onClick={handleHideCard}
                              prepodName={prepodName}
                              GroupName={GroupName}
