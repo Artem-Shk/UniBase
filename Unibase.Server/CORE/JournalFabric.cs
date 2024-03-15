@@ -12,22 +12,22 @@ namespace UniBase.CORE
         private Journal GroupJournal { get; set; }
         private  DBManager _data_base_manager;
         private int faculityId { get; set; }
-        private int _LastId { get; set; }
+        private int _pageNum { get; set; }
         private string _AcademicYear { get; set; }
         private string _startDate {  get; set; }
         private string _EndDate { get; set; }  
         private int _semestr { get; set; }
-        public JournalFabric(DBManager manager, int faculityId =28, int LastId = 0,
+        public JournalFabric(DBManager manager, int faculityId =28, 
             string AcademicYear = "2023-2024", string startDate = "2023-12-27T00:00:00",
-            string EndDate = "2024-01-25T00:00:00", int semestr = 1)
+            string EndDate = "2024-01-25T00:00:00", int semestr = 1, int pageNum=0)
         {
             _data_base_manager = manager;
-            _LastId = LastId;
             GroupJournal = new Journal();
             _AcademicYear = AcademicYear;
             _startDate = startDate;
             _EndDate = EndDate;
             _semestr = semestr;
+            _pageNum = pageNum;
         }
         public void AuthKeys(int DekanId)
         {
@@ -36,7 +36,7 @@ namespace UniBase.CORE
         public async Task<List<FaculityPackage>> createDataForFaculityAsync()
         {
             List<FaculityPackage> faculityJournal = new List<FaculityPackage>();
-            var journals = await _data_base_manager.GetJournalsByFaculity(_LastId, 28, _AcademicYear);
+            var journals = await _data_base_manager.GetJournalsByFaculity( 28, _AcademicYear);
             if(journals is not null)
             {
                 foreach(var journal in journals)
@@ -84,8 +84,8 @@ namespace UniBase.CORE
         }
         public async Task<List<JournalHeaderWeb>>  CreateHeaders(int faculityId)
         {
-            List<JournalHeaderDB> resultDB = await _data_base_manager.GetJournalHeaderData(faculityId,_LastId,_AcademicYear,
-                                                                                            _startDate,_EndDate,_semestr);
+            List<JournalHeaderDB> resultDB = await _data_base_manager.GetJournalHeaderData(faculityId,_AcademicYear,
+                                                                                            _startDate,_EndDate,_semestr, _pageNum);
             List<JournalHeaderWeb> result = new List<JournalHeaderWeb>();
             for (int i = 0; i < resultDB.Count; i++)
             {   JournalHeaderWeb WebItem = new JournalHeaderWeb();
@@ -122,6 +122,7 @@ namespace UniBase.CORE
 
             return result;
         }
+
        
 
     }

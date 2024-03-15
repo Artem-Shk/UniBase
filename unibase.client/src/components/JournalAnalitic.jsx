@@ -17,20 +17,83 @@ ChartJS.register(ArcElement, Tooltip);
 export default function JournalAnalitic() {
     return (<Body/>)
 }
+var page_num = 1
 function Body() {
+    console.warn(1)
+    const [journals, setJournals] = useState([]);
+
+    const [currentPage, setCurrentPage] = useState(1)
     const RefFilterObj = useRef({
         "findline": "",
         "datepicker": ['27.12.2005', new Date().toLocaleDateString("ru-RU")],
         "year": '2023-2024',
         "semestr": 1,
     })
+    useEffect(() => {
+        UpdateJournals([]);
+    }, []);
+    var rowsCount = RowsCount()
+
     return (<div className={styles.main_container}>
-        <FilterRow RefFilterObj={RefFilterObj} />
-        <ListOfJournals filterObj={RefFilterObj} />
+        <FilterRow RefFilterObj={RefFilterObj} btnHandler={() => UpdateJournalsWithFilter(28, last_id)} />
+        <ListOfJournals filterObj={RefFilterObj} journals={journals} />
+        <Paginator currentPage={currentPage}
+            total={rowsCount} limit={20}
+            onPageChange={(page) => onPageChangeHandler(page)}  ></Paginator>
+
     </div>)
+    async function UpdateJournalsWithFilter(kaf_id) {
+        const response = await fetch(
+            'https://localhost:7256/api/JournalData/GetJornalsHeaders/'
+            + kaf_id
+            + '&' + page_num
+            + '&' + RefFilterObj.current.year
+            + '&' + RefFilterObj.current.datepicker[0]
+            + '&' + RefFilterObj.current.datepicker[1]
+            + '&' + RefFilterObj.current.semestr);
+        const data = await response.json();
+        console.log(data)
+        if (data != undefined) {
+            setJournals(data);
+        }
+        else {
+          
+        }
+
+    }
+    async function UpdateJournals() {
+        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28'
+            + '&' + page_num
+            + '&' + RefFilterObj.current.year
+            + '&' + RefFilterObj.current.datepicker[0]
+            + '&' + RefFilterObj.current.datepicker[1]
+            + '&' + RefFilterObj.current.semestr);
+        const data = await response.json(); 
+
+        
+        setJournals(data);
+    }
+    async function RowsCount() {
+        const querySt = 'https://localhost:7256/api/JournalData/GetRowCount/'
+            + 28
+            + '&' + RefFilterObj.current.year
+            + '&' + RefFilterObj.current.datepicker[0]
+            + '&' + RefFilterObj.current.datepicker[1]
+            + '&' + RefFilterObj.current.semestr
+        const response = await fetch(querySt);
+        const data = await response.json();
+
+        return data;
+    }
+    function onPageChangeHandler(page) {
+        setCurrentPage(page)
+        page_num = page;
+        console.log(RefFilterObj, page_num)
+        UpdateJournalsWithFilter(28, page_num)
+    }
 
 }
-function LeftMenu() {
+    function LeftMenu() {
     return (
         <div> 
         </div>
@@ -57,7 +120,7 @@ function FilterRow({ RefFilterObj, btnHandler }) {
                     FilterYearRef.current.value,
                     FilterSemestrRef.current.value,
                 )
-                UpdateJournalsWithFilter(RefFilterObj, 28, last_id);
+                btnHandler()
             }} />
 
         </div>
@@ -67,16 +130,18 @@ function FilterRow({ RefFilterObj, btnHandler }) {
     {
         console.log(RefFilterObj.current);
         RefFilterObj.current.findline = findleneVal;
-        RefFilterObj.current.datepicker = [
-            DatePickerRef.current.props.startDate.toLocaleDateString("de-DE"),
-            DatePickerRef.current.props.endDate.toLocaleDateString("de-DE")];
+        if (RefFilterObj.current.datepicker != null) {
+            RefFilterObj.current.datepicker = [
+                DatePickerRef.current.props.startDate.toLocaleDateString("ru-RU"),
+                DatePickerRef.current.props.endDate.toLocaleDateString("ru-Ru")];
+        }
+       
         if (filterSemestrVal === 'Весна') {
             RefFilterObj.current.semestr = 2
         }
         else {
             RefFilterObj.current.semestr = 1
         }
-
         RefFilterObj.year = filterYearVal;
 
     }
@@ -101,13 +166,10 @@ function FilterRow({ RefFilterObj, btnHandler }) {
         return result;
     }
 }
-var last_id = 0
-function ListOfJournals({ filterObj }) {
-    const [journals, setJournals] = useState();
-    const [currentPage, setCurrentPage] = useState(1)
-    useEffect(() => {
-        UpdateJournals([]);
-    }, []);
+
+function ListOfJournals({ journals }) {
+
+ 
     const contents = journals === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         :<div className={styles.ListOfJournals} >
@@ -126,67 +188,20 @@ function ListOfJournals({ filterObj }) {
                     </PartOfList>                )
                         }
         </div>
-    var rowsCount = RowsCount()
+
     return (
         <div> 
             {contents}
-            <Paginator currentPage={currentPage}
-                total={rowsCount} limit={20}
-                onPageChange={(page) => onPageChangeHandler(page)}  ></Paginator>
+           
         </div>
     )
 
-    async function UpdateJournals() {
-        const response = await fetch('https://localhost:7256/api/JournalData/GetJornalsHeaders/28'
-            + '&' + last_id
-            + '&' + filterObj.current.year
-            + '&' + filterObj.current.datepicker[0]
-            + '&' + filterObj.current.datepicker[1]
-            + '&' + filterObj.current.semestr);
-        const data = await response.json();
+   
+   
 
-        last_id = data[21].code
-        setJournals(data);
-    }
-    async function UpdateJournalsWithFilter( kaf_id, last_id) {
-      
-        const response = await fetch(
-            'https://localhost:7256/api/JournalData/GetJornalsHeaders/'
-            + kaf_id
-            + '&' + last_id
-            + '&' + filterObj.current.year
-            + '&' + filterObj.current.datepicker[0]
-            + '&' + filterObj.current.datepicker[1]
-            + '&' + filterObj.current.semestr);
-        const data = await response.json();
-
-        if (data != undefined) {
-            setJournals(data);
-        }
-        else {
-            setJournals([]);
-        }
-        
-    }
-    async function RowsCount() {
-        const querySt = 'https://localhost:7256/api/JournalData/GetRowCount/'
-            + 28
-            + '&' + filterObj.current.year
-            + '&' + filterObj.current.datepicker[0]
-            + '&' + filterObj.current.datepicker[1]
-            + '&' + filterObj.current.semestr
-        const response = await fetch(querySt);
-        const data = await response.json();
-        return data;
-    }
-    function onPageChangeHandler(page ) {
-        setCurrentPage(page)
-        last_id = last_id + ((page-1)*20)  
-        UpdateJournalsWithFilter(filterObj, 28, last_id)
-    }
    
 }
-function PartOfList({key, prepodName, GroupName, usercount, disciplineName, attendance, stat, journal_id, nagr_idList, lectionTypes }) {
+function PartOfList({ prepodName, GroupName, usercount, disciplineName, attendance, stat, journal_id, nagr_idList, lectionTypes }) {
     const [AnaliticCardVisible, setVisible] = useState(true);
     const [AnaliticCardData, setData] = useState(new Object());
     async function UpdateJournals(journal_id, nagr_id) {

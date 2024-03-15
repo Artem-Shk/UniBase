@@ -15,9 +15,7 @@ namespace UniBase.Controllers
         private readonly JsonSerializerHelper JsonHelper = new();
         public JournalDataController(DBManager DBManager)
         {
-            
             _dBManager = DBManager;
-
         }
         // GET: journaldata
         [HttpGet("get")]
@@ -41,11 +39,13 @@ namespace UniBase.Controllers
                 return Ok(JsonHelper.JsonSerialize(result));
             }
         }
-        [HttpGet("GetJornalsHeaders/{FaculityID=8}&{LastId=0}&{AcademicYear}&{startDate}&{EndDate}&{semestr}")]
-        public async Task<IActionResult> GetJornalsHeaders(int FaculityID, int LastId = 0, string AcademicYear = "2023-2024", string startDate = "2023-12-27T00:00:00", string EndDate = "2024-01-25T00:00:00", int semestr = 1)
+        [HttpGet("GetJornalsHeaders/{FaculityID=8}&{pageNum=0}&{AcademicYear}&{startDate}&{EndDate}&{semestr}")]
+        public async Task<IActionResult> GetJornalsHeaders(int FaculityID, int pageNum = 0, string AcademicYear = "2023-2024", 
+                                                            string startDate = "27.12.2005", 
+                                                            string EndDate = "27.12.2024", int semestr = 1)
         {
            
-            JournalFabric fabric = new JournalFabric(_dBManager,FaculityID,LastId,AcademicYear,startDate,EndDate,semestr );
+            JournalFabric fabric = new JournalFabric(_dBManager,FaculityID,AcademicYear,startDate,EndDate,semestr, pageNum);
             List<JournalHeaderWeb> result = await fabric.CreateHeaders(FaculityID);
             if (result == null)
             {

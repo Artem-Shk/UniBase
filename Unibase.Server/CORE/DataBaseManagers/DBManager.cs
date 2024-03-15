@@ -31,15 +31,10 @@ namespace UniBase.CORE.DataBaseManagers
 
             }
         }
-
         public DBManager(DekanatModel context,IDbContextFactory<DekanatModel> dbFactory) {
             _context = context;
             _dbFactory = dbFactory;
         }
-
-
-
-
         public async Task<List<ДекСписокГруппФакультета>> GetGroupByFaculty(string GroupName)
         {
             return await _context.ДекСписокГруппФакультета
@@ -162,7 +157,7 @@ namespace UniBase.CORE.DataBaseManagers
             return await query.AsNoTracking().ToListAsync();
         }
         //TODO: Оптимизировать
-        public async Task<List<JournalData>> GetJournalsByFaculity(int LastId, int FaculityID, string AcademicYear = "2023-2024")
+        public async Task<List<JournalData>> GetJournalsByFaculity( int FaculityID, string AcademicYear = "2023-2024")
         {
             var query = _context.prepJournalData.FromSqlRaw($@"
            
@@ -185,42 +180,50 @@ namespace UniBase.CORE.DataBaseManagers
             Nagr.ВидЗанятий = PrepJournal.ВидЗанятий 
             and (Nagr.Семестр / Groups.Курс) = PrepJournal.[Семестр]
             INNER JOIN [Деканат].[dbo].[Кафедры] Kafs ON kafs.Код_Факультета = {FaculityID} and KafValue.КодКафедры = kafs.Код and Nagr.КодКафедры = kafs.Код
-            WHERE (PrepJournal.[УчебныйГод] = '{AcademicYear}') and PrepJournal.[Код] > {LastId} 
+            WHERE (PrepJournal.[УчебныйГод] = '{AcademicYear}') 
             ORDER BY PrepJournal.[Код] ASC;
         ");
             return await query.ToListAsync();
         }
-        public async Task<List<JournalHeaderDB>> GetJournalHeaderData( int FaculityID, int LastId=0, string AcademicYear = "2023-2024", string startDate = "2023-12-27T00:00:00",string EndDate = "2024-01-25T00:00:00", int semestr = 1)
+        public async Task<List<JournalHeaderDB>> GetJournalHeaderData( int FaculityID,  string AcademicYear = "2023-2024", string startDate = "27.12.2005",
+                                                                        string EndDate = "27.12.2024", int semestr = 1,int pageNum =0)
         {
+            var first = 0;
+            var second = 40;
             var query = _context.JournalHeader.FromSqlRaw($@"
-                     DECLARE @a DATETIME = '{startDate}'
-                    DECLARE @b DATETIME = '{EndDate}'
-                   SELECT TOP (40) PrepJournal.[Код] as code
-                     ,PrepJournal.[Дисциплина] as discipline
-                     ,PrepJournal.[ВидЗанятий] as lectionType
-                     ,PrepJournal.[Семестр] as semester
-                     ,PrepJournal.[КодСтрокиНагрузки] as nagrCode
-	                 ,PrepJournal.КодГруппы as groupCode
-	                 ,nagr.КодДисциплины as disciplineCode
-                     ,nagr.Студентов as studentCount
-                     ,Groups.Название as GroupName
-                     ,Prepods.ФИО as teacherName
-                 FROM [Деканат].[dbo].[ЖурналПреподавателя] PrepJournal
-                     inner join [Деканат].dbo.Нагрузка nagr on PrepJournal.КодСтрокиНагрузки =nagr.Код
-                     inner join [Деканат].dbo.Все_Группы Groups on PrepJournal.КодГруппы = Groups.Код
-                     inner join [Деканат].dbo.Преподаватели Prepods on PrepJournal.КодПреподавателя = Prepods.Код 
-                 where 
-				
-				 PrepJournal.УчебныйГод = '{AcademicYear}' and Groups.Код_Факультета = {FaculityID}
-            and PrepJournal.Код > {LastId}
-            and PrepJournal.Семестр = {semestr}
-            and PrepJournal.Код in (
-				select КодЖурнала from [Деканат].dbo.ЖурналДаты
-				where Дата BETWEEN @a AND @b
-			)
-            order by code,groupCode,disciplineCode
-                
-        ");
+                                                            DECLARE @a DATETIME = '{startDate}'
+                                                            DECLARE @b DATETIME = '{EndDate}'
+                                                            DECLARE @PageSize INT = 40
+                                                            DECLARE @PageNumber INT = {pageNum}
+                                                            SELECT * FROM (
+                                                                SELECT
+                                                                    ROW_NUMBER() OVER (ORDER BY PrepJournal.[Код]) as [id],
+                                                                    PrepJournal.[Код] as code,
+                                                                    PrepJournal.[Дисциплина] as discipline,
+                                                                    PrepJournal.[ВидЗанятий] as lectionType,
+                                                                    PrepJournal.[Семестр] as semester,
+                                                                    PrepJournal.[КодСтрокиНагрузки] as nagrCode,
+                                                                    PrepJournal.КодГруппы as groupCode,
+                                                                    nagr.КодДисциплины as disciplineCode,
+                                                                    nagr.Студентов as studentCount,
+                                                                    Groups.Название as GroupName,
+                                                                    Prepods.ФИО as teacherName
+                                                                FROM [Деканат].[dbo].[ЖурналПреподавателя] PrepJournal
+                                                                INNER JOIN [Деканат].dbo.Нагрузка nagr ON PrepJournal.КодСтрокиНагрузки = nagr.Код
+                                                                INNER JOIN [Деканат].dbo.Все_Группы Groups ON PrepJournal.КодГруппы = Groups.Код
+                                                                INNER JOIN [Деканат].dbo.Преподаватели Prepods ON PrepJournal.КодПреподавателя = Prepods.Код 
+                                                                WHERE
+                                                                    PrepJournal.УчебныйГод = '{AcademicYear}'
+                                                                    AND Groups.Код_Факультета = {FaculityID}
+                                                                    AND PrepJournal.Семестр = {semestr}
+                                                                    AND PrepJournal.Код IN (
+                                                                        SELECT КодЖурнала FROM [Деканат].dbo.ЖурналДаты
+                                                                        WHERE Дата BETWEEN @a AND @b
+                                                                    )
+                                                            ) AS Result
+
+                                                            WHERE Result.id BETWEEN ((@PageNumber - 1) * @PageSize + 1) AND (@PageNumber * @PageSize)
+                                                            order by nagrCode");
        
             var result = await query.ToListAsync();
             return result;
