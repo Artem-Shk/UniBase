@@ -19,7 +19,6 @@ export default function JournalAnalitic() {
 }
 var page_num = 1
 function Body() {
-    console.warn(1)
     const [journals, setJournals] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1)
@@ -32,13 +31,14 @@ function Body() {
     useEffect(() => {
         UpdateJournals([]);
     }, []);
-    var rowsCount = RowsCount()
-
+    var rowsCount = RowsCount();
+    console.log(rowsCount)
     return (<div className={styles.main_container}>
-        <FilterRow RefFilterObj={RefFilterObj} btnHandler={() => UpdateJournalsWithFilter(28, last_id)} />
+        <FilterRow RefFilterObj={RefFilterObj}
+            btnHandler={() => UpdateJournalsWithFilter(28)} />
         <ListOfJournals filterObj={RefFilterObj} journals={journals} />
         <Paginator currentPage={currentPage}
-            total={rowsCount} limit={20}
+            total={ rowsCount} limit={20}
             onPageChange={(page) => onPageChangeHandler(page)}  ></Paginator>
 
     </div>)
