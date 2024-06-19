@@ -5,8 +5,8 @@ export class Home extends Component {
     render() {
     return (
       <div style={{height: '100%'}}>
-        <h1>Приложение  By Tugarin</h1>
-        <p>Салам Алейкум!!!!!!</p>
+        <h1>Приложение  по аналитике журналов</h1>
+  
          <JournalAnalitic />
       </div>
     );
