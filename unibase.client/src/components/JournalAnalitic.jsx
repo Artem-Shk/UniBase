@@ -23,7 +23,7 @@ function Body() {
 
     const [currentPage, setCurrentPage] = useState(1)
     const RefFilterObj = useRef({
-        "findline": "Чайкина",
+        "findline": "",
         "datepicker": ['27.12.2005', new Date().toLocaleDateString("ru-RU")],
         "year": '2023-2024',
         "semestr": 1,
@@ -130,14 +130,11 @@ function FilterRow({ RefFilterObj, btnHandler }) {
     {
         console.log(RefFilterObj.current);
         RefFilterObj.current.findline = findleneVal;
-        if (DatePickerRef.current.props.startDate != null) {
-            if (RefFilterObj.current.datepicker != null) {
-                RefFilterObj.current.datepicker = [
-                    DatePickerRef.current.props.startDate.toLocaleDateString("ru-RU"),
-                    DatePickerRef.current.props.endDate.toLocaleDateString("ru-Ru")];
-            }
+        if (RefFilterObj.current.datepicker != null) {
+            RefFilterObj.current.datepicker = [
+                DatePickerRef.current.props.startDate.toLocaleDateString("ru-RU"),
+                DatePickerRef.current.props.endDate.toLocaleDateString("ru-Ru")];
         }
-       
        
         if (filterSemestrVal === 'Весна') {
             RefFilterObj.current.semestr = 2

@@ -1,0 +1,32 @@
+.column_box {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+}
+
+.border_box {
+    border: 1px solid #ccc;
+    z-index: 999;
+    background: white;
+    padding: 5px;
+
+}
+
+.text {
+    color: #333;
+    margin: 0;
+}
+
+.filter_input {
+    background: white;
+    color:black;
+}
+.filter_container {
+    display: flex;
+    padding: 1px;
+    justify-content: left;
+    align-items: flex-end;
+    flex-shrink: 0;
+    align-self: stretch;
+    margin: 15px;
+}

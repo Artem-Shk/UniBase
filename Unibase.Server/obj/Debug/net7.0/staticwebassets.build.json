@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "nAq2ewzFgnFfuTf52nTnrv8mMFuxqMFxnR+0mGNDaiI=",
+  "Source": "Unibase.Server",
+  "BasePath": "_content/Unibase.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
