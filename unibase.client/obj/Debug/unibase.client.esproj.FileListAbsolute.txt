@@ -1,0 +1,5 @@
+D:\Artem-Shk\Unibase1\unibase1.client\obj\Debug\unibase.client.esproj.CoreCompileInputs.cache
+D:\Artem-Shk\UniBase\unibase.client\obj\Debug\unibase.client.esproj.CoreCompileInputs.cache
+C:\Users\Администратор\Source\Repos\Artem-Shk\UniBase\unibase.client\obj\Debug\unibase.client.esproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Artem-Shk\UniBase\unibase.client\obj\Debug\unibase.client.esproj.CoreCompileInputs.cache
+D:\Users\shakrislanov.a\Desktop\uni\UniBase-master\unibase.client\obj\Debug\unibase.client.esproj.CoreCompileInputs.cache

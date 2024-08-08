@@ -1,0 +1,8 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:5173",
+"LaunchCommand": "npm run dev",
+"WorkingDirectory": "D:\\Users\\shakrislanov.a\\Desktop\\uni\\UniBase-master\\unibase.Server\\..\\unibase.client",
+"MaxTimeoutInSeconds": "120"
+}
+}

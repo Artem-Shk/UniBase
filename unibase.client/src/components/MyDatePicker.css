@@ -1,0 +1,12 @@
+body {
+}
+.custom-input {
+    border: 1px solid black;
+    background: white;
+    color: black;
+    margin: 16px;
+    padding: 1px;
+    width: 15rem;
+    height: 2rem;
+    align-items: flex-end;
+}
