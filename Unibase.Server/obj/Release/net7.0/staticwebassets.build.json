@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "Hash": "txkCR6XWpSezUKZ55x4vVX3iQ4pFiW4d4/pZhlaDMy0=",
+  "Hash": "Q8C1ii/hyHi453aHl932ZtLw638luxWhcg6A+LnXkao=",
   "Source": "Unibase.Server",
   "BasePath": "_content/Unibase.Server",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [
     {
-      "Identity": "D:\\uni\\UniBase-master\\unibase.client\\unibase.client.esproj",
+      "Identity": "D:\\Users\\shakrislanov.a\\source\\repos\\Artem-Shk\\UniBase\\unibase.client\\unibase.client.esproj",
       "Version": 2,
       "Source": "unibase.client",
       "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",

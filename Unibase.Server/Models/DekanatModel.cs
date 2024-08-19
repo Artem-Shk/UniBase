@@ -5,15 +5,14 @@ namespace UniBase.Models
 {
     public partial class DekanatModel : DbContext
     {
+        private readonly IConfiguration _configuration;
 
-        public DekanatModel()
+
+        public DekanatModel(DbContextOptions<DekanatModel> options, IConfiguration configuration) : base(options)
         {
-
-        }
-
-        public DekanatModel(DbContextOptions<DekanatModel> options) : base(options)
-        {
+            _configuration = configuration;
             Database.EnsureCreated();
+           
         }
         /// <summary>
         /// set what model parameters you need to return  //TODO: this shit thats not right
@@ -57,7 +56,8 @@ namespace UniBase.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=SQL;Initial Catalog=Деканат;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            var conn = _configuration.GetConnectionString("DefaultConnection");
+            optionsBuilder.UseSqlServer(conn);
             optionsBuilder.EnableSensitiveDataLogging();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -46,7 +46,7 @@ namespace UniBase.CORE.DataBaseManagers
             return await _context.ДекВсеДанныеСтудента
             .AsNoTracking()
             .Where(entity =>
-            entity.Фамилия.ToLower() == name.ToLower()
+             entity.Фамилия.ToLower() == name.ToLower()
             || entity.Имя.ToLower() == name.ToLower()
             || entity.ФИО.ToLower() == name.ToLower()
             || entity.Зачетка == name
@@ -283,7 +283,7 @@ namespace UniBase.CORE.DataBaseManagers
                                             int faculity = 28,
                                             int semestr = 1,string name = "")
         {
-            DateTime FirstDate = DateTime.ParseExact(firstDate, "dd.MM.yyyy", null);
+            DateTime FirstDate =  DateTime.ParseExact(firstDate, "dd.MM.yyyy", null);
             DateTime SecondDate = DateTime.ParseExact(secondDate, "dd.MM.yyyy", null);
             string nameFilter = " ";
             string semestFilter = " ";

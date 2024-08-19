@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\uni\\UniBase-master\\unibase.Server\\Unibase.Server.csproj": {}
+    "D:\\Users\\shakrislanov.a\\source\\repos\\Artem-Shk\\UniBase\\unibase.Server\\Unibase.Server.csproj": {}
   },
   "projects": {
-    "D:\\uni\\UniBase-master\\unibase.Server\\Unibase.Server.csproj": {
+    "D:\\Users\\shakrislanov.a\\source\\repos\\Artem-Shk\\UniBase\\unibase.Server\\Unibase.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\uni\\UniBase-master\\unibase.Server\\Unibase.Server.csproj",
+        "projectUniqueName": "D:\\Users\\shakrislanov.a\\source\\repos\\Artem-Shk\\UniBase\\unibase.Server\\Unibase.Server.csproj",
         "projectName": "Unibase.Server",
-        "projectPath": "D:\\uni\\UniBase-master\\unibase.Server\\Unibase.Server.csproj",
+        "projectPath": "D:\\Users\\shakrislanov.a\\source\\repos\\Artem-Shk\\UniBase\\unibase.Server\\Unibase.Server.csproj",
         "packagesPath": "D:\\Users\\shakrislanov.a\\.nuget\\packages\\",
-        "outputPath": "D:\\uni\\UniBase-master\\unibase.Server\\obj\\",
+        "outputPath": "D:\\Users\\shakrislanov.a\\source\\repos\\Artem-Shk\\UniBase\\unibase.Server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "D:\\Users\\shakrislanov.a\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,6 +35,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -66,6 +72,10 @@
               "target": "Package",
               "version": "[7.0.14, )"
             },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
@@ -90,7 +100,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

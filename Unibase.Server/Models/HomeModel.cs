@@ -76,7 +76,7 @@ namespace DecanatLiteWeb.Models
         public Dictionary<string, string> TreeviewChain;
         private HomeModel()
         {
-            context = new DekanatModel();
+            
             pseudoContext = new PseudoDb();
             //          searchModule = new SearchCore(context);
         }
