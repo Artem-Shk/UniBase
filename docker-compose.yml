@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   aspnet:
     build:
@@ -13,8 +12,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - "3000:90"
-
+      - "3000:3000"  # Измените на 3000
   nginx:
     image: nginx:alpine
   
