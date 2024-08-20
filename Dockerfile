@@ -1,11 +1,13 @@
-# Используем образ для сборки
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /Unibase
+WORKDIR /app
 
 # Копируем только файл проекта для восстановления зависимостей
 COPY ["Unibase.Server/Unibase.Server.csproj", "./"]
-RUN dotnet restore "Unibase.Server.csproj"
 
+# Если unibase.client не нужен, удалите эту строку
+# COPY ["unibase.client/unibase.client.esproj", "../unibase.client/"]
+
+RUN dotnet restore "Unibase.Server.csproj"
 # Копируем остальные файлы
 COPY . .
 
