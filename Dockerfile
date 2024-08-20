@@ -15,9 +15,20 @@ RUN dotnet publish "Unibase.Server/Unibase.Server.csproj" -c Release -o /app/pub
 
 FROM node:14 AS react-build
 WORKDIR /Unibase
+
 # Копируем package.json и package-lock.json
 COPY ["unibase.client/package.json", "unibase.client/package-lock.json", "./unibase.client/"]
 RUN npm install
+
+# Копируем остальные файлы клиентского приложения
+COPY unibase.client/ ./unibase.client/
+WORKDIR /Unibase/unibase.client
+
+# Устанавливаем зависимости, включая vite
+RUN npm install
+
+# Собираем проект
+RUN npm run build || { echo 'Build failed'; exit 1; }
 
 # Копируем остальные файлы клиентского приложения и собираем его
 COPY unibase.client/ ./unibase.client/
