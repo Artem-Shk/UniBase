@@ -18,10 +18,10 @@ RUN dotnet publish "Unibase.Server.csproj" -c Release -o /app/publish
 
 # Создаем образ для React
 FROM node:14 AS react-build
-WORKDIR /Unibase.client
-COPY ["Unibase.client/package.json", "Unibase.client/package-lock.json", "./"]
+WORKDIR /app
+COPY ["unibase.client/package.json", "unibase.client/package-lock.json", "./"]
 RUN npm install
-COPY Unibase.client/ .  
+COPY unibase.client/ .  
 RUN npm run build
 
 # Финальный образ
