@@ -3,14 +3,14 @@ version: '3.8'
 services:
   aspnet:
     build:
-      context: .
+      context: ./
       dockerfile: Dockerfile
     ports:
       - "5000:90"
 
   react:
     build:
-      context: ./unibase.client
+      context: ./
       dockerfile: Dockerfile
     ports:
       - "3000:90"
