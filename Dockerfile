@@ -15,6 +15,7 @@ RUN dotnet build "Unibase.Server/Unibase.Server.csproj" -c Release -o /app/build
 
 # Публикуем приложение
 FROM build AS publish
+WORKDIR /app/Unibase.Server
 RUN dotnet publish "Unibase.Server.csproj" -c Release -o /app/publish
 
 # Этап сборки React приложения
