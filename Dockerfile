@@ -19,6 +19,6 @@ RUN npm run build || { echo 'Build failed'; exit 1; }
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /Unibase
-COPY --from=publish /app/publish ./
-COPY --from=react-build /build ./wwwroot
+COPY --from=publish /Unibase/publish ./
+COPY --from=react-build /Unibase/build ./wwwroot
 ENTRYPOINT ["dotnet", "Unibase.Server.dll"]
