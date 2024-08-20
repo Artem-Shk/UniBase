@@ -1,6 +1,6 @@
 # Используем образ для сборки
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /Unibase.Server
+WORKDIR /Unibase
 
 # Копируем только файл проекта для восстановления зависимостей
 COPY ["Unibase.Server/Unibase.Server.csproj", "./"]
@@ -18,7 +18,7 @@ RUN dotnet publish "Unibase.Server.csproj" -c Release -o /app/publish
 
 # Создаем образ для React
 FROM node:14 AS react-build
-WORKDIR /app
+WORKDIR /Unibase
 COPY ["unibase.client/package.json", "unibase.client/package-lock.json", "./"]
 RUN npm install
 COPY unibase.client/ .  
