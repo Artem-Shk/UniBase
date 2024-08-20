@@ -12,7 +12,6 @@ namespace UniBase.Models
         {
             _configuration = configuration;
             Database.EnsureCreated();
-           
         }
         /// <summary>
         /// set what model parameters you need to return  //TODO: this shit thats not right
@@ -53,7 +52,6 @@ namespace UniBase.Models
         public virtual DbSet<ЖурналПреподавателя> ЖурналПреподавателя { get; set; }
         public virtual DbSet<JournalPartRow> JournalPartRow { get; set; }
         public virtual DbSet<Нагрузка> Нагрузка { get; set; }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var conn = _configuration.GetConnectionString("DefaultConnection");

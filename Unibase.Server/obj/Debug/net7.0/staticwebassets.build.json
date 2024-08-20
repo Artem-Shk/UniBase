@@ -1,23 +1,11 @@
 {
   "Version": 1,
-  "Hash": "89zAEIxj8fnNyMXKS+tKuvakZy9v5O5ZQrvciu7gAjI=",
+  "Hash": "nAq2ewzFgnFfuTf52nTnrv8mMFuxqMFxnR+0mGNDaiI=",
   "Source": "Unibase.Server",
   "BasePath": "_content/Unibase.Server",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [
-    {
-      "Identity": "D:\\Users\\shakrislanov.a\\source\\repos\\Artem-Shk\\UniBase\\unibase.client\\unibase.client.esproj",
-      "Version": 2,
-      "Source": "unibase.client",
-      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
-      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
-      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
-      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
-      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
-      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
-    }
-  ],
+  "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
   "Assets": []
 }
