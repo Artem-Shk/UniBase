@@ -1,18 +1,17 @@
-# Этап сборки проекта .NET
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /app
 
 # Копируем файл проекта для восстановления зависимостей
-COPY ["Unibase.Server/Unibase.Server.csproj", "./"]
+COPY ["Unibase.Server/Unibase.Server.csproj", "./Unibase.Server/"]
 
 # Восстанавливаем зависимости
-RUN dotnet restore "Unibase.Server.csproj"
+RUN dotnet restore "Unibase.Server/Unibase.Server.csproj"
 
 # Копируем остальные файлы
 COPY . .
 
 # Строим проект
-RUN dotnet build "Unibase.Server.csproj" -c Release -o /app/build
+RUN dotnet build "Unibase.Server/Unibase.Server.csproj" -c Release -o /app/build/
 
 # Публикуем приложение
 FROM build AS publish
