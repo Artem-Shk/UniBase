@@ -27,5 +27,5 @@ RUN npm run build || { echo 'Build failed'; exit 1; }
 # Финальный образ
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /Unibase
-COPY --from=publish /app/publish ./runtimes
-COPY --from=react-build /app ./wwwroot 
+COPY --from=publish /publish ./runtimes
+COPY --from=react-build  ./wwwroot 
