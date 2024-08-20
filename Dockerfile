@@ -1,24 +1,33 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /Unibase/
 
-COPY ["Unibase.Server/Unibase.Server.csproj", "./Unibase.Server/"]
+# Копируем проект и восстанавливаем зависимости
+COPY ["Unibase.Server/Unibase.Server.csproj", "Unibase.Server/"]
 RUN dotnet restore "Unibase.Server/Unibase.Server.csproj"
+
+# Копируем остальные файлы и собираем проект
 COPY . .
 RUN dotnet build "Unibase.Server/Unibase.Server.csproj" -c Release -o /app/build/
 
 FROM build AS publish
 WORKDIR /Unibase/
-RUN dotnet publish "Unibase.Server.csproj" -c Release -o /app/publish
+RUN dotnet publish "Unibase.Server/Unibase.Server.csproj" -c Release -o /app/publish
 
 FROM node:14 AS react-build
 WORKDIR /Unibase
-COPY ["unibase.client/package.json", "unibase.client/package-lock.json", "./"]
+# Копируем package.json и package-lock.json
+COPY ["unibase.client/package.json", "unibase.client/package-lock.json", "./unibase.client/"]
 RUN npm install
-COPY unibase.client/ .  
+
+# Копируем остальные файлы клиентского приложения и собираем его
+COPY unibase.client/ ./unibase.client/
+WORKDIR /Unibase/unibase.client
 RUN npm run build || { echo 'Build failed'; exit 1; }
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /Unibase
-COPY --from=publish /Unibase/publish ./
-COPY --from=react-build /Unibase/build ./wwwroot
+# Копируем опубликованные файлы сервера
+COPY --from=publish /app/publish ./
+# Копируем собранные файлы React в wwwroot
+COPY --from=react-build /Unibase/unibase.client/build ./wwwroot
 ENTRYPOINT ["dotnet", "Unibase.Server.dll"]
