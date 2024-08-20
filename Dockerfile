@@ -1,5 +1,5 @@
 # Используем образ для сборки
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /Unibase.Server
 
 # Копируем только файл проекта для восстановления зависимостей
@@ -25,7 +25,7 @@ COPY unibase.client/ .
 RUN npm run build || { echo 'Build failed'; exit 1; }
 
 # Финальный образ
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /Unibase
 COPY --from=publish /app/publish ./runtimes
 COPY --from=react-build /app ./wwwroot 
