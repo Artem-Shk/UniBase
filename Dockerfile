@@ -27,8 +27,8 @@ RUN npm run build
 # Финальный образ
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /Unibase
-COPY --from=publish /app/publish .
-COPY --from=react-build /app/build ./wwwroot
+COPY --from=publish /app/publish ./runtimes
+COPY --from=react-build /app/publish ./wwwroot
 
 # Запуск приложения
 ENTRYPOINT ["dotnet", "Unibase.Server.dll"]
