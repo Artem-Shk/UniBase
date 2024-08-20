@@ -1,6 +1,6 @@
 # Используем образ для сборки
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /Unibase.Server
+WORKDIR /Unibase
 
 # Копируем только файл проекта для восстановления зависимостей
 COPY ["Unibase.Server/Unibase.Server.csproj", "./"]
