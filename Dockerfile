@@ -28,4 +28,4 @@ RUN npm run build || { echo 'Build failed'; exit 1; }
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /Unibase
 COPY --from=publish /app/publish ./runtimes
-COPY --from=react-build /app/dist  ./wwwroot 
+COPY --from=react-build /app/dist ./wwwroot 
