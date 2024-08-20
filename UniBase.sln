@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unibase.Server", "unibase.S
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "unibase.client", "unibase.client\unibase.client.esproj", "{978B6F60-19CF-4189-8132-3196230417F2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{01BED4E6-64F5-49A4-AA27-F0A6EE7FA22E}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
