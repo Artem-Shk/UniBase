@@ -22,13 +22,10 @@ WORKDIR /app
 COPY ["unibase.client/package.json", "unibase.client/package-lock.json", "./"]
 RUN npm install
 COPY unibase.client/ .  
-RUN npm run build
+RUN npm run build || { echo 'Build failed'; exit 1; }
 
 # Финальный образ
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /Unibase
 COPY --from=publish /app/publish ./runtimes
-COPY --from=react-build /app/publish ./wwwroot
-
-# Запуск приложения
-ENTRYPOINT ["dotnet", "Unibase.Server.dll"]
+COPY --from=react-build /app/build ./wwwroot 
