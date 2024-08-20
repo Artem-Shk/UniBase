@@ -33,3 +33,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /Unibase
 COPY --from=publish /app/publish ./runtimes
 COPY --from=react-build /app ./wwwroot
+ENTRYPOINT ["dotnet", "Unibase.Server"]
