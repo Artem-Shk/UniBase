@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Unibase1.Server.props" />
-</Project>
