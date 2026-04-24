@@ -6,7 +6,7 @@ function LoginForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(`Username: ${username}, Password: ${password}`);
+    console.log('Login form submitted');
   };
 
   return (
